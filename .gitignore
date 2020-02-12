@@ -1,0 +1,62 @@
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+
+captures/
+
+# built application files
+*.apk
+*.ap_
+!gradle/wrapper/gradle-wrapper.jar
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+reports/
+bin/
+gen/
+classes/
+gen-external-apklibs/
+build
+
+# maven output folder
+target
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Eclipse project files
+.classpath
+.project
+.metadata
+.settings
+
+# IntelliJ files
+.idea
+*.iml
+
+# Windows files
+Thumbs.db
+
+# vi swap files
+*.swp
+
+# backup files
+*.bak
+
+#for oh-my-zsh jira plugin (https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins#jira)
+.jira-remoteUrl
+atlassian-ide-plugin.xml
+.idea/instapk.xml
+instapk.log*
+*.output
+
+# Proguard mappings
+mapping.txt
