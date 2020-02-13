@@ -8,4 +8,14 @@
     <item name="colorAccent">@color/colorAccent</item>
   </style>
 
+  <style name="H3">
+    <item name="fontFamily">sans-serif</item>
+    <item name="android:textSize">@dimen/H3</item>
+    <item name="android:textColor">?attr/colorPrimary</item>
+  </style>
+
+  <style name="Card">
+    <item name="android:padding">@dimen/M</item>
+  </style>
+
 </resources>

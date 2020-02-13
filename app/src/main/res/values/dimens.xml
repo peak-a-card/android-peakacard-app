@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="H3">48sp</dimen>
+
+    <dimen name="M">8dp</dimen>
+</resources>
