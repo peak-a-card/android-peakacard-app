@@ -6,7 +6,7 @@
     android:gravity="center"
     tools:context=".GridActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.peakacard.app.GridRecyclerView
         android:id="@+id/cards"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
