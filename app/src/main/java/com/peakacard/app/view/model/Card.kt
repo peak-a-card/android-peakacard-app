@@ -1,4 +1,6 @@
-package com.peakacard.app
+package com.peakacard.app.view.model
+
+import com.peakacard.app.CardDisplay
 
 enum class Card(val display: CardDisplay) {
     ZERO("0"),

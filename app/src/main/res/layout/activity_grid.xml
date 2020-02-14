@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    tools:context=".GridActivity">
+    tools:context=".view.GridActivity">
 
-    <com.peakacard.app.GridRecyclerView
+    <com.peakacard.app.view.GridRecyclerView
         android:id="@+id/cards"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

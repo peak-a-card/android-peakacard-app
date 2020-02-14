@@ -1,4 +1,4 @@
-package com.peakacard.app
+package com.peakacard.app.view
 
 import android.content.Context
 import android.util.AttributeSet

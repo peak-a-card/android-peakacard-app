@@ -1,9 +1,11 @@
-package com.peakacard.app
+package com.peakacard.app.view
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.emoji.widget.EmojiTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.peakacard.app.view.model.Card
+import com.peakacard.app.R
 import com.peakacard.core.bindView
 import com.peakacard.core.fromHtmlCompat
 import com.peakacard.core.inflate
@@ -11,7 +13,11 @@ import com.peakacard.core.inflate
 class CardsAdapter(private val cards: Array<Card>) : RecyclerView.Adapter<CardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        return CardViewHolder(parent.inflate(R.layout.card_item))
+        return CardViewHolder(
+            parent.inflate(
+                R.layout.card_item
+            )
+        )
     }
 
     override fun getItemCount() = cards.size
