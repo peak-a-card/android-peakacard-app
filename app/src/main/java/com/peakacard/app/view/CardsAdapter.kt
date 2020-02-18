@@ -6,9 +6,9 @@ import androidx.emoji.widget.EmojiTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.view.model.Card
 import com.peakacard.app.R
-import com.peakacard.core.bindView
-import com.peakacard.core.fromHtmlCompat
-import com.peakacard.core.inflate
+import com.peakacard.core.ui.bindView
+import com.peakacard.core.ui.fromHtmlCompat
+import com.peakacard.core.ui.inflate
 
 class CardsAdapter(private val cards: Array<Card>) : RecyclerView.Adapter<CardViewHolder>() {
 

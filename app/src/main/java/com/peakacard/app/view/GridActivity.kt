@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.peakacard.app.view.model.Card
 import com.peakacard.app.R
-import com.peakacard.core.bindView
+import com.peakacard.core.ui.bindView
 
 class GridActivity : AppCompatActivity() {
 

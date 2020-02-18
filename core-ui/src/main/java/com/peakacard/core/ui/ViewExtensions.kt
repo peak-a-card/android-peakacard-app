@@ -1,4 +1,4 @@
-package com.peakacard.core
+package com.peakacard.core.ui
 
 import android.view.LayoutInflater
 import android.view.View

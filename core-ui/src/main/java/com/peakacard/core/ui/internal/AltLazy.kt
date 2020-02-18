@@ -1,4 +1,4 @@
-package com.peakacard.core.internal
+package com.peakacard.core.ui.internal
 
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
