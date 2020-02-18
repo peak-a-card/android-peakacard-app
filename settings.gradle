@@ -1,4 +1,0 @@
-include ':core-ui'
-include ':core'
-include ':app'
-rootProject.name = "Peak A Card"
