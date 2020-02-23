@@ -54,7 +54,7 @@ class CardsActivity : AppCompatActivity(), CardsView {
             is CardsViewState.Loaded -> {
                 cardsLoading.isGone = true
                 cardsGrid.isVisible = true
-                cardsGrid.adapter = CardsAdapter(state.cards.toTypedArray())
+                cardsGrid.adapter = CardsAdapter(state.cards)
             }
             CardsViewState.Empty -> Timber.d("Empty")
             CardsViewState.Error -> Timber.d("Error")
