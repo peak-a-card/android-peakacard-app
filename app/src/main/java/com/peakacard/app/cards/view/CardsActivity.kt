@@ -31,7 +31,7 @@ class CardsActivity : AppCompatActivity(), CardsView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_grid)
+        setContentView(R.layout.activity_cards)
 
         cardsGrid.apply {
             layoutManager = gridLayoutManagerBuilder.build()
