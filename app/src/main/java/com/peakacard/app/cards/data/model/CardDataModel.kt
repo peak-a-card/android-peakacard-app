@@ -1,3 +1,3 @@
-package com.peakacard.app.data.model
+package com.peakacard.app.cards.data.model
 
 data class CardDataModel(val score: Float)

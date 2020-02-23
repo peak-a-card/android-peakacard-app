@@ -1,8 +1,8 @@
-package com.peakacard.app.data.repository
+package com.peakacard.app.cards.data.repository
 
-import com.peakacard.app.data.datasource.InMemoryCardsDataSource
-import com.peakacard.app.data.model.CardDataModel
-import com.peakacard.app.domain.model.CardDomainModel
+import com.peakacard.app.cards.data.datasource.InMemoryCardsDataSource
+import com.peakacard.app.cards.data.model.CardDataModel
+import com.peakacard.app.cards.domain.model.CardDomainModel
 
 class CardsRepository(private val inMemoryCardsDataSource: InMemoryCardsDataSource) {
 

@@ -1,4 +1,4 @@
-package com.peakacard.app.view
+package com.peakacard.app.cards.view
 
 import android.os.Bundle
 import android.view.animation.AnimationUtils
@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.peakacard.app.R
-import com.peakacard.app.view.state.CardsViewState
+import com.peakacard.app.cards.view.state.CardsViewState
 import com.peakacard.core.ui.bindView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber

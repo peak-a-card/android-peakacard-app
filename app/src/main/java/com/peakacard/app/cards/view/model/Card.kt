@@ -1,4 +1,4 @@
-package com.peakacard.app.view.model
+package com.peakacard.app.cards.view.model
 
 import com.peakacard.app.CardDisplay
 

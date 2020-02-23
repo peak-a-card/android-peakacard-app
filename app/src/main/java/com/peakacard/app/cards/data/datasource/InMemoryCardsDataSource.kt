@@ -1,6 +1,6 @@
-package com.peakacard.app.data.datasource
+package com.peakacard.app.cards.data.datasource
 
-import com.peakacard.app.data.model.CardDataModel
+import com.peakacard.app.cards.data.model.CardDataModel
 
 class InMemoryCardsDataSource {
 

@@ -1,6 +1,6 @@
-package com.peakacard.app.view.state
+package com.peakacard.app.cards.view.state
 
-import com.peakacard.app.view.model.Card
+import com.peakacard.app.cards.view.model.Card
 
 sealed class CardsViewState {
     object Loading : CardsViewState()

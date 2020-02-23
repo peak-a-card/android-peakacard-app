@@ -1,4 +1,4 @@
-package com.peakacard.app.view
+package com.peakacard.app.cards.view
 
 import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager

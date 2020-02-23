@@ -1,10 +1,10 @@
-package com.peakacard.app.view
+package com.peakacard.app.cards.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.peakacard.app.domain.GetCardsUseCase
-import com.peakacard.app.view.model.Card
-import com.peakacard.app.view.state.CardsViewState
+import com.peakacard.app.cards.domain.GetCardsUseCase
+import com.peakacard.app.cards.view.model.Card
+import com.peakacard.app.cards.view.state.CardsViewState
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.delay

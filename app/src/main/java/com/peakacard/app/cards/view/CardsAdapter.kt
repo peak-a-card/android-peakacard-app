@@ -1,11 +1,11 @@
-package com.peakacard.app.view
+package com.peakacard.app.cards.view
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.emoji.widget.EmojiTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
-import com.peakacard.app.view.model.Card
+import com.peakacard.app.cards.view.model.Card
 import com.peakacard.core.ui.bindView
 import com.peakacard.core.ui.fromHtmlCompat
 import com.peakacard.core.ui.inflate
