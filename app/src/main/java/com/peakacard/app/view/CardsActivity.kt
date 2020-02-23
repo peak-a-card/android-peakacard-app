@@ -6,7 +6,6 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.GridLayoutManager
 import com.peakacard.app.R
 import com.peakacard.app.view.state.CardsViewState
 import com.peakacard.core.ui.bindView
@@ -20,12 +19,22 @@ class CardsActivity : AppCompatActivity(), CardsView {
     private val cardsGrid: GridRecyclerView by bindView(R.id.cards)
     private val cardsLoading: ProgressBar by bindView(R.id.cardsLoading)
 
+    private val cardWidth by lazy {
+        resources.getDimensionPixelSize(R.dimen.card_width) + (resources.getDimensionPixelSize(R.dimen.M) * 2)
+    }
+    private val gridLayoutManagerBuilder by lazy {
+        GridLayoutManagerBuilder(
+            this@CardsActivity,
+            cardWidth
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_grid)
 
         cardsGrid.apply {
-            layoutManager = GridLayoutManager(this@CardsActivity, 3)
+            layoutManager = gridLayoutManagerBuilder.build()
             layoutAnimation = AnimationUtils.loadLayoutAnimation(
                 this@CardsActivity,
                 R.anim.cards_animation_from_bottom

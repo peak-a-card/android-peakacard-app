@@ -19,7 +19,7 @@ class GridRecyclerView @JvmOverloads constructor(
         count: Int
     ) {
         if (adapter == null || layoutManager !is GridLayoutManager) {
-            super.attachLayoutAnimationParameters(child, params, index, count)
+            return super.attachLayoutAnimationParameters(child, params, index, count)
         }
 
         val gridLayoutManager = layoutManager as GridLayoutManager
@@ -28,7 +28,7 @@ class GridRecyclerView @JvmOverloads constructor(
                 ?: GridLayoutAnimationController.AnimationParameters()
 
         val columns = gridLayoutManager.spanCount
-        val invertedIndex = count - index
+        val invertedIndex = count - 3 - index
         animationParameters.apply {
             this.count = count
             this.index = index

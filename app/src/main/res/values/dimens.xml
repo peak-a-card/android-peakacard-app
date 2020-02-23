@@ -3,4 +3,6 @@
     <dimen name="H3">48sp</dimen>
 
     <dimen name="M">8dp</dimen>
+    <dimen name="card_width">100dp</dimen>
+    <dimen name="card_height">115dp</dimen>
 </resources>
