@@ -4,12 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    tools:context=".view.GridActivity">
+    tools:context=".view.CardsActivity">
+
+    <ProgressBar
+        android:id="@+id/cardsLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible" />
 
     <com.peakacard.app.view.GridRecyclerView
         android:id="@+id/cards"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:listitem="@layout/card_item" />
 

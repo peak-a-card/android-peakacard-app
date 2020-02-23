@@ -16,5 +16,26 @@ enum class Card(val display: CardDisplay) {
     HUNDRED("100"),
     INFINITE("&#8734;"),
     UNKNOWN("?"),
-    COFFEE("\u2615")
+    COFFEE("\u2615");
+
+    companion object {
+        fun fromScore(score: Float): Card {
+            return when (score) {
+                0f -> ZERO
+                1f -> ONE
+                2f -> TWO
+                3f -> THREE
+                5f -> FIVE
+                8f -> EIGHT
+                13f -> THIRTEEN
+                20f -> TWENTY
+                40f -> FORTY
+                100f -> HUNDRED
+                999f -> INFINITE
+                -1f -> UNKNOWN
+                -2f -> COFFEE
+                else -> UNKNOWN
+            }
+        }
+    }
 }

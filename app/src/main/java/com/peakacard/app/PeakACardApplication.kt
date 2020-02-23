@@ -5,6 +5,11 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.emoji.bundled.BundledEmojiCompatConfig
 import androidx.emoji.text.EmojiCompat
+import com.peakacard.app.infrastructure.di.appModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import timber.log.Timber
 
 class PeakACardApplication : Application() {
 
@@ -12,11 +17,18 @@ class PeakACardApplication : Application() {
         super.onCreate()
         val config = BundledEmojiCompatConfig(this)
         EmojiCompat.init(config)
+        Timber.plant(Timber.DebugTree())
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
+        }
+
+        startKoin {
+            androidLogger()
+            androidContext(this@PeakACardApplication)
+            modules(appModule)
         }
     }
 }
