@@ -2,7 +2,6 @@ package com.peakacard.app.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.GridLayoutAnimationController
@@ -38,8 +37,6 @@ class GridRecyclerView @JvmOverloads constructor(
             column = columns - 1 - (invertedIndex % columns)
             row = rowsCount - 1 - invertedIndex / columns
         }
-        Log.d("GRID", "invertedIndex $invertedIndex inverted % columns ${(invertedIndex % columns)}")
-        Log.d("GRID", "count ${animationParameters.count} - index ${animationParameters.index} - columns ${animationParameters.columnsCount} - rows ${animationParameters.rowsCount} - column ${animationParameters.column} - row ${animationParameters.row}")
 
         params?.layoutAnimationParameters = animationParameters
     }
