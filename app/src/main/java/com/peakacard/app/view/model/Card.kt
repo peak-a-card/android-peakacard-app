@@ -22,6 +22,7 @@ enum class Card(val display: CardDisplay) {
         fun fromScore(score: Float): Card {
             return when (score) {
                 0f -> ZERO
+                0.5f -> HALF
                 1f -> ONE
                 2f -> TWO
                 3f -> THREE
