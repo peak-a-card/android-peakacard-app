@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.animation.AnimationUtils
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.peakacard.app.R
+import com.peakacard.app.card.view.CardActivity
 import com.peakacard.app.cards.view.state.CardsViewState
-import com.peakacard.core.ui.bindView
+import com.peakacard.core.ui.extensions.bindView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -54,7 +57,19 @@ class CardsActivity : AppCompatActivity(), CardsView {
             is CardsViewState.Loaded -> {
                 cardsLoading.isGone = true
                 cardsGrid.isVisible = true
-                cardsGrid.adapter = CardsAdapter(state.cards)
+                cardsGrid.adapter =
+                    CardsAdapter(state.cards) { card, view ->
+                        val activityOptions =
+                            ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                this,
+                                view,
+                                ViewCompat.getTransitionName(view).orEmpty()
+                            )
+                        startActivity(
+                            CardActivity.newIntent(this, card),
+                            activityOptions.toBundle()
+                        )
+                    }
             }
             CardsViewState.Empty -> Timber.d("Empty")
             CardsViewState.Error -> Timber.d("Error")

@@ -3,28 +3,33 @@ package com.peakacard.app.cards.view
 import android.animation.AnimatorInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.emoji.widget.EmojiTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
 import com.peakacard.app.cards.view.model.Card
-import com.peakacard.core.ui.bindView
-import com.peakacard.core.ui.fromHtmlCompat
-import com.peakacard.core.ui.inflate
+import com.peakacard.core.ui.extensions.bindView
+import com.peakacard.core.ui.extensions.fromHtmlCompat
+import com.peakacard.core.ui.extensions.inflate
 
-class CardsAdapter(private val cards: List<Card>) : RecyclerView.Adapter<CardViewHolder>() {
+class CardsAdapter(private val cards: List<Card>, private val listener: (Card, View) -> Unit) :
+    RecyclerView.Adapter<CardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        return CardViewHolder(parent.inflate(R.layout.card_item))
+        return CardViewHolder(parent.inflate(R.layout.card_item), listener)
     }
 
     override fun getItemCount() = cards.size
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        holder.bind(cards[position], position)
+        val card = cards[position]
+        ViewCompat.setTransitionName(holder.itemView, card.name)
+        holder.bind(card, position)
     }
 }
 
-class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class CardViewHolder(itemView: View, private val listener: (Card, View) -> Unit) :
+    RecyclerView.ViewHolder(itemView) {
     private val cardAnimationOut =
         AnimatorInflater.loadAnimator(itemView.context, R.animator.card_flip_out)
     private val cardAnimationIn =
@@ -38,9 +43,10 @@ class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         cardAnimationIn.setTarget(cardDisplayFront)
         cardAnimationOut.apply { startDelay = (delay * position).toLong() }.start()
         cardAnimationIn.apply { startDelay = (delay * position).toLong() }.start()
-        when (card) {
-            Card.INFINITE -> cardDisplayFront.text = card.display.fromHtmlCompat()
-            else -> cardDisplayFront.text = card.display
+        cardDisplayFront.text = when (card) {
+            Card.INFINITE -> card.display.fromHtmlCompat()
+            else -> card.display
         }
+        itemView.setOnClickListener { listener(card, cardDisplayFront) }
     }
 }

@@ -1,4 +1,4 @@
-package com.peakacard.core.ui
+package com.peakacard.core.ui.extensions
 
 import android.os.Build
 import android.text.Html

@@ -1,9 +1,9 @@
-package com.peakacard.core.ui
+package com.peakacard.core.ui.extensions
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.peakacard.core.ui.internal.ViewFinder
-import com.peakacard.core.ui.internal.required
+import com.peakacard.core.ui.extensions.internal.ViewFinder
+import com.peakacard.core.ui.extensions.internal.required
 import kotlin.properties.ReadOnlyProperty
 
 fun <V : View> RecyclerView.ViewHolder.bindView(id: Int)

@@ -1,4 +1,4 @@
-package com.peakacard.core.ui.internal
+package com.peakacard.core.ui.extensions.internal
 
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -8,7 +8,8 @@ internal class Lazy<T, V>(private val initializer: (T, KProperty<*>) -> V) :
     ReadOnlyProperty<T, V> {
     private object EMPTY
 
-    private var value: Any? = EMPTY
+    private var value: Any? =
+        EMPTY
 
     override fun getValue(thisRef: T, property: KProperty<*>): V {
         if (value == EMPTY) {
