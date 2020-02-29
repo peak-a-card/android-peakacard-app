@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.emoji.widget.EmojiTextView
 import com.peakacard.app.R
 import com.peakacard.app.cards.view.model.Card
+import com.peakacard.app.extensions.applyCardText
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.fromHtmlCompat
 
@@ -33,12 +34,7 @@ class CardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_card)
 
-        cardDetail.apply {
-            text = when (card) {
-                Card.INFINITE -> card.display.fromHtmlCompat()
-                else -> card.display
-            }
-            transitionName = this@CardActivity.transitionName
-        }
+        cardDetail.applyCardText(card)
+        cardDetail.transitionName = this@CardActivity.transitionName
     }
 }

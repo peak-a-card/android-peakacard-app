@@ -8,8 +8,8 @@ import androidx.emoji.widget.EmojiTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
 import com.peakacard.app.cards.view.model.Card
+import com.peakacard.app.extensions.applyCardText
 import com.peakacard.core.ui.extensions.bindView
-import com.peakacard.core.ui.extensions.fromHtmlCompat
 import com.peakacard.core.ui.extensions.inflate
 
 class CardsAdapter(private val cards: List<Card>, private val listener: (Card, View) -> Unit) :
@@ -43,10 +43,7 @@ class CardViewHolder(itemView: View, private val listener: (Card, View) -> Unit)
         cardAnimationIn.setTarget(cardDisplayFront)
         cardAnimationOut.apply { startDelay = (delay * position).toLong() }.start()
         cardAnimationIn.apply { startDelay = (delay * position).toLong() }.start()
-        cardDisplayFront.text = when (card) {
-            Card.INFINITE -> card.display.fromHtmlCompat()
-            else -> card.display
-        }
+        cardDisplayFront.applyCardText(card)
         itemView.setOnClickListener { listener(card, cardDisplayFront) }
     }
 }
