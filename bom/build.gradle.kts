@@ -5,8 +5,8 @@ plugins {
 dependencies {
     constraints {
         val version = object {
-            val koin = "2.0.1"
-            val coroutines = "1.3.3"
+            val koin = "2.1.3"
+            val coroutines = "1.3.4"
         }
 
         api("androidx.appcompat:appcompat:1.1.0")
