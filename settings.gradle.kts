@@ -1,4 +1,5 @@
 include(
+    "bom",
     "core",
     "core-ui",
     "app"

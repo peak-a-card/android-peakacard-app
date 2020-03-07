@@ -29,6 +29,7 @@ android {
 }
 
 dependencies {
-    implementation(ProjectDependencies.kotlinStdLib)
-    implementation(ProjectDependencies.recyclerview)
+    implementation(project(":core"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation("androidx.recyclerview:recyclerview")
 }

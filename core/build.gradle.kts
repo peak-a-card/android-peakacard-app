@@ -4,5 +4,6 @@ plugins {
 }
 
 dependencies {
-    implementation(ProjectDependencies.kotlinStdLib)
+    implementation(platform(project(":bom")))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
 }

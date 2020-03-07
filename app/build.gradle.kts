@@ -36,23 +36,22 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
     implementation(project(":core-ui"))
 
-    implementation(ProjectDependencies.coroutinesAndroid)
-    implementation(ProjectDependencies.coroutinesCore)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
 
-    implementation(ProjectDependencies.lifecycleViewModel)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx")
 
-    implementation(ProjectDependencies.koinCore)
-    implementation(ProjectDependencies.koinAndroid)
-    implementation(ProjectDependencies.koinViewModel)
+    implementation("org.koin:koin-core")
+    implementation("org.koin:koin-android")
+    implementation("org.koin:koin-androidx-viewmodel")
 
-    implementation(ProjectDependencies.kotlinStdLib)
-    implementation(ProjectDependencies.appCompat)
-    implementation(ProjectDependencies.ktx)
-    implementation(ProjectDependencies.material)
-    implementation(ProjectDependencies.recyclerview)
-    implementation(ProjectDependencies.emojiBundled)
-    implementation(ProjectDependencies.timber)
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation("androidx.appcompat:appcompat")
+    implementation("androidx.core:core-ktx")
+    implementation("com.google.android.material:material")
+    implementation("androidx.recyclerview:recyclerview")
+    implementation("androidx.emoji:emoji-bundled")
+    implementation("com.jakewharton.timber:timber")
 }
