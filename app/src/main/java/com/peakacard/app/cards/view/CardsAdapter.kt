@@ -42,12 +42,13 @@ class CardViewHolder(itemView: View, private val listener: (Card, View) -> Unit)
     fun bind(card: Card, position: Int) {
         cardAnimationOut.setTarget(cardDisplayBack)
         cardAnimationIn.setTarget(cardDisplayFront)
+        val delayByPosition = (delay * (position + 1)).toLong()
         cardAnimationOut.apply {
-            startDelay = (delay * position).toLong()
+            startDelay = delayByPosition
             interpolator = AccelerateDecelerateInterpolator()
         }.start()
         cardAnimationIn.apply {
-            startDelay = (delay * position).toLong()
+            startDelay = delayByPosition
             interpolator = AccelerateDecelerateInterpolator()
         }.start()
         cardDisplayFront.applyCardText(card)
