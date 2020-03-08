@@ -14,6 +14,7 @@ dependencies {
         api("com.google.android.material:material:1.2.0-alpha05")
         api("androidx.recyclerview:recyclerview:1.1.0")
         api("androidx.emoji:emoji-bundled:1.0.0")
+        api("androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03")
         api("com.jakewharton.timber:timber:4.7.1")
 
         api("org.koin:koin-core:${version.koin}")

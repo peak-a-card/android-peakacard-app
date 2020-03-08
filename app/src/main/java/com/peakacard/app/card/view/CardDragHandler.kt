@@ -6,9 +6,10 @@ import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.Interpolator
+import androidx.dynamicanimation.animation.DynamicAnimation
+import androidx.dynamicanimation.animation.SpringAnimation
+import androidx.dynamicanimation.animation.SpringForce
 import com.peakacard.app.R
 
 object CardDragHandler {
@@ -24,6 +25,8 @@ object CardDragHandler {
         var dY = 0f
         var startY = 0f
         var velocityTracker: VelocityTracker? = null
+        val springAnimation =
+            SpringAnimation(draggableView, DynamicAnimation.Y).apply { spring = SpringForce() }
         draggableView.setOnTouchListener { view, motionEvent ->
             return@setOnTouchListener when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
@@ -43,7 +46,7 @@ object CardDragHandler {
                     velocityTracker?.addMovement(motionEvent)
                     velocityTracker?.computeCurrentVelocity(1000)
                     if (velocityTracker?.yVelocity ?: 0f <= -VELOCITY_LIMIT) {
-                        view.translateYTo(-height.toFloat(), AccelerateInterpolator())
+                        view.translateYTo(-height.toFloat())
                     }
 
                     view.y = motionEvent.rawY + dY
@@ -52,9 +55,9 @@ object CardDragHandler {
                 MotionEvent.ACTION_UP -> {
                     if (animating) return@setOnTouchListener false
                     if (view.y <= -heightLimit) {
-                        view.translateYTo(-height.toFloat(), AccelerateInterpolator())
+                        view.translateYTo(-height.toFloat())
                     } else {
-                        view.translateYTo(startY)
+                        springAnimation.animateToFinalPosition(startY)
                     }
                     true
                 }
@@ -67,13 +70,10 @@ object CardDragHandler {
         }
     }
 
-    private fun View.translateYTo(
-        destination: Float,
-        interpolator: Interpolator = AccelerateDecelerateInterpolator()
-    ) {
+    private fun View.translateYTo(destination: Float) {
         animate().y(destination).apply {
             this.duration = context.resources.getInteger(R.integer.anim_duration_short).toLong()
-            this.interpolator = interpolator
+            this.interpolator = AccelerateInterpolator()
         }.setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator?) {
                 animating = true

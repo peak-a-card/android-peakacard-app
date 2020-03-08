@@ -54,4 +54,5 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview")
     implementation("androidx.emoji:emoji-bundled")
     implementation("com.jakewharton.timber:timber")
+    implementation("androidx.dynamicanimation:dynamicanimation-ktx")
 }
