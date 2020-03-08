@@ -1,7 +1,5 @@
 package com.peakacard.app.card.view
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.VelocityTracker
@@ -24,9 +22,10 @@ object CardDragHandler {
         val heightLimit = height * HEIGHT_FACTOR
         var dY = 0f
         var startY = 0f
+        var previousY = 0f
         var velocityTracker: VelocityTracker? = null
         val springAnimation =
-            SpringAnimation(draggableView, DynamicAnimation.Y).apply { spring = SpringForce() }
+            SpringAnimation(draggableView, DynamicAnimation.Y).setSpring(SpringForce())
         draggableView.setOnTouchListener { view, motionEvent ->
             return@setOnTouchListener when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
@@ -38,18 +37,21 @@ object CardDragHandler {
                     velocityTracker?.addMovement(motionEvent)
 
                     startY = view.y
+                    previousY = startY
                     dY = view.y - motionEvent.rawY
                     true
                 }
                 MotionEvent.ACTION_MOVE -> {
                     if (animating) return@setOnTouchListener false
+                    val translationY = motionEvent.rawY + dY
                     velocityTracker?.addMovement(motionEvent)
                     velocityTracker?.computeCurrentVelocity(1000)
                     if (velocityTracker?.yVelocity ?: 0f <= -VELOCITY_LIMIT) {
-                        view.translateYTo(-height.toFloat())
+                        if (previousY >= translationY) view.translateYTo(-height.toFloat())
                     }
 
-                    view.y = motionEvent.rawY + dY
+                    view.y = translationY
+                    previousY = translationY
                     true
                 }
                 MotionEvent.ACTION_UP -> {
@@ -71,17 +73,10 @@ object CardDragHandler {
     }
 
     private fun View.translateYTo(destination: Float) {
-        animate().y(destination).apply {
-            this.duration = context.resources.getInteger(R.integer.anim_duration_short).toLong()
-            this.interpolator = AccelerateInterpolator()
-        }.setListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator?) {
-                animating = true
-            }
-
-            override fun onAnimationEnd(animation: Animator?) {
-                animating = false
-            }
-        })
+        animate().y(destination)
+            .withStartAction { animating = true }
+            .withEndAction { animating = false }
+            .setDuration(context.resources.getInteger(R.integer.anim_duration_short).toLong())
+            .interpolator = AccelerateInterpolator()
     }
 }
