@@ -18,7 +18,7 @@ object CardDragHandler {
     private var animating = false
 
     @SuppressLint("ClickableViewAccessibility")
-    fun makeDraggable(draggableView: View, height: Int) {
+    fun makeDraggable(draggableView: View, height: Int, onViewDragged: () -> Unit) {
         val heightLimit = height * HEIGHT_FACTOR
         var dY = 0f
         var startY = 0f
@@ -47,7 +47,9 @@ object CardDragHandler {
                     velocityTracker?.addMovement(motionEvent)
                     velocityTracker?.computeCurrentVelocity(1000)
                     if (velocityTracker?.yVelocity ?: 0f <= -VELOCITY_LIMIT) {
-                        if (previousY >= translationY) view.translateYTo(-height.toFloat())
+                        if (previousY >= translationY) {
+                            view.translateYTo(-height.toFloat(), onViewDragged)
+                        }
                     }
 
                     view.y = translationY
@@ -57,7 +59,7 @@ object CardDragHandler {
                 MotionEvent.ACTION_UP -> {
                     if (animating) return@setOnTouchListener false
                     if (view.y <= -heightLimit) {
-                        view.translateYTo(-height.toFloat())
+                        view.translateYTo(-height.toFloat(), onViewDragged)
                     } else {
                         springAnimation.animateToFinalPosition(startY)
                     }
@@ -72,10 +74,13 @@ object CardDragHandler {
         }
     }
 
-    private fun View.translateYTo(destination: Float) {
+    private fun View.translateYTo(destination: Float, endAction: () -> Unit) {
         animate().y(destination)
             .withStartAction { animating = true }
-            .withEndAction { animating = false }
+            .withEndAction {
+                animating = false
+                endAction()
+            }
             .setDuration(context.resources.getInteger(R.integer.anim_duration_short).toLong())
             .interpolator = AccelerateInterpolator()
     }

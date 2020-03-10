@@ -3,6 +3,7 @@ package com.peakacard.app.card.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.emoji.widget.EmojiTextView
 import com.peakacard.app.R
@@ -39,6 +40,9 @@ class CardActivity : AppCompatActivity() {
         CardDragHandler.makeDraggable(
             cardDetail,
             resources.getDimensionPixelSize(R.dimen.card_detail_height)
-        )
+        ) {
+            Toast.makeText(this, "Card as been sent!", Toast.LENGTH_SHORT).show()
+            finish()
+        }
     }
 }
