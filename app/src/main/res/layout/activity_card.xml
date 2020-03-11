@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.emoji.widget.EmojiTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardDetail"
-    style="@style/Card"
-    android:layout_width="@dimen/card_detail_width"
-    android:layout_height="@dimen/card_detail_height"
-    android:layout_gravity="center"
-    android:background="@drawable/card_background"
-    android:gravity="center"
-    android:textAppearance="@style/H1"
-    tools:text="100" />
+    android:id="@+id/card_detail_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/cardDetail"
+        style="@style/Card"
+        android:layout_width="@dimen/card_detail_width"
+        android:layout_height="@dimen/card_detail_height"
+        android:layout_gravity="center"
+        android:background="@drawable/card_detail_background"
+        android:gravity="center"
+        android:textAppearance="@style/H1"
+        tools:text="100" />
+</FrameLayout>

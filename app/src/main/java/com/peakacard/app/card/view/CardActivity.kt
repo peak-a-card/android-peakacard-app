@@ -3,6 +3,7 @@ package com.peakacard.app.card.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.emoji.widget.EmojiTextView
@@ -13,6 +14,7 @@ import com.peakacard.core.ui.extensions.bindView
 
 class CardActivity : AppCompatActivity() {
 
+    private val cardDetailBackground: View by bindView(R.id.card_detail_background)
     private val cardDetail: EmojiTextView by bindView(R.id.cardDetail)
 
     private val card: Card by lazy { intent.extras?.get(EXTRA_CARD) as Card }
@@ -33,6 +35,8 @@ class CardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_card)
+
+        cardDetailBackground.setOnClickListener { onBackPressed() }
 
         cardDetail.applyCardText(card)
         cardDetail.transitionName = this@CardActivity.transitionName
