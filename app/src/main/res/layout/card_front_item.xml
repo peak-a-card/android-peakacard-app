@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.emoji.widget.EmojiTextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardDisplayFront"
+    android:id="@+id/card_display_front"
     style="@style/Card"
     android:layout_width="@dimen/card_width"
     android:layout_height="@dimen/card_height"

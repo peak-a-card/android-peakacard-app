@@ -36,8 +36,8 @@ class CardViewHolder(itemView: View, private val listener: (Card, View) -> Unit)
     private val cardAnimationIn =
         AnimatorInflater.loadAnimator(itemView.context, R.animator.card_flip_in)
     private val delay = itemView.context.resources.getInteger(R.integer.anim_delay)
-    private val cardDisplayFront: EmojiTextView by bindView(R.id.cardDisplayFront)
-    private val cardDisplayBack: View by bindView(R.id.cardDisplayBack)
+    private val cardDisplayFront: EmojiTextView by bindView(R.id.card_display_front)
+    private val cardDisplayBack: View by bindView(R.id.card_display_back)
 
     fun bind(card: Card, position: Int) {
         cardAnimationOut.setTarget(cardDisplayBack)

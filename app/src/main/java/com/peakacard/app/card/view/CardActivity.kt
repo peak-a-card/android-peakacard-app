@@ -15,7 +15,7 @@ import com.peakacard.core.ui.extensions.bindView
 class CardActivity : AppCompatActivity() {
 
     private val cardDetailBackground: View by bindView(R.id.card_detail_background)
-    private val cardDetail: EmojiTextView by bindView(R.id.cardDetail)
+    private val cardDetail: EmojiTextView by bindView(R.id.card_detail)
 
     private val card: Card by lazy { intent.extras?.get(EXTRA_CARD) as Card }
     private val transitionName: String by lazy { intent.extras?.get(EXTRA_TRANSITION_NAME) as String }

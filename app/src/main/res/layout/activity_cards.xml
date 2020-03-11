@@ -7,7 +7,7 @@
     tools:context=".cards.view.CardsActivity">
 
     <ProgressBar
-        android:id="@+id/cardsLoading"
+        android:id="@+id/cards_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible" />

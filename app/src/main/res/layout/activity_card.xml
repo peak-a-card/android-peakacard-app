@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.emoji.widget.EmojiTextView
-        android:id="@+id/cardDetail"
+        android:id="@+id/card_detail"
         style="@style/Card"
         android:layout_width="@dimen/card_detail_width"
         android:layout_height="@dimen/card_detail_height"

@@ -20,7 +20,7 @@ class CardsActivity : AppCompatActivity(), CardsView {
     private val cardsViewModel: CardsViewModel by viewModel()
 
     private val cardsGrid: GridRecyclerView by bindView(R.id.cards)
-    private val cardsLoading: ProgressBar by bindView(R.id.cardsLoading)
+    private val cardsLoading: ProgressBar by bindView(R.id.cards_loading)
 
     private val cardWidth by lazy {
         resources.getDimensionPixelSize(R.dimen.card_width) + (resources.getDimensionPixelSize(R.dimen.M) * 2)
