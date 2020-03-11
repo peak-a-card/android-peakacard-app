@@ -3,7 +3,6 @@ package com.peakacard.app.cards.view
 import android.animation.AnimatorInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.view.ViewCompat
 import androidx.emoji.widget.EmojiTextView
 import androidx.recyclerview.widget.RecyclerView
@@ -42,15 +41,9 @@ class CardViewHolder(itemView: View, private val listener: (Card, View) -> Unit)
     fun bind(card: Card, position: Int) {
         cardAnimationOut.setTarget(cardDisplayBack)
         cardAnimationIn.setTarget(cardDisplayFront)
-        val delayByPosition = (delay * (position + 1)).toLong()
-        cardAnimationOut.apply {
-            startDelay = delayByPosition
-            interpolator = AccelerateDecelerateInterpolator()
-        }.start()
-        cardAnimationIn.apply {
-            startDelay = delayByPosition
-            interpolator = AccelerateDecelerateInterpolator()
-        }.start()
+        val delayByPosition = (delay * (position + 1) - (position * 100)).toLong()
+        cardAnimationOut.apply { startDelay = delayByPosition }.start()
+        cardAnimationIn.apply { startDelay = delayByPosition }.start()
         cardDisplayFront.applyCardText(card)
         itemView.setOnClickListener { listener(card, cardDisplayFront) }
     }
