@@ -42,7 +42,7 @@ class CardActivity : AppCompatActivity() {
             resources.getDimensionPixelSize(R.dimen.card_detail_height)
         ) {
             Toast.makeText(this, "Card as been sent!", Toast.LENGTH_SHORT).show()
-            finish()
+            onBackPressed()
         }
     }
 }
