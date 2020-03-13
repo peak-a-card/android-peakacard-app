@@ -1,0 +1,6 @@
+<resources>
+    <string name="session_join">Hooray! Enter your name and the code to join a session!</string>
+    <string name="session_enter">Enter</string>
+    <string name="session_code">Code</string>
+    <string name="session_name">Name</string>
+</resources>

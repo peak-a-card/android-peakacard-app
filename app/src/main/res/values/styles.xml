@@ -38,8 +38,24 @@
         <item name="android:textColor">?attr/colorPrimary</item>
     </style>
 
-    <style name="Card">
+    <style name="H4">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:textSize">@dimen/H4</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="CardStyle">
         <item name="android:padding">@dimen/M</item>
+    </style>
+
+    <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/text_input_color_state</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="android:textColorPrimary">?attr/colorPrimary</item>
+    </style>
+
+    <style name="TextEditTextStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColor">?attr/colorPrimary</item>
     </style>
 
 </resources>

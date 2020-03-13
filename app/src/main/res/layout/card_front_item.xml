@@ -2,7 +2,7 @@
 <androidx.emoji.widget.EmojiTextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_display_front"
-    style="@style/Card"
+    style="@style/CardStyle"
     android:layout_width="@dimen/card_width"
     android:layout_height="@dimen/card_height"
     android:layout_gravity="center"
