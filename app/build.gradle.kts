@@ -32,6 +32,7 @@ android {
         freeCompilerArgs = freeCompilerArgs + "-Xuse-experimental=kotlin.Experimental"
         freeCompilerArgs = freeCompilerArgs + "-Xuse-experimental=kotlinx.coroutines.FlowPreview"
         freeCompilerArgs = freeCompilerArgs + "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        freeCompilerArgs = freeCompilerArgs + "-XXLanguage:+InlineClasses"
     }
 }
 

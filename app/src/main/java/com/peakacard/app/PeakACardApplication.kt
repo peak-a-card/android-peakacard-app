@@ -5,7 +5,8 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.emoji.bundled.BundledEmojiCompatConfig
 import androidx.emoji.text.EmojiCompat
-import com.peakacard.app.infrastructure.di.appModule
+import com.peakacard.app.infrastructure.di.cardsModule
+import com.peakacard.app.infrastructure.di.startSessionModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -28,7 +29,7 @@ class PeakACardApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@PeakACardApplication)
-            modules(appModule)
+            modules(cardsModule, startSessionModule)
         }
     }
 }

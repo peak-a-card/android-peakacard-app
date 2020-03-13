@@ -16,7 +16,7 @@
       style="@style/H4"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="@string/session_join"
+      android:text="@string/start_session_join"
       />
 
   <Space
@@ -28,7 +28,7 @@
       style="@style/TextInputStyle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:hint="@string/session_name"
+      android:hint="@string/start_session_name"
       >
 
     <com.google.android.material.textfield.TextInputEditText
@@ -48,14 +48,14 @@
       />
 
   <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/start_session_code"
       style="@style/TextInputStyle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:hint="@string/session_code"
+      android:hint="@string/start_session_code"
       >
 
     <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/start_session_code"
         style="@style/TextEditTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
       android:id="@+id/start_session_button"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="@string/session_enter"
+      android:text="@string/start_session_enter"
       />
 
 </LinearLayout>
