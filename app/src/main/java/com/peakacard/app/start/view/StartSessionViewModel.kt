@@ -3,6 +3,9 @@ package com.peakacard.app.start.view
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peakacard.app.start.domain.StartSessionUseCase
+import com.peakacard.app.start.domain.model.CodeDomainModel
+import com.peakacard.app.start.domain.model.NameDomainModel
+import com.peakacard.app.start.domain.model.SessionDomainModel
 import com.peakacard.app.start.view.model.CodeUiModel
 import com.peakacard.app.start.view.model.NameUiModel
 import com.peakacard.app.start.view.state.StartSessionState
@@ -34,7 +37,13 @@ class StartSessionViewModel(private val startSessionUseCase: StartSessionUseCase
             return
         }
         viewModelScope.launch {
-
+            startSessionUseCase.startSession(
+                SessionDomainModel(
+                    NameDomainModel(name.value),
+                    CodeDomainModel(code.value)
+                )
+            )
+            startSessionState.offer(StartSessionState.StartingSession)
         }
     }
 }

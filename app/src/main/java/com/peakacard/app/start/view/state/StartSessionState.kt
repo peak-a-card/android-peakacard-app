@@ -1,7 +1,7 @@
 package com.peakacard.app.start.view.state
 
 sealed class StartSessionState {
-    object Starting : StartSessionState()
+    object StartingSession : StartSessionState()
     object Started : StartSessionState()
     sealed class Error : StartSessionState() {
         object NameRequiredError : Error()

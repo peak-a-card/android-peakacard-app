@@ -35,7 +35,7 @@ class StartSessionActivity : AppCompatActivity(), StartSessionView {
 
     override fun updateState(state: StartSessionState) {
         when (state) {
-            StartSessionState.Starting -> TODO()
+            StartSessionState.StartingSession -> TODO()
             StartSessionState.Started -> TODO()
             StartSessionState.Error.NameRequiredError -> {
                 sessionName.error = getString(R.string.start_session_error_name_required_error)
