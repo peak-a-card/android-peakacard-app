@@ -3,9 +3,10 @@ package com.peakacard.app.start.view
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peakacard.app.start.domain.StartSessionUseCase
-import com.peakacard.app.start.domain.model.CodeDomainModel
-import com.peakacard.app.start.domain.model.NameDomainModel
-import com.peakacard.app.start.domain.model.SessionDomainModel
+import com.peakacard.app.start.domain.model.ParticipantName
+import com.peakacard.app.start.domain.model.SessionCode
+import com.peakacard.app.start.domain.model.StartSessionRequest
+import com.peakacard.app.start.domain.model.StartSessionResponse
 import com.peakacard.app.start.view.model.CodeUiModel
 import com.peakacard.app.start.view.model.NameUiModel
 import com.peakacard.app.start.view.state.StartSessionState
@@ -36,14 +37,26 @@ class StartSessionViewModel(private val startSessionUseCase: StartSessionUseCase
             startSessionState.offer(StartSessionState.Error.CodeRequiredError)
             return
         }
+        startSessionState.offer(StartSessionState.StartingSession)
         viewModelScope.launch {
             startSessionUseCase.startSession(
-                SessionDomainModel(
-                    NameDomainModel(name.value),
-                    CodeDomainModel(code.value)
+                StartSessionRequest(
+                    ParticipantName(name.value),
+                    SessionCode(code.value)
                 )
+            ).fold(
+                {
+                    when (it) {
+                        StartSessionResponse.Error.NoSessionFound -> {
+                            startSessionState.offer(StartSessionState.Error.NoSessionFound)
+                        }
+                        StartSessionResponse.Error.Unspecified -> {
+                            startSessionState.offer(StartSessionState.Error.Unspecified)
+                        }
+                    }
+                },
+                { startSessionState.offer(StartSessionState.Started) }
             )
-            startSessionState.offer(StartSessionState.StartingSession)
         }
     }
 }

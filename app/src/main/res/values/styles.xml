@@ -44,6 +44,16 @@
         <item name="android:textColor">?attr/colorPrimary</item>
     </style>
 
+    <style name="Body">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:textSize">@dimen/Body</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="ErrorTextStyle" parent="Body">
+        <item name="android:textColor">?attr/colorError</item>
+    </style>
+
     <style name="CardStyle">
         <item name="android:padding">@dimen/M</item>
     </style>

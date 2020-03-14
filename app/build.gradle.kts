@@ -41,6 +41,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx")
 
@@ -56,4 +57,7 @@ dependencies {
     implementation("androidx.emoji:emoji-bundled")
     implementation("com.jakewharton.timber:timber")
     implementation("androidx.dynamicanimation:dynamicanimation-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
 }
+
+apply(plugin = "com.google.gms.google-services")

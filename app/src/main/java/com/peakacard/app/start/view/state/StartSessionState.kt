@@ -6,5 +6,7 @@ sealed class StartSessionState {
     sealed class Error : StartSessionState() {
         object NameRequiredError : Error()
         object CodeRequiredError : Error()
+        object NoSessionFound : Error()
+        object Unspecified : Error()
     }
 }

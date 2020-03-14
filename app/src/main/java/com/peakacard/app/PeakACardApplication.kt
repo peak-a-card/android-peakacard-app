@@ -5,7 +5,9 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.emoji.bundled.BundledEmojiCompatConfig
 import androidx.emoji.text.EmojiCompat
+import com.google.firebase.FirebaseApp
 import com.peakacard.app.infrastructure.di.cardsModule
+import com.peakacard.app.infrastructure.di.dataModule
 import com.peakacard.app.infrastructure.di.startSessionModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -19,6 +21,7 @@ class PeakACardApplication : Application() {
         val config = BundledEmojiCompatConfig(this)
         EmojiCompat.init(config)
         Timber.plant(Timber.DebugTree())
+        FirebaseApp.initializeApp(this)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
@@ -29,7 +32,7 @@ class PeakACardApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@PeakACardApplication)
-            modules(cardsModule, startSessionModule)
+            modules(dataModule, cardsModule, startSessionModule)
         }
     }
 }

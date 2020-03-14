@@ -3,6 +3,7 @@
     <dimen name="H1">96sp</dimen>
     <dimen name="H3">48sp</dimen>
     <dimen name="H4">34sp</dimen>
+    <dimen name="Body">14sp</dimen>
 
     <dimen name="M">8dp</dimen>
     <dimen name="L">16dp</dimen>

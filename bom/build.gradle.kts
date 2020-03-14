@@ -16,6 +16,7 @@ dependencies {
         api("androidx.emoji:emoji-bundled:1.0.0")
         api("androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03")
         api("com.jakewharton.timber:timber:4.7.1")
+        api("com.google.firebase:firebase-firestore-ktx:21.4.1")
 
         api("org.koin:koin-core:${version.koin}")
         api("org.koin:koin-android:${version.koin}")
@@ -25,5 +26,6 @@ dependencies {
 
         api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${version.coroutines}")
         api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${version.coroutines}")
+        api("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${version.coroutines}")
     }
 }
