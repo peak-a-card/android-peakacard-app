@@ -58,6 +58,8 @@ dependencies {
     implementation("com.jakewharton.timber:timber")
     implementation("androidx.dynamicanimation:dynamicanimation-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
+
+    implementation("com.github.razir.progressbutton:progressbutton")
 }
 
 apply(plugin = "com.google.gms.google-services")

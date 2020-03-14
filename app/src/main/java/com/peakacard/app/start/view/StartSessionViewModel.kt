@@ -12,6 +12,7 @@ import com.peakacard.app.start.view.model.NameUiModel
 import com.peakacard.app.start.view.state.StartSessionState
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -39,6 +40,7 @@ class StartSessionViewModel(private val startSessionUseCase: StartSessionUseCase
         }
         startSessionState.offer(StartSessionState.StartingSession)
         viewModelScope.launch {
+            delay(2000)
             startSessionUseCase.startSession(
                 StartSessionRequest(
                     ParticipantName(name.value),

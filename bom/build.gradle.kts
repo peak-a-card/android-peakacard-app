@@ -18,6 +18,8 @@ dependencies {
         api("com.jakewharton.timber:timber:4.7.1")
         api("com.google.firebase:firebase-firestore-ktx:21.4.1")
 
+        api("com.github.razir.progressbutton:progressbutton:2.0.1")
+
         api("org.koin:koin-core:${version.koin}")
         api("org.koin:koin-android:${version.koin}")
         api("org.koin:koin-androidx-viewmodel:${version.koin}")
