@@ -15,14 +15,14 @@
         style="@style/H4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/start_session_join" />
+        android:text="@string/join_session_join" />
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="@dimen/XXL" />
 
     <TextView
-        android:id="@+id/start_session_error"
+        android:id="@+id/join_session_error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/L"
@@ -35,10 +35,10 @@
         style="@style/TextInputStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/start_session_name">
+        android:hint="@string/join_session_name">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/start_session_name"
+            android:id="@+id/join_session_name"
             style="@style/TextEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,10 +55,10 @@
         style="@style/TextInputStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/start_session_code">
+        android:hint="@string/join_session_code">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/start_session_code"
+            android:id="@+id/join_session_code"
             style="@style/TextEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -72,10 +72,10 @@
         android:layout_height="@dimen/L" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/start_session_button"
+        android:id="@+id/join_session_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/start_session_enter"
+        android:text="@string/join_session_enter"
         android:textAllCaps="false" />
 
 </LinearLayout>

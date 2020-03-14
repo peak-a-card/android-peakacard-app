@@ -8,7 +8,7 @@ import androidx.emoji.text.EmojiCompat
 import com.google.firebase.FirebaseApp
 import com.peakacard.app.infrastructure.di.cardsModule
 import com.peakacard.app.infrastructure.di.dataModule
-import com.peakacard.app.infrastructure.di.startSessionModule
+import com.peakacard.app.infrastructure.di.joinSessionModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -32,7 +32,7 @@ class PeakACardApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@PeakACardApplication)
-            modules(dataModule, cardsModule, startSessionModule)
+            modules(dataModule, cardsModule, joinSessionModule)
         }
     }
 }
