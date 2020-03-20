@@ -57,6 +57,18 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
             }
             JoinSessionState.Joined -> {
                 joinSessionButton.hideProgress(R.string.join_session_joined)
+                joinSessionButton.hideKeyboard()
+                Handler().postDelayed({
+                    val intent = Intent(this, CardsActivity::class.java).apply {
+                        putExtra(CardsActivity.EXTRA_SESSION_TITLE, joinSessionCode.text.toString())
+                    }
+                    startActivity(intent)
+                    finish()
+                    overridePendingTransition(
+                        R.anim.transition_slide_from_right,
+                        R.anim.transition_slide_to_left
+                    )
+                }, 1000)
             }
             is JoinSessionState.Error -> {
                 when (state) {

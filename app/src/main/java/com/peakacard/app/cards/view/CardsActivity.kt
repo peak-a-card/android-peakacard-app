@@ -17,11 +17,16 @@ import timber.log.Timber
 
 class CardsActivity : AppCompatActivity(), CardsView {
 
+    companion object {
+        const val EXTRA_SESSION_TITLE = "EXTRA_SESSION_TITLE"
+    }
+
     private val cardsViewModel: CardsViewModel by viewModel()
 
     private val cardsGrid: GridRecyclerView by bindView(R.id.cards)
     private val cardsLoading: ProgressBar by bindView(R.id.cards_loading)
 
+    private val sessionTitle by lazy { intent.getStringExtra(EXTRA_SESSION_TITLE) }
     private val cardWidth by lazy {
         resources.getDimensionPixelSize(R.dimen.card_width) + (resources.getDimensionPixelSize(R.dimen.M) * 2)
     }
@@ -35,6 +40,8 @@ class CardsActivity : AppCompatActivity(), CardsView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cards)
+
+        supportActionBar?.title = getString(R.string.cards_session_title, sessionTitle)
 
         cardsGrid.apply {
             layoutManager = gridLayoutManagerBuilder.build()
