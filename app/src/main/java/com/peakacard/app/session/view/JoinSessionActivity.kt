@@ -1,6 +1,8 @@
 package com.peakacard.app.session.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
@@ -12,10 +14,12 @@ import com.github.razir.progressbutton.showProgress
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.peakacard.app.R
+import com.peakacard.app.cards.view.CardsActivity
 import com.peakacard.app.session.view.model.CodeUiModel
 import com.peakacard.app.session.view.model.NameUiModel
 import com.peakacard.app.session.view.state.JoinSessionState
 import com.peakacard.core.ui.extensions.bindView
+import com.peakacard.core.ui.extensions.hideKeyboard
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
