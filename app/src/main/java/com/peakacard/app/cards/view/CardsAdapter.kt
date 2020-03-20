@@ -41,10 +41,12 @@ class CardViewHolder(itemView: View, private val listener: (Card, View) -> Unit)
     fun bind(card: Card, position: Int) {
         cardAnimationOut.setTarget(cardDisplayBack)
         cardAnimationIn.setTarget(cardDisplayFront)
-        val delayByPosition = (delay * (position + 1) - (position * 100)).toLong()
+        val delayByPosition = (delay * (position + 1) - (position * 100)).toLong() + COSMETIC_WAIT
         cardAnimationOut.apply { startDelay = delayByPosition }.start()
         cardAnimationIn.apply { startDelay = delayByPosition }.start()
         cardDisplayFront.applyCardText(card)
         itemView.setOnClickListener { listener(card, cardDisplayFront) }
     }
 }
+
+private const val COSMETIC_WAIT = 750
