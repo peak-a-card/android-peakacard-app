@@ -18,7 +18,10 @@ class JoinSessionRemoteDatasource(private val database: FirebaseFirestore) {
             val sessionId = joinSessionRequest.id.value
             val dbSession = sessions.document(sessionId).get().await()
             if (dbSession.exists()) {
-                val participants = dbSession.get(SessionDataModel.PARTICIPANTS)
+                var participants = dbSession.get(SessionDataModel.PARTICIPANTS)
+                if (participants == null) {
+                    participants = mutableListOf<String>()
+                }
                 (participants as MutableList<String>).add(joinSessionRequest.participant.value)
                 sessions.document(sessionId).update(SessionDataModel.PARTICIPANTS, participants)
                 Either.Right(JoinSessionResponseDataModel.Success)
