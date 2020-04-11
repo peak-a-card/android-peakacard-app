@@ -12,10 +12,11 @@
         android:layout_height="@dimen/XXL" />
 
     <TextView
+        android:id="@+id/join_session_title"
         style="@style/H4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/join_session_join" />
+        tools:text="@string/join_session_title" />
 
     <Space
         android:layout_width="match_parent"
@@ -30,26 +31,6 @@
         android:visibility="gone"
         tools:text="Error!"
         tools:visibility="visible" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/TextInputStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/join_session_name">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/join_session_name"
-            style="@style/TextEditTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:inputType="textPersonName"
-            android:lines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/L" />
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/TextInputStyle"

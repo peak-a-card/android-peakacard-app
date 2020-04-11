@@ -1,12 +1,13 @@
 <resources>
-    <string name="join_session_join">Hooray! Enter your name and the code to join a session!</string>
+    <string name="join_session_title">Hooray! Enter the code to join a session!</string>
+    <string name="join_session_title_logged">Welcome back %1$s! Enter the code to join a session!</string>
     <string name="join_session_enter">Join session</string>
     <string name="join_session_code">Code</string>
     <string name="join_session_name">Name</string>
     <string name="join_session_joining">Joining session</string>
     <string name="join_session_joined">Joined to session!</string>
-    <string name="join_session_error_name_required_error">Name is required</string>
-    <string name="join_session_error_code_required_error">Code is required</string>
+    <string name="join_session_error_sign_in">Oops! We have an error signing you in. Please try again later :-)</string>
+    <string name="join_session_error_code_required">We cannot join you to the session without a code :-/</string>
     <string name="join_session_error_no_session">Oops! We didn\'t find the session, did you write it well? Don\'t worry it happens even in the best of families.</string>
     <string name="join_session_error_unspecified">Oops! Houston we had an unknown error! Try it again please :-)</string>
 </resources>

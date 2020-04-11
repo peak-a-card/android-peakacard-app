@@ -22,9 +22,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.peakacard.app.R
 import com.peakacard.app.cards.view.CardsActivity
+import com.peakacard.app.session.view.model.CodeUiModel
+import com.peakacard.app.session.view.model.mapper.FirebaseUserMapper
 import com.peakacard.app.session.view.state.JoinSessionState
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.hideKeyboard
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -34,6 +37,9 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
 
     private val joinSessionViewModel: JoinSessionViewModel by viewModel()
 
+    private val firebaseUserMapper: FirebaseUserMapper by inject()
+
+    private val joinSessionTitle: TextView by bindView(R.id.join_session_title)
     private val joinSessionCode: TextInputEditText by bindView(R.id.join_session_code)
     private val joinSessionButton: MaterialButton by bindView(R.id.join_session_button)
     private val joinSessionError: TextView by bindView(R.id.join_session_error)
@@ -59,8 +65,11 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
         super.onStart()
         val currentUser = firebaseAuth.currentUser
         if (currentUser != null) {
-            // TODO user already logged -> Join session?
             Timber.d("User already logged with account ${currentUser.email}")
+            joinSessionTitle.text =
+                getString(R.string.join_session_title_logged, currentUser.displayName)
+        } else {
+            joinSessionTitle.text = getString(R.string.join_session_title)
         }
     }
 
@@ -84,8 +93,8 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
                     null
                 }
                 if (account == null) {
-                    // TODO show login error
                     Timber.e("Error retrieving account")
+                    showSignInError()
                 } else {
                     firebaseAuthWithGoogle(account)
                 }
@@ -103,12 +112,15 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
                     // Sign in success, update UI with the signed-in user's information
                     Timber.d("signInWithCredential:success")
                     val user = firebaseAuth.currentUser
-                    // TODO join session
                     Timber.d("User logged successfully with account ${user?.email}")
+                    joinSessionViewModel.joinSession(
+                        firebaseUserMapper.map(user),
+                        CodeUiModel(joinSessionCode.text.toString())
+                    )
                 } else {
                     // If sign in fails, display a message to the user.
                     Timber.w(task.exception, "signInWithCredential:failure")
-                    // TODO show login error
+                    showSignInError()
                 }
             }
     }
@@ -138,13 +150,10 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
             }
             is JoinSessionState.Error -> {
                 when (state) {
-//                    JoinSessionState.Error.NameRequiredError -> {
-//                        joinSessionName.error =
-//                            getString(R.string.join_session_error_name_required_error)
-//                    }
+                    JoinSessionState.Error.UserSignInError -> showSignInError()
                     JoinSessionState.Error.CodeRequiredError -> {
                         joinSessionCode.error =
-                            getString(R.string.join_session_error_code_required_error)
+                            getString(R.string.join_session_error_code_required)
                     }
                     JoinSessionState.Error.NoSessionFound -> {
                         joinSessionError.apply {
@@ -161,6 +170,13 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
                 }
                 joinSessionButton.hideProgress(R.string.join_session_enter)
             }
+        }
+    }
+
+    private fun showSignInError() {
+        joinSessionError.apply {
+            text = getString(R.string.join_session_error_sign_in)
+            isVisible = true
         }
     }
 }
