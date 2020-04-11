@@ -57,7 +57,10 @@ dependencies {
     implementation("androidx.emoji:emoji-bundled")
     implementation("com.jakewharton.timber:timber")
     implementation("androidx.dynamicanimation:dynamicanimation-ktx")
+
     implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth")
 
     implementation("com.github.razir.progressbutton:progressbutton")
 }
