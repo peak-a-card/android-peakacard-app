@@ -11,25 +11,41 @@ import com.github.razir.progressbutton.attachTextChangeAnimator
 import com.github.razir.progressbutton.bindProgressButton
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showProgress
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.peakacard.app.R
 import com.peakacard.app.cards.view.CardsActivity
-import com.peakacard.app.session.view.model.CodeUiModel
-import com.peakacard.app.session.view.model.NameUiModel
 import com.peakacard.app.session.view.state.JoinSessionState
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.hideKeyboard
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
+
+private const val RC_SIGN_IN = 1004
 
 class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
 
     private val joinSessionViewModel: JoinSessionViewModel by viewModel()
 
-    private val joinSessionName: TextInputEditText by bindView(R.id.join_session_name)
     private val joinSessionCode: TextInputEditText by bindView(R.id.join_session_code)
     private val joinSessionButton: MaterialButton by bindView(R.id.join_session_button)
     private val joinSessionError: TextView by bindView(R.id.join_session_error)
+
+    private val googleSignInClient: GoogleSignInClient by lazy {
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        GoogleSignIn.getClient(this, googleSignInOptions)
+    }
+    private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,16 +55,62 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
         configureButton()
     }
 
+    override fun onStart() {
+        super.onStart()
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            // TODO user already logged -> Join session?
+            Timber.d("User already logged with account ${currentUser.email}")
+        }
+    }
+
     private fun configureButton() {
         bindProgressButton(joinSessionButton)
         joinSessionButton.attachTextChangeAnimator()
         joinSessionButton.setOnClickListener {
             joinSessionError.isGone = true
-            joinSessionViewModel.joinSession(
-                NameUiModel(joinSessionName.text.toString()),
-                CodeUiModel(joinSessionCode.text.toString())
-            )
+            startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            RC_SIGN_IN -> {
+                val account = try {
+                    GoogleSignIn.getSignedInAccountFromIntent(data)
+                        .getResult(ApiException::class.java)
+                } catch (apiException: ApiException) {
+                    Timber.e("Google signInResult:failed code=${apiException.statusCode}")
+                    null
+                }
+                if (account == null) {
+                    // TODO show login error
+                    Timber.e("Error retrieving account")
+                } else {
+                    firebaseAuthWithGoogle(account)
+                }
+            }
+            else -> super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
+        Timber.d("Id Token google: ${account.idToken}")
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+        firebaseAuth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Timber.d("signInWithCredential:success")
+                    val user = firebaseAuth.currentUser
+                    // TODO join session
+                    Timber.d("User logged successfully with account ${user?.email}")
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Timber.w(task.exception, "signInWithCredential:failure")
+                    // TODO show login error
+                }
+            }
     }
 
     override fun updateState(state: JoinSessionState) {
@@ -76,10 +138,10 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
             }
             is JoinSessionState.Error -> {
                 when (state) {
-                    JoinSessionState.Error.NameRequiredError -> {
-                        joinSessionName.error =
-                            getString(R.string.join_session_error_name_required_error)
-                    }
+//                    JoinSessionState.Error.NameRequiredError -> {
+//                        joinSessionName.error =
+//                            getString(R.string.join_session_error_name_required_error)
+//                    }
                     JoinSessionState.Error.CodeRequiredError -> {
                         joinSessionCode.error =
                             getString(R.string.join_session_error_code_required_error)
