@@ -5,10 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.peakacard.app.session.domain.JoinSessionUseCase
 import com.peakacard.app.session.domain.model.JoinSessionRequest
 import com.peakacard.app.session.domain.model.JoinSessionResponse
-import com.peakacard.app.session.domain.model.ParticipantName
-import com.peakacard.app.session.domain.model.SessionCode
-import com.peakacard.app.session.view.model.CodeUiModel
-import com.peakacard.app.session.view.model.NameUiModel
+import com.peakacard.app.session.view.model.UserUiModel
+import com.peakacard.app.session.view.model.mapper.UserUiModelMapper
 import com.peakacard.app.session.view.state.JoinSessionState
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -16,7 +14,10 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class JoinSessionViewModel(private val joinSessionUseCase: JoinSessionUseCase) : ViewModel() {
+class JoinSessionViewModel(
+    private val joinSessionUseCase: JoinSessionUseCase,
+    private val userUiModelMapper: UserUiModelMapper
+) : ViewModel() {
 
     private val joinSessionState: BroadcastChannel<JoinSessionState> = ConflatedBroadcastChannel()
 
@@ -28,9 +29,9 @@ class JoinSessionViewModel(private val joinSessionUseCase: JoinSessionUseCase) :
         }
     }
 
-    fun joinSession(name: NameUiModel, code: CodeUiModel) {
-        if (name.isEmpty()) {
-            joinSessionState.offer(JoinSessionState.Error.NameRequiredError)
+    fun joinSession(user: UserUiModel?, code: String) {
+        if (user == null) {
+            joinSessionState.offer(JoinSessionState.Error.UserSignInError)
             return
         }
         if (code.isEmpty()) {
@@ -39,24 +40,20 @@ class JoinSessionViewModel(private val joinSessionUseCase: JoinSessionUseCase) :
         }
         joinSessionState.offer(JoinSessionState.JoiningSession)
         viewModelScope.launch {
-            joinSessionUseCase.joinSession(
-                JoinSessionRequest(
-                    ParticipantName(name.value),
-                    SessionCode(code.value)
+            joinSessionUseCase.joinSession(JoinSessionRequest(userUiModelMapper.map(user), code))
+                .fold(
+                    {
+                        when (it) {
+                            JoinSessionResponse.Error.NoSessionFound -> {
+                                joinSessionState.offer(JoinSessionState.Error.NoSessionFound)
+                            }
+                            JoinSessionResponse.Error.Unspecified -> {
+                                joinSessionState.offer(JoinSessionState.Error.Unspecified)
+                            }
+                        }
+                    },
+                    { joinSessionState.offer(JoinSessionState.Joined) }
                 )
-            ).fold(
-                {
-                    when (it) {
-                        JoinSessionResponse.Error.NoSessionFound -> {
-                            joinSessionState.offer(JoinSessionState.Error.NoSessionFound)
-                        }
-                        JoinSessionResponse.Error.Unspecified -> {
-                            joinSessionState.offer(JoinSessionState.Error.Unspecified)
-                        }
-                    }
-                },
-                { joinSessionState.offer(JoinSessionState.Joined) }
-            )
         }
     }
 }

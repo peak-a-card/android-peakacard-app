@@ -19,10 +19,10 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.peakacard.app.R
 import com.peakacard.app.cards.view.CardsActivity
-import com.peakacard.app.session.view.model.CodeUiModel
 import com.peakacard.app.session.view.model.mapper.FirebaseUserMapper
 import com.peakacard.app.session.view.state.JoinSessionState
 import com.peakacard.core.ui.extensions.bindView
@@ -78,7 +78,12 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
         joinSessionButton.attachTextChangeAnimator()
         joinSessionButton.setOnClickListener {
             joinSessionError.isGone = true
-            startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
+            val user = firebaseAuth.currentUser
+            if (user != null) {
+                doJoinSession(user)
+            } else {
+                startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
+            }
         }
     }
 
@@ -113,16 +118,20 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
                     Timber.d("signInWithCredential:success")
                     val user = firebaseAuth.currentUser
                     Timber.d("User logged successfully with account ${user?.email}")
-                    joinSessionViewModel.joinSession(
-                        firebaseUserMapper.map(user),
-                        CodeUiModel(joinSessionCode.text.toString())
-                    )
+                    doJoinSession(user)
                 } else {
                     // If sign in fails, display a message to the user.
                     Timber.w(task.exception, "signInWithCredential:failure")
                     showSignInError()
                 }
             }
+    }
+
+    private fun doJoinSession(user: FirebaseUser?) {
+        joinSessionViewModel.joinSession(
+            firebaseUserMapper.map(user),
+            joinSessionCode.text.toString()
+        )
     }
 
     override fun updateState(state: JoinSessionState) {
