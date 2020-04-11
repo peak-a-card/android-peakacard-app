@@ -14,16 +14,16 @@ class JoinSessionRemoteDatasource(private val database: FirebaseFirestore) {
     suspend fun joinSession(joinSessionRequest: JoinSessionRequestDataModel):
             Either<JoinSessionResponseDataModel.Error, JoinSessionResponseDataModel.Success> {
         return try {
-            val sessions = database.collection("sessions")
+            val session = database.collection(SessionDataModel.COLLECTION_ID)
             val sessionId = joinSessionRequest.id.value
-            val dbSession = sessions.document(sessionId).get().await()
+            val dbSession = session.document(sessionId).get().await()
             if (dbSession.exists()) {
                 var participants = dbSession.get(SessionDataModel.PARTICIPANTS)
                 if (participants == null) {
                     participants = mutableListOf<String>()
                 }
                 (participants as MutableList<String>).add(joinSessionRequest.participant.value)
-                sessions.document(sessionId).update(SessionDataModel.PARTICIPANTS, participants)
+                session.document(sessionId).update(SessionDataModel.PARTICIPANTS, participants)
                 Either.Right(JoinSessionResponseDataModel.Success)
             } else {
                 Either.Left(JoinSessionResponseDataModel.Error.NoSessionFound)
