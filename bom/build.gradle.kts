@@ -5,8 +5,8 @@ plugins {
 dependencies {
     constraints {
         val version = object {
-            val koin = "2.1.3"
-            val coroutines = "1.3.4"
+            val koin = "2.1.5"
+            val coroutines = "1.3.5"
         }
 
         api("androidx.appcompat:appcompat:1.1.0")
@@ -16,7 +16,7 @@ dependencies {
         api("androidx.emoji:emoji-bundled:1.0.0")
         api("androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03")
         api("com.jakewharton.timber:timber:4.7.1")
-        api("com.google.firebase:firebase-firestore-ktx:21.4.1")
+        api("com.google.firebase:firebase-firestore-ktx:21.4.2")
 
         api("com.github.razir.progressbutton:progressbutton:2.0.1")
 
