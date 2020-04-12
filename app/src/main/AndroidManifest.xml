@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".session.view.WaitVotingActivity" />
+        <activity android:name=".voting.view.WaitVotingActivity" />
         <activity android:name=".cards.view.CardsActivity" />
         <activity
             android:name=".card.view.CardActivity"

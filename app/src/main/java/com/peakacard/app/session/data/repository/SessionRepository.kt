@@ -1,6 +1,7 @@
 package com.peakacard.app.session.data.repository
 
-import com.peakacard.app.session.data.datasource.JoinSessionRemoteDatasource
+import com.peakacard.app.session.data.datasource.local.SessionLocalDataSource
+import com.peakacard.app.session.data.datasource.remote.SessionRemoteDatasource
 import com.peakacard.app.session.data.model.JoinSessionRequestDataModel
 import com.peakacard.app.session.data.model.JoinSessionResponseDataModel
 import com.peakacard.app.session.data.model.mapper.UserMapper
@@ -8,8 +9,9 @@ import com.peakacard.app.session.domain.model.JoinSessionRequest
 import com.peakacard.app.session.domain.model.JoinSessionResponse
 import com.peakacard.core.Either
 
-class JoinSessionRepository(
-    private val remoteDatasource: JoinSessionRemoteDatasource,
+class SessionRepository(
+    private val remoteDatasource: SessionRemoteDatasource,
+    private val localDataSource: SessionLocalDataSource,
     private val userMapper: UserMapper
 ) {
 
@@ -31,5 +33,13 @@ class JoinSessionRepository(
             {
                 Either.Right(JoinSessionResponse.Success)
             })
+    }
+
+    fun setCurrentSession(sessionId: String) {
+        localDataSource.saveSessionId(sessionId)
+    }
+
+    fun getCurrentSession(): String? {
+        return localDataSource.getSessionId()
     }
 }
