@@ -2,6 +2,7 @@ package com.peakacard.app.voting.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.peakacard.app.participant.domain.GetSessionParticipantUseCase
 import com.peakacard.app.voting.domain.GetVotingUseCase
 import com.peakacard.app.voting.view.state.WaitVotingState
 import kotlinx.coroutines.channels.BroadcastChannel
@@ -11,7 +12,10 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class WaitVotingViewModel(private val getVotingUseCase: GetVotingUseCase) : ViewModel() {
+class WaitVotingViewModel(
+    private val getVotingUseCase: GetVotingUseCase,
+    private val getSessionParticipantUseCase: GetSessionParticipantUseCase
+) : ViewModel() {
 
     private val waitVotingState: BroadcastChannel<WaitVotingState> = ConflatedBroadcastChannel()
 
@@ -33,6 +37,18 @@ class WaitVotingViewModel(private val getVotingUseCase: GetVotingUseCase) : View
                 }, { voting ->
                     Timber.d("Voting title: ${voting.title}")
                     waitVotingState.offer(WaitVotingState.VotingStarted(voting.title))
+                })
+            }
+        }
+    }
+
+    fun listenParticipantsToJoin() {
+        viewModelScope.launch {
+            getSessionParticipantUseCase.getSessionParticipant().collect {
+                it.fold({ error ->
+                    Timber.e("Error waiting for participant. Error: $error")
+                }, { participant ->
+                    Timber.d("Participant: $participant")
                 })
             }
         }

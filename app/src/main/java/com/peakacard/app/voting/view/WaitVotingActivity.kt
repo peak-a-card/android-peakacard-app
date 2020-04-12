@@ -29,6 +29,7 @@ class WaitVotingActivity : AppCompatActivity(),
         waitVotingViewModel.bindView(this)
 
         waitVotingViewModel.listenForVotingToStart()
+        waitVotingViewModel.listenParticipantsToJoin()
     }
 
     override fun updateState(state: WaitVotingState) {

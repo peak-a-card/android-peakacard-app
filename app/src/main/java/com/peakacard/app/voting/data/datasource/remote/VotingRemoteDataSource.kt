@@ -3,7 +3,7 @@ package com.peakacard.app.voting.data.datasource.remote
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.peakacard.app.session.data.model.SessionDataModel
-import com.peakacard.app.session.data.model.VotingDataModel
+import com.peakacard.app.voting.data.datasource.remote.model.VotingDataModel
 import com.peakacard.app.voting.data.datasource.remote.model.VotingResponse
 import com.peakacard.core.Either
 import kotlinx.coroutines.channels.awaitClose
@@ -23,10 +23,11 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
                 if (exception != null) {
                     offer(Either.Left(VotingResponse.Error.RemoteException))
                 } else {
-                    val document = snapshot?.documentChanges?.firstOrNull()
-                    val voting = document?.document
+                    val documentChange = snapshot?.documentChanges?.firstOrNull()
+                    val voting = documentChange?.document
                     val votingStatus =
-                        VotingDataModel.Status.fromString(voting?.getString(VotingDataModel.STATUS))
+                        VotingDataModel.Status.fromString(voting?.getString(
+                            VotingDataModel.STATUS))
                     when (votingStatus) {
                         VotingDataModel.Status.STARTED -> {
                             val votingTitle = voting?.id

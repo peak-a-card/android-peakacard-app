@@ -4,7 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.peakacard.app.session.data.model.JoinSessionRequestDataModel
 import com.peakacard.app.session.data.model.JoinSessionResponseDataModel
-import com.peakacard.app.session.data.model.ParticipantDataModel
+import com.peakacard.app.participant.data.datasource.remote.model.ParticipantDataModel
 import com.peakacard.app.session.data.model.SessionDataModel
 import com.peakacard.core.Either
 import kotlinx.coroutines.tasks.await

@@ -9,6 +9,7 @@ import com.google.firebase.FirebaseApp
 import com.peakacard.app.infrastructure.di.cardsModule
 import com.peakacard.app.infrastructure.di.dataModule
 import com.peakacard.app.infrastructure.di.joinSessionModule
+import com.peakacard.app.participant.infrastructure.di.participantModule
 import com.peakacard.app.voting.infrastructure.di.votingModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -33,7 +34,7 @@ class PeakACardApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@PeakACardApplication)
-            modules(dataModule, cardsModule, joinSessionModule, votingModule)
+            modules(dataModule, cardsModule, joinSessionModule, votingModule, participantModule)
         }
     }
 }

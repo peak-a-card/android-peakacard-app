@@ -1,4 +1,4 @@
-package com.peakacard.app.session.data.model
+package com.peakacard.app.voting.data.datasource.remote.model
 
 object VotingDataModel {
     const val STATUS = "status"
