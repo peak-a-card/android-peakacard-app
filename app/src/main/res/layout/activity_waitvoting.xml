@@ -16,7 +16,7 @@
             style="@style/H6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/wait_session_voting_start" />
+            android:text="@string/wait_voting_start_title" />
 
         <Space
             android:layout_width="@dimen/S"

@@ -2,7 +2,6 @@ package com.peakacard.app.session.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
@@ -22,7 +21,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.peakacard.app.R
-import com.peakacard.app.cards.view.CardsActivity
 import com.peakacard.app.session.view.model.mapper.FirebaseUserMapper
 import com.peakacard.app.session.view.state.JoinSessionState
 import com.peakacard.core.ui.extensions.bindView
@@ -145,7 +143,7 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
             JoinSessionState.Joined -> {
                 joinSessionButton.hideProgress(R.string.join_session_joined)
                 joinSessionButton.hideKeyboard()
-                startActivity(Intent(this, WaitSessionActivity::class.java))
+                startActivity(Intent(this, WaitVotingActivity::class.java))
                 finish()
                 overridePendingTransition(
                     R.anim.transition_slide_from_right,
