@@ -5,8 +5,9 @@ import com.peakacard.app.session.data.datasource.remote.SessionRemoteDataSource
 import com.peakacard.app.session.data.datasource.remote.model.SessionRequest
 import com.peakacard.app.session.data.datasource.remote.model.SessionResponse
 import com.peakacard.app.session.data.datasource.remote.model.mapper.UserMapper
-import com.peakacard.app.session.domain.model.UserSession
 import com.peakacard.app.session.domain.model.JoinSessionResponse
+import com.peakacard.app.session.domain.model.LeaveSessionResponse
+import com.peakacard.app.session.domain.model.UserSession
 import com.peakacard.core.Either
 
 class SessionRepository(
@@ -35,11 +36,34 @@ class SessionRepository(
             })
     }
 
-    fun setCurrentSession(sessionId: String) {
+    fun setCurrentSession(sessionId: String?) {
         localDataSource.saveSessionId(sessionId)
     }
 
     fun getCurrentSession(): String? {
         return localDataSource.getSessionId()
+    }
+
+    suspend fun leaveSession(request: UserSession):
+            Either<LeaveSessionResponse.Error, LeaveSessionResponse.Success> {
+        return remoteDataSource.leaveSession(
+            SessionRequest(
+                userMapper.map(request.user),
+                request.sessionCode
+            )
+        ).fold(
+            {
+                when (it) {
+                    SessionResponse.Error.NoSessionFound -> {
+                        Either.Left(LeaveSessionResponse.Error.NoSessionFound)
+                    }
+                    SessionResponse.Error.RemoteException -> {
+                        Either.Left(LeaveSessionResponse.Error.Unspecified)
+                    }
+                }
+            },
+            {
+                Either.Right(LeaveSessionResponse.Success)
+            })
     }
 }

@@ -38,4 +38,22 @@ class SessionRemoteDataSource(private val database: FirebaseFirestore) {
             Either.Left(SessionResponse.Error.RemoteException)
         }
     }
+
+    suspend fun leaveSession(sessionRequest: SessionRequest):
+            Either<SessionResponse.Error, SessionResponse.Success> {
+        return try {
+            val session = database.collection(SessionDataModel.COLLECTION_ID)
+            val sessionId = sessionRequest.code
+            val currentSession = session.document(sessionId).get().await()
+            if (currentSession.exists()) {
+                session.document(sessionId).collection(SessionDataModel.PARTICIPANTS)
+                    .document(sessionRequest.user.uid).delete().await()
+                Either.Right(SessionResponse.Success)
+            } else {
+                Either.Left(SessionResponse.Error.NoSessionFound)
+            }
+        } catch (e: FirebaseFirestoreException) {
+            Either.Left(SessionResponse.Error.RemoteException)
+        }
+    }
 }

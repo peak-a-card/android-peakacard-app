@@ -5,6 +5,7 @@ import com.peakacard.app.session.data.datasource.local.SessionLocalDataSource
 import com.peakacard.app.session.data.datasource.remote.SessionRemoteDataSource
 import com.peakacard.app.session.data.repository.SessionRepository
 import com.peakacard.app.session.domain.JoinSessionUseCase
+import com.peakacard.app.session.domain.LeaveSessionUseCase
 import com.peakacard.app.session.view.JoinSessionViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
@@ -26,6 +27,8 @@ val sessionModule = module {
             Context.MODE_PRIVATE
         )
     }
+
+    factory { LeaveSessionUseCase(get(), get()) }
 }
 
 private const val SESSION_SHARED_PREFERENCES = "SESSION_SHARED_PREFERENCES"

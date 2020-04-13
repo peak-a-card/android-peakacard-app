@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peakacard.app.participant.domain.GetAllSessionParticipantsUseCase
 import com.peakacard.app.participant.domain.GetSessionParticipantUseCase
+import com.peakacard.app.session.domain.LeaveSessionUseCase
 import com.peakacard.app.voting.domain.GetVotingUseCase
 import com.peakacard.app.voting.view.model.SessionParticipantUiModel
 import com.peakacard.app.voting.view.state.WaitParticipantState
@@ -18,7 +19,8 @@ import timber.log.Timber
 class WaitVotingViewModel(
     private val getVotingUseCase: GetVotingUseCase,
     private val getAllSessionParticipantsUseCase: GetAllSessionParticipantsUseCase,
-    private val getSessionParticipantUseCase: GetSessionParticipantUseCase
+    private val getSessionParticipantUseCase: GetSessionParticipantUseCase,
+    private val leaveSessionUseCase: LeaveSessionUseCase
 ) : ViewModel() {
 
     private val waitVotingState: BroadcastChannel<WaitVotingState> = ConflatedBroadcastChannel()
@@ -88,6 +90,20 @@ class WaitVotingViewModel(
                     )
                 })
             }
+        }
+    }
+
+    fun leaveSession() {
+        viewModelScope.launch {
+            leaveSessionUseCase.leaveSession().fold(
+                {
+                    Timber.e("Error leaving session")
+                },
+                {
+                    Timber.d("Session left successfully!")
+                    waitVotingState.offer(WaitVotingState.VotingLeft)
+                }
+            )
         }
     }
 }

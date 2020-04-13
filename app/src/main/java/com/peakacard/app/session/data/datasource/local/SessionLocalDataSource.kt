@@ -6,7 +6,7 @@ private const val SESSION_ID = "SESSION_ID"
 
 class SessionLocalDataSource(private val sharedPreferences: SharedPreferences) {
 
-    fun saveSessionId(sessionId: String) {
+    fun saveSessionId(sessionId: String?) {
         sharedPreferences.edit().putString(SESSION_ID, sessionId).apply()
     }
 

@@ -72,6 +72,13 @@ class WaitVotingActivity : AppCompatActivity(),
                 progress.isGone = true
                 error.isVisible = true
             }
+            WaitVotingState.VotingLeft -> {
+                super.onBackPressed()
+                overridePendingTransition(
+                    R.anim.transition_slide_from_left,
+                    R.anim.transition_slide_to_right
+                )
+            }
         }
     }
 
@@ -92,10 +99,6 @@ class WaitVotingActivity : AppCompatActivity(),
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(
-            R.anim.transition_slide_from_left,
-            R.anim.transition_slide_to_right
-        )
+        waitVotingViewModel.leaveSession()
     }
 }

@@ -11,7 +11,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val votingModule = module {
-    factory { WaitVotingViewModel(get(), get(), get()) }
+    factory { WaitVotingViewModel(get(), get(), get(), get()) }
     factory { GetVotingUseCase(get(), get()) }
     factory { VotingRepository(get(), get()) }
     factory { VotingRemoteDataSource(get()) }
