@@ -7,7 +7,7 @@ import com.peakacard.app.cards.view.CardsViewModel
 import org.koin.dsl.module
 
 val cardsModule = module {
-    factory { CardsViewModel(get(), get()) }
+    factory { CardsViewModel(get(), get(), get()) }
     factory { GetCardsUseCase(get()) }
     factory { CardsRepository(get()) }
     factory { CardsLocalDataSource() }

@@ -7,4 +7,5 @@ sealed class CardsState {
     class Loaded(val cardUiModels: List<CardUiModel>) : CardsState()
     object Empty : CardsState()
     object Error : CardsState()
+    object VotingLeft : CardsState()
 }

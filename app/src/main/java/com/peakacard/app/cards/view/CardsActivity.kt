@@ -80,14 +80,17 @@ class CardsActivity : AppCompatActivity(), CardsView {
             }
             CardsState.Empty -> Timber.d("Empty")
             CardsState.Error -> Timber.d("Error")
+            CardsState.VotingLeft -> {
+                super.onBackPressed()
+                overridePendingTransition(
+                    R.anim.transition_slide_from_left,
+                    R.anim.transition_slide_to_right
+                )
+            }
         }
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(
-            R.anim.transition_slide_from_left,
-            R.anim.transition_slide_to_right
-        )
+        cardsViewModel.leaveSession()
     }
 }
