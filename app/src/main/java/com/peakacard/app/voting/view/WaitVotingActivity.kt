@@ -1,6 +1,8 @@
 package com.peakacard.app.voting.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
+import com.peakacard.app.cards.view.CardsActivity
 import com.peakacard.app.voting.view.state.WaitParticipantState
 import com.peakacard.app.voting.view.state.WaitVotingState
 import com.peakacard.core.ui.extensions.bindView
@@ -52,6 +55,18 @@ class WaitVotingActivity : AppCompatActivity(),
                 progress.isGone = true
                 error.isGone = true
                 message.text = getString(R.string.wait_voting_message, state.title)
+
+                Handler().postDelayed({
+                    val intent = Intent(this, CardsActivity::class.java).apply {
+                        putExtra(CardsActivity.EXTRA_SESSION_TITLE, state.title)
+                    }
+                    startActivity(intent)
+                    finish()
+                    overridePendingTransition(
+                        R.anim.transition_slide_from_right,
+                        R.anim.transition_slide_to_left
+                    )
+                }, 1000)
             }
             WaitVotingState.Error -> {
                 progress.isGone = true
