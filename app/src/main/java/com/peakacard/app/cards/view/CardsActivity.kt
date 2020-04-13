@@ -82,4 +82,12 @@ class CardsActivity : AppCompatActivity(), CardsView {
             CardsViewState.Error -> Timber.d("Error")
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(
+            R.anim.transition_slide_from_left,
+            R.anim.transition_slide_to_right
+        )
+    }
 }
