@@ -1,5 +1,6 @@
 package com.peakacard.app.participant.data.datasource.remote
 
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.peakacard.app.participant.data.datasource.remote.model.ParticipantDataModel
@@ -41,7 +42,21 @@ class ParticipantRemoteDataSource(private val database: FirebaseFirestore) {
                     if (participant == null) {
                         offer(Either.Left(ParticipantResponse.Error))
                     } else {
-                        offer(Either.Right(ParticipantResponse.Success(participant)))
+                        when (documentChange.type) {
+                            DocumentChange.Type.ADDED -> offer(
+                                Either.Right(
+                                    ParticipantResponse.Success.Joined(
+                                        participant
+                                    )
+                                )
+                            )
+                            DocumentChange.Type.MODIFIED -> {
+                                // DO NOTHING
+                            }
+                            DocumentChange.Type.REMOVED -> {
+                                offer(Either.Right(ParticipantResponse.Success.Left(participant)))
+                            }
+                        }
                     }
                 }
             }

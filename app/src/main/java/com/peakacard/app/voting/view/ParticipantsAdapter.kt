@@ -34,6 +34,13 @@ class ParticipantsAdapter : RecyclerView.Adapter<ParticipantViewHolder>() {
         participantUiModels.addAll(sessionParticipantUiModels)
         notifyItemRangeChanged(0, participantUiModels.size)
     }
+
+    fun removeParticipant(participantUiModel: SessionParticipantUiModel) {
+        val position = participantUiModels.indexOf(participantUiModel)
+        if (participantUiModels.remove(participantUiModel)) {
+            notifyItemRemoved(position)
+        }
+    }
 }
 
 class ParticipantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

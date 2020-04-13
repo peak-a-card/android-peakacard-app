@@ -1,6 +1,7 @@
 package com.peakacard.app.participant.data.repository
 
 import com.peakacard.app.participant.data.datasource.remote.ParticipantRemoteDataSource
+import com.peakacard.app.participant.data.datasource.remote.model.ParticipantResponse
 import com.peakacard.app.participant.domain.model.Participant
 import com.peakacard.app.participant.domain.model.ParticipantError
 import com.peakacard.core.Either
@@ -13,7 +14,8 @@ class ParticipantRepository(private val participantRemoteDataSource: Participant
         return participantRemoteDataSource.getAllSessionParticipants(sessionId).fold(
             { Either.Left(ParticipantError) },
             { success ->
-                val participants = success.participants.map { Participant(it.email, it.name) }
+                val participants =
+                    success.participants.map { Participant.Joined(it.email, it.name) }
                 Either.Right(participants)
             }
         )
@@ -24,9 +26,24 @@ class ParticipantRepository(private val participantRemoteDataSource: Participant
             .map { participantResponse ->
                 participantResponse.fold(
                     { Either.Left(ParticipantError) },
-                    {
-                        with(it.participant) {
-                            Either.Right(Participant(email, name))
+                    { success ->
+                        when (success) {
+                            is ParticipantResponse.Success.Joined -> {
+                                Either.Right(
+                                    Participant.Joined(
+                                        success.participant.email,
+                                        success.participant.name
+                                    )
+                                )
+                            }
+                            is ParticipantResponse.Success.Left -> {
+                                Either.Right(
+                                    Participant.Left(
+                                        success.participant.email,
+                                        success.participant.name
+                                    )
+                                )
+                            }
                         }
                     }
                 )

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peakacard.app.participant.domain.GetAllSessionParticipantsUseCase
 import com.peakacard.app.participant.domain.GetSessionParticipantUseCase
+import com.peakacard.app.participant.domain.model.Participant
 import com.peakacard.app.session.domain.LeaveSessionUseCase
 import com.peakacard.app.voting.domain.GetVotingUseCase
 import com.peakacard.app.voting.view.model.SessionParticipantUiModel
@@ -64,7 +65,8 @@ class WaitVotingViewModel(
                 },
                 { participants ->
                     Timber.d("$participants")
-                    val sessionParticipants = participants.map { SessionParticipantUiModel(it.name) }
+                    val sessionParticipants =
+                        participants.map { SessionParticipantUiModel(it.name) }
                     waitParticipantState.offer(
                         WaitParticipantState.ParticipantsAlreadyJoined(
                             sessionParticipants
@@ -84,9 +86,22 @@ class WaitVotingViewModel(
                 }, { participant ->
                     Timber.d("$participant")
                     waitParticipantState.offer(
-                        WaitParticipantState.ParticipantJoined(
-                            SessionParticipantUiModel(participant.name)
-                        )
+                        when (participant) {
+                            is Participant.Joined -> {
+                                WaitParticipantState.ParticipantJoined(
+                                    SessionParticipantUiModel(
+                                        participant.name
+                                    )
+                                )
+                            }
+                            is Participant.Left -> {
+                                WaitParticipantState.ParticipantLeft(
+                                    SessionParticipantUiModel(
+                                        participant.name
+                                    )
+                                )
+                            }
+                        }
                     )
                 })
             }

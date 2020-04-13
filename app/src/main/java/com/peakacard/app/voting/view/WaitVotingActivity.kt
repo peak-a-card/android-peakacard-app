@@ -91,6 +91,9 @@ class WaitVotingActivity : AppCompatActivity(),
             is WaitParticipantState.ParticipantJoined -> {
                 participantsAdapter.addParticipant(state.participantUiModel)
             }
+            is WaitParticipantState.ParticipantLeft -> {
+                participantsAdapter.removeParticipant(state.participantUiModel)
+            }
             WaitParticipantState.Error -> {
                 progress.isGone = true
                 error.isVisible = true

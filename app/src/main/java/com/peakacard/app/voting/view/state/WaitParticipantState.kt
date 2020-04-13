@@ -6,6 +6,11 @@ sealed class WaitParticipantState {
     data class ParticipantsAlreadyJoined(val participantUiModels: List<SessionParticipantUiModel>) :
         WaitParticipantState()
 
-    data class ParticipantJoined(val participantUiModel: SessionParticipantUiModel) : WaitParticipantState()
+    data class ParticipantJoined(val participantUiModel: SessionParticipantUiModel) :
+        WaitParticipantState()
+
+    data class ParticipantLeft(val participantUiModel: SessionParticipantUiModel) :
+        WaitParticipantState()
+
     object Error : WaitParticipantState()
 }
