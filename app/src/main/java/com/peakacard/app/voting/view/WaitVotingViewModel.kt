@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peakacard.app.participant.domain.GetSessionParticipantUseCase
 import com.peakacard.app.voting.domain.GetVotingUseCase
+import com.peakacard.app.voting.view.model.SessionParticipant
+import com.peakacard.app.voting.view.state.WaitParticipantState
 import com.peakacard.app.voting.view.state.WaitVotingState
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -18,12 +20,19 @@ class WaitVotingViewModel(
 ) : ViewModel() {
 
     private val waitVotingState: BroadcastChannel<WaitVotingState> = ConflatedBroadcastChannel()
+    private val waitParticipantState: BroadcastChannel<WaitParticipantState> =
+        ConflatedBroadcastChannel()
 
     fun bindView(view: WaitVotingView) {
         viewModelScope.launch {
             waitVotingState
                 .asFlow()
-                .collect { view.updateState(it) }
+                .collect { view.updateVotingState(it) }
+        }
+        viewModelScope.launch {
+            waitParticipantState
+                .asFlow()
+                .collect { view.updateParticipantState(it) }
         }
     }
 
@@ -47,8 +56,14 @@ class WaitVotingViewModel(
             getSessionParticipantUseCase.getSessionParticipant().collect {
                 it.fold({ error ->
                     Timber.e("Error waiting for participant. Error: $error")
+                    waitParticipantState.offer(WaitParticipantState.Error)
                 }, { participant ->
-                    Timber.d("Participant: $participant")
+                    Timber.d("$participant")
+                    waitParticipantState.offer(
+                        WaitParticipantState.ParticipantJoined(
+                            SessionParticipant(participant.name)
+                        )
+                    )
                 })
             }
         }
