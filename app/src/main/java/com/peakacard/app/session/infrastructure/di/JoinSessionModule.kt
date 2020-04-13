@@ -1,4 +1,4 @@
-package com.peakacard.app.infrastructure.di
+package com.peakacard.app.session.infrastructure.di
 
 import android.content.Context
 import com.peakacard.app.session.data.datasource.local.SessionLocalDataSource
