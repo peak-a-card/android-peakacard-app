@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peakacard.app.cards.domain.GetCardsUseCase
 import com.peakacard.app.cards.view.model.CardUiModel
-import com.peakacard.app.cards.view.state.CardsViewState
+import com.peakacard.app.cards.view.state.CardsState
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
@@ -14,14 +14,14 @@ import kotlinx.coroutines.launch
 
 class CardsViewModel(private val getCardsUseCase: GetCardsUseCase) : ViewModel() {
 
-    private val cardsViewState: BroadcastChannel<CardsViewState> = ConflatedBroadcastChannel()
-    private var currentState: CardsViewState = CardsViewState.Loading
+    private val cardsState: BroadcastChannel<CardsState> = ConflatedBroadcastChannel()
+    private var currentState: CardsState = CardsState.Loading
 
     fun bindView(view: CardsView) {
         viewModelScope.launch {
-            cardsViewState
+            cardsState
                 .asFlow()
-                .onStart { cardsViewState.offer(currentState) }
+                .onStart { cardsState.offer(currentState) }
                 .collect { view.updateState(it) }
         }
     }
@@ -29,8 +29,8 @@ class CardsViewModel(private val getCardsUseCase: GetCardsUseCase) : ViewModel()
     fun getCards() {
         viewModelScope.launch {
             val cards = getCardsUseCase.getCards().map { CardUiModel.fromScore(it.score) }
-            currentState = CardsViewState.Loaded(cards)
-            cardsViewState.offer(currentState)
+            currentState = CardsState.Loaded(cards)
+            cardsState.offer(currentState)
         }
     }
 }

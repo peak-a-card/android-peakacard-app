@@ -1,7 +1,7 @@
 package com.peakacard.app.cards.view
 
-import com.peakacard.app.cards.view.state.CardsViewState
+import com.peakacard.app.cards.view.state.CardsState
 
 interface CardsView {
-    fun updateState(state: CardsViewState)
+    fun updateState(state: CardsState)
 }

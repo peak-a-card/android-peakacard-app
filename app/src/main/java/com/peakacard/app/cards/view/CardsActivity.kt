@@ -10,7 +10,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.peakacard.app.R
 import com.peakacard.app.card.view.CardActivity
-import com.peakacard.app.cards.view.state.CardsViewState
+import com.peakacard.app.cards.view.state.CardsState
 import com.peakacard.core.ui.extensions.bindView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -54,14 +54,14 @@ class CardsActivity : AppCompatActivity(), CardsView {
         cardsViewModel.bindView(this)
     }
 
-    override fun updateState(state: CardsViewState) {
+    override fun updateState(state: CardsState) {
         when (state) {
-            CardsViewState.Loading -> {
+            CardsState.Loading -> {
                 cardsLoading.isVisible = true
                 cardsGrid.isGone = true
                 cardsViewModel.getCards()
             }
-            is CardsViewState.Loaded -> {
+            is CardsState.Loaded -> {
                 cardsLoading.isGone = true
                 cardsGrid.isVisible = true
                 cardsGrid.adapter =
@@ -78,8 +78,8 @@ class CardsActivity : AppCompatActivity(), CardsView {
                         )
                     }
             }
-            CardsViewState.Empty -> Timber.d("Empty")
-            CardsViewState.Error -> Timber.d("Error")
+            CardsState.Empty -> Timber.d("Empty")
+            CardsState.Error -> Timber.d("Error")
         }
     }
 
