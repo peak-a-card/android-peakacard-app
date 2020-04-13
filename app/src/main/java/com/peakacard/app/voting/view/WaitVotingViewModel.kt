@@ -2,6 +2,7 @@ package com.peakacard.app.voting.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.peakacard.app.participant.domain.GetAllSessionParticipantsUseCase
 import com.peakacard.app.participant.domain.GetSessionParticipantUseCase
 import com.peakacard.app.voting.domain.GetVotingUseCase
 import com.peakacard.app.voting.view.model.SessionParticipant
@@ -16,6 +17,7 @@ import timber.log.Timber
 
 class WaitVotingViewModel(
     private val getVotingUseCase: GetVotingUseCase,
+    private val getAllSessionParticipantsUseCase: GetAllSessionParticipantsUseCase,
     private val getSessionParticipantUseCase: GetSessionParticipantUseCase
 ) : ViewModel() {
 
@@ -48,6 +50,26 @@ class WaitVotingViewModel(
                     waitVotingState.offer(WaitVotingState.VotingStarted(voting.title))
                 })
             }
+        }
+    }
+
+    fun getAlreadyJoinedParticipants() {
+        viewModelScope.launch {
+            getAllSessionParticipantsUseCase.getAllSessionParticipants().fold(
+                { error ->
+                    Timber.e("Error waiting for participant. Error: $error")
+                    waitParticipantState.offer(WaitParticipantState.Error)
+                },
+                { participants ->
+                    Timber.d("$participants")
+                    val sessionParticipants = participants.map { SessionParticipant(it.name) }
+                    waitParticipantState.offer(
+                        WaitParticipantState.ParticipantsAlreadyJoined(
+                            sessionParticipants
+                        )
+                    )
+                }
+            )
         }
     }
 

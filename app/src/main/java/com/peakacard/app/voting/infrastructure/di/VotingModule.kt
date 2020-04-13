@@ -7,7 +7,7 @@ import com.peakacard.app.voting.view.WaitVotingViewModel
 import org.koin.dsl.module
 
 val votingModule = module {
-    factory { WaitVotingViewModel(get(), get()) }
+    factory { WaitVotingViewModel(get(), get(), get()) }
     factory { GetVotingUseCase(get(), get()) }
     factory { VotingRepository(get()) }
     factory { VotingRemoteDataSource(get()) }
