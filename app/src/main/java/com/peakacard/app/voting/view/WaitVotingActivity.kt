@@ -78,11 +78,11 @@ class WaitVotingActivity : AppCompatActivity(),
     override fun updateParticipantState(state: WaitParticipantState) {
         when (state) {
             is WaitParticipantState.ParticipantsAlreadyJoined -> {
-                participantsAdapter.addParticipants(state.participants)
+                participantsAdapter.addParticipants(state.participantUiModels)
                 waitVotingViewModel.listenParticipantsToJoin()
             }
             is WaitParticipantState.ParticipantJoined -> {
-                participantsAdapter.addParticipant(state.participant)
+                participantsAdapter.addParticipant(state.participantUiModel)
             }
             WaitParticipantState.Error -> {
                 progress.isGone = true

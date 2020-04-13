@@ -5,41 +5,41 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
-import com.peakacard.app.voting.view.model.SessionParticipant
+import com.peakacard.app.voting.view.model.SessionParticipantUiModel
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.inflate
 
 class ParticipantsAdapter : RecyclerView.Adapter<ParticipantViewHolder>() {
 
-    private val participants: MutableSet<SessionParticipant> = mutableSetOf()
+    private val participantUiModels: MutableSet<SessionParticipantUiModel> = mutableSetOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParticipantViewHolder {
         return ParticipantViewHolder(parent.inflate(R.layout.participant_item))
     }
 
-    override fun getItemCount() = participants.size
+    override fun getItemCount() = participantUiModels.size
 
     override fun onBindViewHolder(holder: ParticipantViewHolder, position: Int) {
-        holder.bind(participants.elementAt(position))
+        holder.bind(participantUiModels.elementAt(position))
     }
 
-    fun addParticipant(participant: SessionParticipant) {
-        if (participants.add(participant)) {
-            notifyItemInserted(participants.size - 1)
+    fun addParticipant(participantUiModel: SessionParticipantUiModel) {
+        if (participantUiModels.add(participantUiModel)) {
+            notifyItemInserted(participantUiModels.size - 1)
         }
     }
 
-    fun addParticipants(sessionParticipants: List<SessionParticipant>) {
-        participants.clear()
-        participants.addAll(sessionParticipants)
-        notifyItemRangeChanged(0, participants.size)
+    fun addParticipants(sessionParticipantUiModels: List<SessionParticipantUiModel>) {
+        participantUiModels.clear()
+        participantUiModels.addAll(sessionParticipantUiModels)
+        notifyItemRangeChanged(0, participantUiModels.size)
     }
 }
 
 class ParticipantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val name: TextView by bindView(R.id.participant_name)
 
-    fun bind(participant: SessionParticipant) {
-        name.text = participant.name
+    fun bind(participantUiModel: SessionParticipantUiModel) {
+        name.text = participantUiModel.name
     }
 }

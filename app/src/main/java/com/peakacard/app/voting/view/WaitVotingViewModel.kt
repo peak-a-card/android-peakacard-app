@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.peakacard.app.participant.domain.GetAllSessionParticipantsUseCase
 import com.peakacard.app.participant.domain.GetSessionParticipantUseCase
 import com.peakacard.app.voting.domain.GetVotingUseCase
-import com.peakacard.app.voting.view.model.SessionParticipant
+import com.peakacard.app.voting.view.model.SessionParticipantUiModel
 import com.peakacard.app.voting.view.state.WaitParticipantState
 import com.peakacard.app.voting.view.state.WaitVotingState
 import kotlinx.coroutines.channels.BroadcastChannel
@@ -62,7 +62,7 @@ class WaitVotingViewModel(
                 },
                 { participants ->
                     Timber.d("$participants")
-                    val sessionParticipants = participants.map { SessionParticipant(it.name) }
+                    val sessionParticipants = participants.map { SessionParticipantUiModel(it.name) }
                     waitParticipantState.offer(
                         WaitParticipantState.ParticipantsAlreadyJoined(
                             sessionParticipants
@@ -83,7 +83,7 @@ class WaitVotingViewModel(
                     Timber.d("$participant")
                     waitParticipantState.offer(
                         WaitParticipantState.ParticipantJoined(
-                            SessionParticipant(participant.name)
+                            SessionParticipantUiModel(participant.name)
                         )
                     )
                 })
