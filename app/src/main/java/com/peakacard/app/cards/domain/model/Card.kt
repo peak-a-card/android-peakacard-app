@@ -1,3 +1,3 @@
 package com.peakacard.app.cards.domain.model
 
-data class CardDomainModel(val score: Float)
+data class Card(val score: Float)
