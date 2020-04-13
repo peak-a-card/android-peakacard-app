@@ -1,4 +1,6 @@
 package com.peakacard.app.card.view.state
 
-class CardState {
+sealed class CardState {
+    object Sending : CardState()
+    object Sent : CardState()
 }

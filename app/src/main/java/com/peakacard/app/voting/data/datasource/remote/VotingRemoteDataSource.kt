@@ -18,23 +18,25 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
             val votations: CollectionReference =
                 session.document(sessionId).collection(SessionDataModel.VOTATIONS)
 
-
             val subscription = votations.addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
                     offer(Either.Left(VotingResponse.Error.RemoteException))
                 } else {
                     val documentChange = snapshot?.documentChanges?.firstOrNull()
-                    val voting = documentChange?.document
+                    val votingDocument = documentChange?.document
                     val votingStatus =
-                        VotingDataModel.Status.fromString(voting?.getString(
-                            VotingDataModel.STATUS))
+                        VotingDataModel.Status.fromString(
+                            votingDocument?.getString(
+                                VotingDataModel.STATUS
+                            )
+                        )
                     when (votingStatus) {
                         VotingDataModel.Status.STARTED -> {
-                            val votingTitle = voting?.id
-                            if (votingTitle == null) {
+                            val voting = votingDocument?.toObject(VotingDataModel::class.java)
+                            if (voting == null) {
                                 offer(Either.Left(VotingResponse.Error.NoVotingStarted))
                             } else {
-                                offer(Either.Right(VotingResponse.Success(votingTitle)))
+                                offer(Either.Right(VotingResponse.Success(voting.name)))
                             }
                         }
                         else -> {

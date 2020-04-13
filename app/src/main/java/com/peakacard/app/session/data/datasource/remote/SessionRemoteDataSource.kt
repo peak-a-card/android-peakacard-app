@@ -2,10 +2,10 @@ package com.peakacard.app.session.data.datasource.remote
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
-import com.peakacard.app.session.data.datasource.remote.model.SessionRequest
-import com.peakacard.app.session.data.datasource.remote.model.SessionResponse
 import com.peakacard.app.participant.data.datasource.remote.model.ParticipantDataModel
 import com.peakacard.app.session.data.datasource.remote.model.SessionDataModel
+import com.peakacard.app.session.data.datasource.remote.model.SessionRequest
+import com.peakacard.app.session.data.datasource.remote.model.SessionResponse
 import com.peakacard.core.Either
 import kotlinx.coroutines.tasks.await
 
@@ -24,6 +24,7 @@ class SessionRemoteDataSource(private val database: FirebaseFirestore) {
                 with(sessionRequest.user) {
                     participants.document(uid).set(
                         mapOf(
+                            ParticipantDataModel.PARTICIPANT_ID to uid,
                             ParticipantDataModel.PARTICIPANT_NAME to name,
                             ParticipantDataModel.PARTICIPANT_MAIL to email
                         )

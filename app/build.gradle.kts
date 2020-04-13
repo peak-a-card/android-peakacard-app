@@ -49,6 +49,8 @@ dependencies {
     implementation("org.koin:koin-android")
     implementation("org.koin:koin-androidx-viewmodel")
 
+    implementation("com.google.code.gson:gson")
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("androidx.appcompat:appcompat")
     implementation("androidx.core:core-ktx")

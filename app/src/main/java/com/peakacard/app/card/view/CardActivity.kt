@@ -9,10 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.emoji.widget.EmojiTextView
 import com.peakacard.app.R
 import com.peakacard.app.card.view.model.CardUiModel
+import com.peakacard.app.card.view.state.CardState
 import com.peakacard.app.extensions.applyCardText
 import com.peakacard.core.ui.extensions.bindView
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CardActivity : AppCompatActivity() {
+class CardActivity : AppCompatActivity(), CardView {
+
+    private val cardViewModel: CardViewModel by viewModel()
 
     private val cardDetailBackground: View by bindView(R.id.card_detail_background)
     private val cardDetail: EmojiTextView by bindView(R.id.card_detail)
@@ -36,6 +40,8 @@ class CardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_card)
 
+        cardViewModel.bindView(this)
+
         cardDetailBackground.setOnClickListener { onBackPressed() }
 
         cardDetail.applyCardText(cardUiModel)
@@ -45,8 +51,17 @@ class CardActivity : AppCompatActivity() {
             cardDetail,
             resources.getDimensionPixelSize(R.dimen.card_detail_height)
         ) {
-            Toast.makeText(this, "Card as been sent!", Toast.LENGTH_SHORT).show()
-            onBackPressed()
+            Toast.makeText(this, "Vote has been sent!", Toast.LENGTH_SHORT).show()
+            cardViewModel.sendCard(cardUiModel)
+        }
+    }
+
+    override fun updateState(state: CardState) {
+        when (state) {
+            CardState.Sending -> {
+                // TODO
+            }
+            CardState.Sent -> onBackPressed()
         }
     }
 }

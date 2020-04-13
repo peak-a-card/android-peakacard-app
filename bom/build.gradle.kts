@@ -21,6 +21,8 @@ dependencies {
         api("com.google.firebase:firebase-auth:19.3.0")
         api("com.google.android.gms:play-services-auth:18.0.0")
 
+        api("com.google.code.gson:gson:2.8.6")
+
         api("com.github.razir.progressbutton:progressbutton:2.0.1")
 
         api("org.koin:koin-core:${version.koin}")

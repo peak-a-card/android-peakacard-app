@@ -4,8 +4,8 @@ import com.peakacard.app.card.domain.model.Card
 import com.peakacard.app.card.view.model.CardUiModel
 
 class CardUiModelMapper {
-    fun map(cardDomainModel: Card): CardUiModel {
-        return when (cardDomainModel.score) {
+    fun map(card: Card): CardUiModel {
+        return when (card.score) {
             0f -> CardUiModel.ZERO
             0.5f -> CardUiModel.HALF
             1f -> CardUiModel.ONE

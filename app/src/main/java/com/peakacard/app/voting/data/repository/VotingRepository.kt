@@ -1,5 +1,6 @@
 package com.peakacard.app.voting.data.repository
 
+import com.peakacard.app.voting.data.datasource.local.VotingLocalDataSource
 import com.peakacard.app.voting.data.datasource.remote.VotingRemoteDataSource
 import com.peakacard.app.voting.data.datasource.remote.model.VotingResponse
 import com.peakacard.app.voting.domain.model.GetVotingError
@@ -8,7 +9,10 @@ import com.peakacard.core.Either
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class VotingRepository(private val votingRemoteDataSource: VotingRemoteDataSource) {
+class VotingRepository(
+    private val votingRemoteDataSource: VotingRemoteDataSource,
+    private val votingLocalDataSource: VotingLocalDataSource
+) {
 
     suspend fun getVotation(sessionId: String): Flow<Either<GetVotingError, Voting>> {
         return votingRemoteDataSource.listenVoting(sessionId).map { votingResponse ->
@@ -24,5 +28,14 @@ class VotingRepository(private val votingRemoteDataSource: VotingRemoteDataSourc
                 }
             )
         }
+    }
+
+    fun saveCurrentVoting(voting: Voting) {
+        votingLocalDataSource.saveVoting(voting.title)
+    }
+
+    fun getCurrentVoting(): Voting? {
+        val votingTitle = votingLocalDataSource.getVoting()
+        return votingTitle?.let { Voting(it) }
     }
 }
