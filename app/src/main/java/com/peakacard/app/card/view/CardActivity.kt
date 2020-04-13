@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.emoji.widget.EmojiTextView
 import com.peakacard.app.R
-import com.peakacard.app.cards.view.model.Card
+import com.peakacard.app.cards.view.model.CardUiModel
 import com.peakacard.app.extensions.applyCardText
 import com.peakacard.core.ui.extensions.bindView
 
@@ -17,17 +17,17 @@ class CardActivity : AppCompatActivity() {
     private val cardDetailBackground: View by bindView(R.id.card_detail_background)
     private val cardDetail: EmojiTextView by bindView(R.id.card_detail)
 
-    private val card: Card by lazy { intent.extras?.get(EXTRA_CARD) as Card }
+    private val cardUiModel: CardUiModel by lazy { intent.extras?.get(EXTRA_CARD) as CardUiModel }
     private val transitionName: String by lazy { intent.extras?.get(EXTRA_TRANSITION_NAME) as String }
 
     companion object {
         private const val EXTRA_CARD = "EXTRA_CARD"
         private const val EXTRA_TRANSITION_NAME = "EXTRA_TRANSITION_NAME"
-        fun newIntent(context: Context, card: Card): Intent {
+        fun newIntent(context: Context, cardUiModel: CardUiModel): Intent {
             return Intent(context, CardActivity::class.java)
                 .apply {
-                    putExtra(EXTRA_CARD, card)
-                    putExtra(EXTRA_TRANSITION_NAME, card.name)
+                    putExtra(EXTRA_CARD, cardUiModel)
+                    putExtra(EXTRA_TRANSITION_NAME, cardUiModel.name)
                 }
         }
     }
@@ -38,7 +38,7 @@ class CardActivity : AppCompatActivity() {
 
         cardDetailBackground.setOnClickListener { onBackPressed() }
 
-        cardDetail.applyCardText(card)
+        cardDetail.applyCardText(cardUiModel)
         cardDetail.transitionName = this@CardActivity.transitionName
 
         CardDragHandler.makeDraggable(

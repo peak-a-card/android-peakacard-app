@@ -3,7 +3,7 @@ package com.peakacard.app.cards.view
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peakacard.app.cards.domain.GetCardsUseCase
-import com.peakacard.app.cards.view.model.Card
+import com.peakacard.app.cards.view.model.CardUiModel
 import com.peakacard.app.cards.view.state.CardsViewState
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -28,7 +28,7 @@ class CardsViewModel(private val getCardsUseCase: GetCardsUseCase) : ViewModel()
 
     fun getCards() {
         viewModelScope.launch {
-            val cards = getCardsUseCase.getCards().map { Card.fromScore(it.score) }
+            val cards = getCardsUseCase.getCards().map { CardUiModel.fromScore(it.score) }
             currentState = CardsViewState.Loaded(cards)
             cardsViewState.offer(currentState)
         }

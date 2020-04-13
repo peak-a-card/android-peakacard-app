@@ -2,7 +2,7 @@ package com.peakacard.app.cards.view.model
 
 import com.peakacard.app.CardDisplay
 
-enum class Card(val display: CardDisplay) {
+enum class CardUiModel(val display: CardDisplay) {
     ZERO("0"),
     HALF("1/2"),
     ONE("1"),
@@ -19,7 +19,7 @@ enum class Card(val display: CardDisplay) {
     COFFEE("\u2615");
 
     companion object {
-        fun fromScore(score: Float): Card {
+        fun fromScore(score: Float): CardUiModel {
             return when (score) {
                 0f -> ZERO
                 0.5f -> HALF

@@ -65,7 +65,7 @@ class CardsActivity : AppCompatActivity(), CardsView {
                 cardsLoading.isGone = true
                 cardsGrid.isVisible = true
                 cardsGrid.adapter =
-                    CardsAdapter(state.cards) { card, view ->
+                    CardsAdapter(state.cardUiModels) { card, view ->
                         val activityOptions =
                             ActivityOptionsCompat.makeSceneTransitionAnimation(
                                 this,

@@ -7,28 +7,28 @@ import androidx.core.view.ViewCompat
 import androidx.emoji.widget.EmojiTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
-import com.peakacard.app.cards.view.model.Card
+import com.peakacard.app.cards.view.model.CardUiModel
 import com.peakacard.app.extensions.applyCardText
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.inflate
 
-class CardsAdapter(private val cards: List<Card>, private val listener: (Card, View) -> Unit) :
+class CardsAdapter(private val cardUiModels: List<CardUiModel>, private val listener: (CardUiModel, View) -> Unit) :
     RecyclerView.Adapter<CardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         return CardViewHolder(parent.inflate(R.layout.card_item), listener)
     }
 
-    override fun getItemCount() = cards.size
+    override fun getItemCount() = cardUiModels.size
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        val card = cards[position]
+        val card = cardUiModels[position]
         ViewCompat.setTransitionName(holder.itemView, card.name)
         holder.bind(card, position)
     }
 }
 
-class CardViewHolder(itemView: View, private val listener: (Card, View) -> Unit) :
+class CardViewHolder(itemView: View, private val listener: (CardUiModel, View) -> Unit) :
     RecyclerView.ViewHolder(itemView) {
     private val cardAnimationOut =
         AnimatorInflater.loadAnimator(itemView.context, R.animator.card_flip_out)
@@ -38,14 +38,14 @@ class CardViewHolder(itemView: View, private val listener: (Card, View) -> Unit)
     private val cardDisplayFront: EmojiTextView by bindView(R.id.card_display_front)
     private val cardDisplayBack: View by bindView(R.id.card_display_back)
 
-    fun bind(card: Card, position: Int) {
+    fun bind(cardUiModel: CardUiModel, position: Int) {
         cardAnimationOut.setTarget(cardDisplayBack)
         cardAnimationIn.setTarget(cardDisplayFront)
         val delayByPosition = (delay * (position + 1) - (position * 100)).toLong() + COSMETIC_WAIT
         cardAnimationOut.apply { startDelay = delayByPosition }.start()
         cardAnimationIn.apply { startDelay = delayByPosition }.start()
-        cardDisplayFront.applyCardText(card)
-        itemView.setOnClickListener { listener(card, cardDisplayFront) }
+        cardDisplayFront.applyCardText(cardUiModel)
+        itemView.setOnClickListener { listener(cardUiModel, cardDisplayFront) }
     }
 }
 

@@ -1,10 +1,10 @@
 package com.peakacard.app.cards.view.state
 
-import com.peakacard.app.cards.view.model.Card
+import com.peakacard.app.cards.view.model.CardUiModel
 
 sealed class CardsViewState {
     object Loading : CardsViewState()
-    class Loaded(val cards: List<Card>) : CardsViewState()
+    class Loaded(val cardUiModels: List<CardUiModel>) : CardsViewState()
     object Empty : CardsViewState()
     object Error : CardsViewState()
 }
