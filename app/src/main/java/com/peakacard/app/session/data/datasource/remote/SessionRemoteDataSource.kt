@@ -9,7 +9,7 @@ import com.peakacard.app.session.data.datasource.remote.model.SessionDataModel
 import com.peakacard.core.Either
 import kotlinx.coroutines.tasks.await
 
-class SessionRemoteDatasource(private val database: FirebaseFirestore) {
+class SessionRemoteDataSource(private val database: FirebaseFirestore) {
 
     suspend fun joinSession(sessionRequest: SessionRequest):
             Either<SessionResponse.Error, SessionResponse.Success> {

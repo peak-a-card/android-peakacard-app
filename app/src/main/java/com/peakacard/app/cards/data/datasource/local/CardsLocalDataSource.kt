@@ -1,8 +1,8 @@
-package com.peakacard.app.cards.data.datasource
+package com.peakacard.app.cards.data.datasource.local
 
-import com.peakacard.app.cards.data.model.CardDataModel
+import com.peakacard.app.cards.data.datasource.local.model.CardDataModel
 
-class InMemoryCardsDataSource {
+class CardsLocalDataSource {
 
     val cards: List<CardDataModel>
         get() = listOf(

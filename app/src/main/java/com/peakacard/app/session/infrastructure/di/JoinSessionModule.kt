@@ -2,7 +2,7 @@ package com.peakacard.app.session.infrastructure.di
 
 import android.content.Context
 import com.peakacard.app.session.data.datasource.local.SessionLocalDataSource
-import com.peakacard.app.session.data.datasource.remote.SessionRemoteDatasource
+import com.peakacard.app.session.data.datasource.remote.SessionRemoteDataSource
 import com.peakacard.app.session.data.datasource.remote.model.mapper.UserMapper
 import com.peakacard.app.session.data.repository.SessionRepository
 import com.peakacard.app.session.domain.JoinSessionUseCase
@@ -18,7 +18,7 @@ val joinSessionModule = module {
     factory { JoinSessionUseCase(get()) }
     factory { SessionRepository(get(), get(), get()) }
     factory {
-        SessionRemoteDatasource(
+        SessionRemoteDataSource(
             get()
         )
     }
