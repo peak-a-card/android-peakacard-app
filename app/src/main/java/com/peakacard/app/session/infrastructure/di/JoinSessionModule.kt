@@ -3,7 +3,7 @@ package com.peakacard.app.session.infrastructure.di
 import android.content.Context
 import com.peakacard.app.session.data.datasource.local.SessionLocalDataSource
 import com.peakacard.app.session.data.datasource.remote.SessionRemoteDatasource
-import com.peakacard.app.session.data.model.mapper.UserMapper
+import com.peakacard.app.session.data.datasource.remote.model.mapper.UserMapper
 import com.peakacard.app.session.data.repository.SessionRepository
 import com.peakacard.app.session.domain.JoinSessionUseCase
 import com.peakacard.app.session.view.JoinSessionViewModel

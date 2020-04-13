@@ -3,7 +3,7 @@ package com.peakacard.app.session.view
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peakacard.app.session.domain.JoinSessionUseCase
-import com.peakacard.app.session.domain.model.JoinSessionRequest
+import com.peakacard.app.session.domain.model.UserSession
 import com.peakacard.app.session.domain.model.JoinSessionResponse
 import com.peakacard.app.session.view.model.UserUiModel
 import com.peakacard.app.session.view.model.mapper.UserUiModelMapper
@@ -40,7 +40,7 @@ class JoinSessionViewModel(
         }
         joinSessionState.offer(JoinSessionState.JoiningSession)
         viewModelScope.launch {
-            joinSessionUseCase.joinSession(JoinSessionRequest(userUiModelMapper.map(user), code))
+            joinSessionUseCase.joinSession(UserSession(userUiModelMapper.map(user), code))
                 .fold(
                     {
                         when (it) {

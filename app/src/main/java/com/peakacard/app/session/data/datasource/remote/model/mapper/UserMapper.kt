@@ -1,6 +1,6 @@
-package com.peakacard.app.session.data.model.mapper
+package com.peakacard.app.session.data.datasource.remote.model.mapper
 
-import com.peakacard.app.session.data.model.UserDataModel
+import com.peakacard.app.session.data.datasource.remote.model.UserDataModel
 import com.peakacard.app.session.domain.model.User
 
 class UserMapper {

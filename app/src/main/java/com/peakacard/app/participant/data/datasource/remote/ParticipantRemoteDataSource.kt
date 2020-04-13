@@ -5,7 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.peakacard.app.participant.data.datasource.remote.model.ParticipantDataModel
 import com.peakacard.app.participant.data.datasource.remote.model.ParticipantResponse
 import com.peakacard.app.participant.data.datasource.remote.model.ParticipantsResponse
-import com.peakacard.app.session.data.model.SessionDataModel
+import com.peakacard.app.session.data.datasource.remote.model.SessionDataModel
 import com.peakacard.core.Either
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

@@ -2,10 +2,10 @@ package com.peakacard.app.session.data.repository
 
 import com.peakacard.app.session.data.datasource.local.SessionLocalDataSource
 import com.peakacard.app.session.data.datasource.remote.SessionRemoteDatasource
-import com.peakacard.app.session.data.model.JoinSessionRequestDataModel
-import com.peakacard.app.session.data.model.JoinSessionResponseDataModel
-import com.peakacard.app.session.data.model.mapper.UserMapper
-import com.peakacard.app.session.domain.model.JoinSessionRequest
+import com.peakacard.app.session.data.datasource.remote.model.SessionRequest
+import com.peakacard.app.session.data.datasource.remote.model.SessionResponse
+import com.peakacard.app.session.data.datasource.remote.model.mapper.UserMapper
+import com.peakacard.app.session.domain.model.UserSession
 import com.peakacard.app.session.domain.model.JoinSessionResponse
 import com.peakacard.core.Either
 
@@ -15,17 +15,17 @@ class SessionRepository(
     private val userMapper: UserMapper
 ) {
 
-    suspend fun joinSession(request: JoinSessionRequest):
+    suspend fun joinSession(request: UserSession):
             Either<JoinSessionResponse.Error, JoinSessionResponse.Success> {
         return remoteDatasource.joinSession(
-            JoinSessionRequestDataModel(userMapper.map(request.user), request.sessionCode)
+            SessionRequest(userMapper.map(request.user), request.sessionCode)
         ).fold(
             {
                 when (it) {
-                    JoinSessionResponseDataModel.Error.NoSessionFound -> {
+                    SessionResponse.Error.NoSessionFound -> {
                         Either.Left(JoinSessionResponse.Error.NoSessionFound)
                     }
-                    JoinSessionResponseDataModel.Error.RemoteException -> {
+                    SessionResponse.Error.RemoteException -> {
                         Either.Left(JoinSessionResponse.Error.Unspecified)
                     }
                 }

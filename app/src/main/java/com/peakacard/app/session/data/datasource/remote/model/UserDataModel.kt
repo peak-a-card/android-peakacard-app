@@ -1,4 +1,4 @@
-package com.peakacard.app.session.data.model
+package com.peakacard.app.session.data.datasource.remote.model
 
 data class UserDataModel(
     val uid: String,
