@@ -8,6 +8,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.github.razir.progressbutton.attachTextChangeAnimator
 import com.github.razir.progressbutton.bindProgressButton
+import com.github.razir.progressbutton.detachTextChangeAnimator
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showProgress
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -57,7 +58,6 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
         setContentView(R.layout.activity_joinsession)
 
         joinSessionViewModel.bindView(this)
-        configureButton()
     }
 
     override fun onStart() {
@@ -70,20 +70,32 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
         } else {
             joinSessionTitle.text = getString(R.string.join_session_title)
         }
+        bindProgressButton(joinSessionButton)
+        configureButton()
     }
 
     private fun configureButton() {
-        bindProgressButton(joinSessionButton)
-        joinSessionButton.attachTextChangeAnimator()
-        joinSessionButton.setOnClickListener {
-            joinSessionError.isGone = true
-            val user = firebaseAuth.currentUser
-            if (user != null) {
-                doJoinSession(user)
-            } else {
-                startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
+        joinSessionButton.apply {
+            text = getString(R.string.join_session_enter)
+            attachTextChangeAnimator()
+            setOnClickListener {
+                joinSessionError.isGone = true
+                val user = firebaseAuth.currentUser
+                if (user != null) {
+                    doJoinSession(user)
+                } else {
+                    startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
+                }
             }
         }
+    }
+
+    override fun onPause() {
+        joinSessionButton.apply {
+            detachTextChangeAnimator()
+            setOnClickListener(null)
+        }
+        super.onPause()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -145,7 +157,6 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
                 joinSessionButton.hideProgress(R.string.join_session_joined)
                 joinSessionButton.hideKeyboard()
                 startActivity(Intent(this, WaitVotingActivity::class.java))
-                finish()
                 overridePendingTransition(
                     R.anim.transition_slide_from_right,
                     R.anim.transition_slide_to_left
