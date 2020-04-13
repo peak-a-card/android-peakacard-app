@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.emoji.bundled.BundledEmojiCompatConfig
 import androidx.emoji.text.EmojiCompat
 import com.google.firebase.FirebaseApp
-import com.peakacard.app.infrastructure.di.cardsModule
+import com.peakacard.app.cards.infrastructure.di.cardsModule
 import com.peakacard.app.infrastructure.di.dataModule
 import com.peakacard.app.session.infrastructure.di.joinSessionModule
 import com.peakacard.app.participant.infrastructure.di.participantModule
@@ -34,7 +34,8 @@ class PeakACardApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@PeakACardApplication)
-            modules(dataModule, cardsModule,
+            modules(dataModule,
+                cardsModule,
                 joinSessionModule, votingModule, participantModule)
         }
     }

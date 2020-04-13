@@ -1,4 +1,4 @@
-package com.peakacard.app.infrastructure.di
+package com.peakacard.app.cards.infrastructure.di
 
 import com.peakacard.app.cards.data.datasource.InMemoryCardsDataSource
 import com.peakacard.app.cards.data.repository.CardsRepository
