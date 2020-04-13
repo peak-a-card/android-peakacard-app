@@ -7,7 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.emoji.widget.EmojiTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
-import com.peakacard.app.cards.view.model.CardUiModel
+import com.peakacard.app.card.view.model.CardUiModel
 import com.peakacard.app.extensions.applyCardText
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.inflate
