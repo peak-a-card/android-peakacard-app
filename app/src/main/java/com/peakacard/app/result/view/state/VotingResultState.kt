@@ -1,10 +1,11 @@
-package com.peakacard.app.voting.view.state
+package com.peakacard.app.result.view.state
 
 import com.peakacard.app.voting.view.model.SessionParticipantUiModel
 
-sealed class WaitParticipantState {
-    data class ParticipantsLoaded(val participantUiModels: List<SessionParticipantUiModel>) :
-        WaitParticipantState()
+sealed class VotingResultState {
 
-    object Error : WaitParticipantState()
+    data class ParticipantsLoaded(val participantUiModels: List<SessionParticipantUiModel>) :
+        VotingResultState()
+
+    object Error : VotingResultState()
 }

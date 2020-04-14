@@ -2,9 +2,7 @@ package com.peakacard.app.voting.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.peakacard.app.participant.domain.GetAllSessionParticipantsUseCase
 import com.peakacard.app.participant.domain.GetSessionParticipantUseCase
-import com.peakacard.app.participant.domain.model.Participant
 import com.peakacard.app.session.domain.LeaveSessionUseCase
 import com.peakacard.app.voting.domain.GetVotingUseCase
 import com.peakacard.app.voting.view.model.SessionParticipantUiModel
@@ -14,12 +12,12 @@ import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class WaitVotingViewModel(
     private val getVotingUseCase: GetVotingUseCase,
-    private val getAllSessionParticipantsUseCase: GetAllSessionParticipantsUseCase,
     private val getSessionParticipantUseCase: GetSessionParticipantUseCase,
     private val leaveSessionUseCase: LeaveSessionUseCase
 ) : ViewModel() {
@@ -44,7 +42,7 @@ class WaitVotingViewModel(
     fun listenForVotingToStart() {
         waitVotingState.offer(WaitVotingState.WaitingVotingStart)
         viewModelScope.launch {
-            getVotingUseCase.getVoting().collect {
+            getVotingUseCase.getVoting().collectLatest {
                 it.fold({ error ->
                     Timber.e("Error waiting voting. Error: $error")
                     waitVotingState.offer(WaitVotingState.Error)
@@ -56,52 +54,20 @@ class WaitVotingViewModel(
         }
     }
 
-    fun getAlreadyJoinedParticipants() {
-        viewModelScope.launch {
-            getAllSessionParticipantsUseCase.getAllSessionParticipants().fold(
-                { error ->
-                    Timber.e("Error waiting for participant. Error: $error")
-                    waitParticipantState.offer(WaitParticipantState.Error)
-                },
-                { participants ->
-                    Timber.d("$participants")
-                    val sessionParticipants =
-                        participants.map { SessionParticipantUiModel(it.name) }
-                    waitParticipantState.offer(
-                        WaitParticipantState.ParticipantsAlreadyJoined(
-                            sessionParticipants
-                        )
-                    )
-                }
-            )
-        }
-    }
-
     fun listenParticipantsToJoin() {
         viewModelScope.launch {
-            getSessionParticipantUseCase.getSessionParticipant().collect {
+            getSessionParticipantUseCase.getSessionParticipant().collectLatest {
                 it.fold({ error ->
                     Timber.e("Error waiting for participant. Error: $error")
                     waitParticipantState.offer(WaitParticipantState.Error)
-                }, { participant ->
-                    Timber.d("$participant")
+                }, { participants ->
+                    Timber.d("$participants")
+                    val participantUiModels =
+                        participants.map { participant -> SessionParticipantUiModel(participant.name) }
                     waitParticipantState.offer(
-                        when (participant) {
-                            is Participant.Joined -> {
-                                WaitParticipantState.ParticipantJoined(
-                                    SessionParticipantUiModel(
-                                        participant.name
-                                    )
-                                )
-                            }
-                            is Participant.Left -> {
-                                WaitParticipantState.ParticipantLeft(
-                                    SessionParticipantUiModel(
-                                        participant.name
-                                    )
-                                )
-                            }
-                        }
+                        WaitParticipantState.ParticipantsLoaded(
+                            participantUiModels
+                        )
                     )
                 })
             }

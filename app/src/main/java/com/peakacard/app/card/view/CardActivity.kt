@@ -27,6 +27,7 @@ class CardActivity : AppCompatActivity(), CardView {
     companion object {
         private const val EXTRA_CARD = "EXTRA_CARD"
         private const val EXTRA_TRANSITION_NAME = "EXTRA_TRANSITION_NAME"
+        const val RESULT_CODE_SENT = 1005
         fun newIntent(context: Context, cardUiModel: CardUiModel): Intent {
             return Intent(context, CardActivity::class.java)
                 .apply {
@@ -61,7 +62,10 @@ class CardActivity : AppCompatActivity(), CardView {
             CardState.Sending -> {
                 // TODO
             }
-            CardState.Sent -> onBackPressed()
+            CardState.Sent -> {
+                setResult(RESULT_CODE_SENT)
+                onBackPressed()
+            }
         }
     }
 }

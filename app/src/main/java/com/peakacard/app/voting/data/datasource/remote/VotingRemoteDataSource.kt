@@ -2,7 +2,9 @@ package com.peakacard.app.voting.data.datasource.remote
 
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.peakacard.app.card.data.datasource.remote.model.VotationDataModel
 import com.peakacard.app.session.data.datasource.remote.model.SessionDataModel
+import com.peakacard.app.voting.data.datasource.remote.model.ParticipantsVotationRequest
 import com.peakacard.app.voting.data.datasource.remote.model.VotingDataModel
 import com.peakacard.app.voting.data.datasource.remote.model.VotingResponse
 import com.peakacard.core.Either
@@ -12,8 +14,8 @@ import kotlinx.coroutines.flow.callbackFlow
 
 class VotingRemoteDataSource(private val database: FirebaseFirestore) {
 
-    suspend fun listenVoting(sessionId: String): Flow<Either<VotingResponse.Error, VotingResponse.Success>> =
-        callbackFlow {
+    suspend fun listenVoting(sessionId: String): Flow<Either<VotingResponse.Error, VotingResponse.Success>> {
+        return callbackFlow {
             val session = database.collection(SessionDataModel.COLLECTION_ID)
             val votations: CollectionReference =
                 session.document(sessionId).collection(SessionDataModel.VOTATIONS)
@@ -48,4 +50,28 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
 
             awaitClose { subscription.remove() }
         }
+    }
+
+    suspend fun listenForParticipantsVotation(participantsVotationRequest: ParticipantsVotationRequest):
+            Flow<Either<VotingResponse.Error, VotingResponse.Success>> {
+        return callbackFlow {
+            val session = database.collection(SessionDataModel.COLLECTION_ID)
+            val votation =
+                session.document(participantsVotationRequest.sessionId)
+                    .collection(SessionDataModel.VOTATIONS)
+                    .document(participantsVotationRequest.votationTitle)
+
+            val subscription = votation.addSnapshotListener { snapshot, exception ->
+                if (exception != null) {
+                    offer(Either.Left(VotingResponse.Error.RemoteException))
+                } else {
+                    val participantsVotation = snapshot?.get(VotationDataModel.PARTICIPANT_VOTATION)
+
+                    offer(Either.Right(VotingResponse.Success("")))
+                }
+            }
+
+            awaitClose { subscription.remove() }
+        }
+    }
 }

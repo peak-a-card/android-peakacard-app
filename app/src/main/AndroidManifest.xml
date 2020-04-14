@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".voting.view.WaitVotingActivity" />
+        <activity android:name=".result.view.VotingResultActivity" />
         <activity android:name=".cards.view.CardsActivity" />
         <activity
             android:name=".card.view.CardActivity"

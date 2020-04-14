@@ -42,7 +42,7 @@ class WaitVotingActivity : AppCompatActivity(),
             adapter = participantsAdapter
         }
         waitVotingViewModel.listenForVotingToStart()
-        waitVotingViewModel.getAlreadyJoinedParticipants()
+        waitVotingViewModel.listenParticipantsToJoin()
     }
 
     override fun updateVotingState(state: WaitVotingState) {
@@ -84,15 +84,8 @@ class WaitVotingActivity : AppCompatActivity(),
 
     override fun updateParticipantState(state: WaitParticipantState) {
         when (state) {
-            is WaitParticipantState.ParticipantsAlreadyJoined -> {
-                participantsAdapter.addParticipants(state.participantUiModels)
-                waitVotingViewModel.listenParticipantsToJoin()
-            }
-            is WaitParticipantState.ParticipantJoined -> {
-                participantsAdapter.addParticipant(state.participantUiModel)
-            }
-            is WaitParticipantState.ParticipantLeft -> {
-                participantsAdapter.removeParticipant(state.participantUiModel)
+            is WaitParticipantState.ParticipantsLoaded -> {
+                participantsAdapter.setParticipants(state.participantUiModels)
             }
             WaitParticipantState.Error -> {
                 progress.isGone = true

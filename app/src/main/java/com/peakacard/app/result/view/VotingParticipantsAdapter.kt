@@ -1,4 +1,4 @@
-package com.peakacard.app.voting.view
+package com.peakacard.app.result.view
 
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +9,12 @@ import com.peakacard.app.voting.view.model.SessionParticipantUiModel
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.inflate
 
-class ParticipantsAdapter : RecyclerView.Adapter<ParticipantViewHolder>() {
+class VotingParticipantsAdapter : RecyclerView.Adapter<ParticipantViewHolder>() {
 
     private val participantUiModels: MutableSet<SessionParticipantUiModel> = mutableSetOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParticipantViewHolder {
-        return ParticipantViewHolder(parent.inflate(R.layout.participant_item))
+        return ParticipantViewHolder(parent.inflate(R.layout.voting_result_participant_item))
     }
 
     override fun getItemCount() = participantUiModels.size

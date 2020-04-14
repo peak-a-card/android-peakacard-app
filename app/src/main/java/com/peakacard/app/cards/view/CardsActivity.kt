@@ -1,6 +1,8 @@
 package com.peakacard.app.cards.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.animation.AnimationUtils
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
@@ -11,9 +13,12 @@ import androidx.core.view.isVisible
 import com.peakacard.app.R
 import com.peakacard.app.card.view.CardActivity
 import com.peakacard.app.cards.view.state.CardsState
+import com.peakacard.app.result.view.VotingResultActivity
 import com.peakacard.core.ui.extensions.bindView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
+
+private const val REQUEST_CODE_CARD = 1004
 
 class CardsActivity : AppCompatActivity(), CardsView {
 
@@ -72,8 +77,9 @@ class CardsActivity : AppCompatActivity(), CardsView {
                                 view,
                                 ViewCompat.getTransitionName(view).orEmpty()
                             )
-                        startActivity(
+                        startActivityForResult(
                             CardActivity.newIntent(this, card),
+                            REQUEST_CODE_CARD,
                             activityOptions.toBundle()
                         )
                     }
@@ -87,6 +93,24 @@ class CardsActivity : AppCompatActivity(), CardsView {
                     R.anim.transition_slide_to_right
                 )
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            REQUEST_CODE_CARD -> {
+                if (resultCode == CardActivity.RESULT_CODE_SENT) {
+                    Handler().postDelayed({
+                        val intent = Intent(this, VotingResultActivity::class.java)
+                        startActivity(intent)
+                        overridePendingTransition(
+                            R.anim.transition_slide_from_right,
+                            R.anim.transition_slide_to_left
+                        )
+                    }, 1000)
+                }
+            }
+            else -> super.onActivityResult(requestCode, resultCode, data)
         }
     }
 
