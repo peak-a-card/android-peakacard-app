@@ -9,14 +9,15 @@ import kotlinx.coroutines.flow.map
 
 class ParticipantRepository(private val participantRemoteDataSource: ParticipantRemoteDataSource) {
 
-    suspend fun getSessionParticipant(sessionId: String): Flow<Either<ParticipantError, List<Participant>>> {
-        return participantRemoteDataSource.getSessionParticipant(sessionId)
+    suspend fun getSessionParticipants(sessionId: String):
+            Flow<Either<ParticipantError, List<Participant>>> {
+        return participantRemoteDataSource.getSessionParticipants(sessionId)
             .map { participantResponse ->
                 participantResponse.fold(
                     { Either.Left(ParticipantError) },
                     { success ->
                         val participants = success.participants.map {
-                            Participant(it.email, it.name)
+                            Participant(it.id, it.email, it.name)
                         }
                         Either.Right(participants)
                     }

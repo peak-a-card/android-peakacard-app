@@ -34,14 +34,13 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
             itemAnimator = DefaultItemAnimator()
             adapter = votingParticipantsAdapter
         }
-        votingResultViewModel.getParticipants()
+        votingResultViewModel.listenParticipantsVote()
     }
 
     override fun updateState(state: VotingResultState) {
         when (state) {
             is VotingResultState.ParticipantsLoaded -> {
-                votingParticipantsAdapter.setParticipants(state.participantUiModels)
-                votingResultViewModel.listenParticipantsVote()
+                votingParticipantsAdapter.setParticipants(state.uiModels)
             }
             VotingResultState.Error -> TODO()
         }

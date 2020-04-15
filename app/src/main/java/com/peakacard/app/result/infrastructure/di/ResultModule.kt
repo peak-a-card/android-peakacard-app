@@ -5,6 +5,6 @@ import com.peakacard.app.result.view.VotingResultViewModel
 import org.koin.dsl.module
 
 val resultModule = module {
-    factory { VotingResultViewModel(get(), get()) }
-    factory { GetVotingResultUseCase(get(), get()) }
+    factory { VotingResultViewModel(get()) }
+    factory { GetVotingResultUseCase(get(), get(), get()) }
 }

@@ -18,7 +18,7 @@ class GetSessionParticipantUseCase(
         return if (sessionId == null) {
             flowOf(Either.Left(ParticipantError))
         } else {
-            participantRepository.getSessionParticipant(sessionId)
+            participantRepository.getSessionParticipants(sessionId)
         }
     }
 }

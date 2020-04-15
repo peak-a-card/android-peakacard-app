@@ -1,8 +1,11 @@
 package com.peakacard.app.voting.data.repository
 
+import com.peakacard.app.result.domain.model.GetParticipantsVotationError
+import com.peakacard.app.result.domain.model.GetParticipantsVotationResponse
 import com.peakacard.app.voting.data.datasource.local.VotingLocalDataSource
 import com.peakacard.app.voting.data.datasource.remote.VotingRemoteDataSource
 import com.peakacard.app.voting.data.datasource.remote.model.ParticipantsVotationRequest
+import com.peakacard.app.voting.data.datasource.remote.model.ParticipantsVotationResponse
 import com.peakacard.app.voting.data.datasource.remote.model.VotingResponse
 import com.peakacard.app.voting.domain.model.GetVotingError
 import com.peakacard.app.voting.domain.model.ParticipantsVotation
@@ -33,7 +36,7 @@ class VotingRepository(
     }
 
     suspend fun getParticipantsVotation(participantsVotation: ParticipantsVotation):
-            Flow<Either<GetVotingError, Voting>> {
+            Flow<Either<GetParticipantsVotationError, List<GetParticipantsVotationResponse>>> {
         return with(participantsVotation) {
             votingRemoteDataSource.listenForParticipantsVotation(
                 ParticipantsVotationRequest(
@@ -44,12 +47,15 @@ class VotingRepository(
                 votingResponse.fold(
                     {
                         when (it) {
-                            VotingResponse.Error.NoVotingStarted -> Either.Left(GetVotingError.NoVotingStarted)
-                            VotingResponse.Error.RemoteException -> Either.Left(GetVotingError.Unspecified)
+                            ParticipantsVotationResponse.Error.RemoteException -> Either.Left(
+                                GetParticipantsVotationError.Unspecified
+                            )
                         }
                     },
-                    {
-                        Either.Right(Voting(it.votingTitle))
+                    { participantsVotationResponse ->
+                        Either.Right(participantsVotationResponse.participantVotationDataModels.map {
+                            GetParticipantsVotationResponse(it.id, it.score)
+                        })
                     }
                 )
             }

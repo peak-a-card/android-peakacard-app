@@ -26,6 +26,7 @@
         tools:visibility="gone" />
 
     <ImageView
+        android:id="@+id/participant_check"
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:src="@drawable/ic_done_primary_18dp"

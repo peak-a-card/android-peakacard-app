@@ -4,7 +4,9 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.peakacard.app.card.data.datasource.remote.model.VotationDataModel
 import com.peakacard.app.session.data.datasource.remote.model.SessionDataModel
+import com.peakacard.app.voting.data.datasource.remote.model.ParticipantVotationDataModel
 import com.peakacard.app.voting.data.datasource.remote.model.ParticipantsVotationRequest
+import com.peakacard.app.voting.data.datasource.remote.model.ParticipantsVotationResponse
 import com.peakacard.app.voting.data.datasource.remote.model.VotingDataModel
 import com.peakacard.app.voting.data.datasource.remote.model.VotingResponse
 import com.peakacard.core.Either
@@ -52,8 +54,9 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     suspend fun listenForParticipantsVotation(participantsVotationRequest: ParticipantsVotationRequest):
-            Flow<Either<VotingResponse.Error, VotingResponse.Success>> {
+            Flow<Either<ParticipantsVotationResponse.Error, ParticipantsVotationResponse.Success>> {
         return callbackFlow {
             val session = database.collection(SessionDataModel.COLLECTION_ID)
             val votation =
@@ -63,11 +66,25 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
 
             val subscription = votation.addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
-                    offer(Either.Left(VotingResponse.Error.RemoteException))
+                    offer(Either.Left(ParticipantsVotationResponse.Error.RemoteException))
                 } else {
-                    val participantsVotation = snapshot?.get(VotationDataModel.PARTICIPANT_VOTATION)
+                    val participantsVotation =
+                        snapshot?.get(VotationDataModel.PARTICIPANT_VOTATION) as Map<String, Float>
 
-                    offer(Either.Right(VotingResponse.Success("")))
+                    val participantVotationDataModels = participantsVotation.map { (key, value) ->
+                        ParticipantVotationDataModel(
+                            key,
+                            value
+                        )
+                    }
+
+                    offer(
+                        Either.Right(
+                            ParticipantsVotationResponse.Success(
+                                participantVotationDataModels
+                            )
+                        )
+                    )
                 }
             }
 
