@@ -4,8 +4,8 @@ import com.peakacard.app.cards.data.datasource.local.model.CardDataModel
 
 class CardsLocalDataSource {
 
-    val cards: List<CardDataModel>
-        get() = listOf(
+    private val cards: List<CardDataModel> by lazy {
+        listOf(
             CardDataModel(0f),
             CardDataModel(0.5f),
             CardDataModel(1f),
@@ -21,4 +21,13 @@ class CardsLocalDataSource {
             CardDataModel(-1f),
             CardDataModel(-2f)
         )
+    }
+
+    fun getAllCards(): List<CardDataModel> {
+        return cards
+    }
+
+    fun getCard(score: Float): CardDataModel? {
+        return cards.firstOrNull { it.score == score }
+    }
 }

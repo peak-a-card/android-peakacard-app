@@ -20,11 +20,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".voting.view.WaitVotingActivity" />
-        <activity android:name=".result.view.VotingResultActivity" />
         <activity android:name=".cards.view.CardsActivity" />
         <activity
             android:name=".card.view.CardActivity"
             android:theme="@style/TranslucentTheme" />
+        <activity android:name=".result.view.VotingResultActivity" />
+        <activity android:name=".recap.view.RecapActivity" />
     </application>
 
 </manifest>

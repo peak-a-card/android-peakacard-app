@@ -7,7 +7,6 @@ import com.peakacard.app.voting.domain.model.Voting
 import com.peakacard.core.Either
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.onEach
 
 class GetEndedVotingUseCase(
     private val votingRepository: VotingRepository,
@@ -20,14 +19,6 @@ class GetEndedVotingUseCase(
             flowOf(Either.Left(GetVotingError.NoSessionJoined))
         } else {
             votingRepository.getEndedVotation(sessionId)
-                .onEach {
-                    it.fold(
-                        {
-                            // DO NOTHING
-                        },
-                        { votingRepository.saveCurrentVoting(null) }
-                    )
-                }
         }
     }
 }

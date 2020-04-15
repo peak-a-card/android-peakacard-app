@@ -10,6 +10,7 @@ import com.peakacard.app.card.infrastructure.di.cardModule
 import com.peakacard.app.cards.infrastructure.di.cardsModule
 import com.peakacard.app.infrastructure.di.dataModule
 import com.peakacard.app.participant.infrastructure.di.participantModule
+import com.peakacard.app.recap.infrastructure.di.recapModule
 import com.peakacard.app.result.infrastructure.di.resultModule
 import com.peakacard.app.session.infrastructure.di.sessionModule
 import com.peakacard.app.user.infrastructure.di.userModule
@@ -45,7 +46,8 @@ class PeakACardApplication : Application() {
                 votingModule,
                 participantModule,
                 userModule,
-                resultModule
+                resultModule,
+                recapModule
             )
         }
     }

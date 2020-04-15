@@ -2,6 +2,7 @@ package com.peakacard.app.result.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.peakacard.app.card.view.model.mapper.CardUiModelMapper
 import com.peakacard.app.result.domain.GetVotingResultUseCase
 import com.peakacard.app.result.domain.model.GetVotingResultResponse
 import com.peakacard.app.result.view.model.VotingResultParticipantUiModel
@@ -19,9 +20,9 @@ import timber.log.Timber
 
 class VotingResultViewModel(
     private val getVotingResultUseCase: GetVotingResultUseCase,
-    private val getEndedVotingUseCase: GetEndedVotingUseCase
-) :
-    ViewModel() {
+    private val getEndedVotingUseCase: GetEndedVotingUseCase,
+    private val cardUiModelMapper: CardUiModelMapper
+) : ViewModel() {
 
     private val endedVotingState: BroadcastChannel<EndedVotingState> = ConflatedBroadcastChannel()
     private val votingResultState: BroadcastChannel<VotingResultState> = ConflatedBroadcastChannel()
@@ -49,14 +50,14 @@ class VotingResultViewModel(
                     },
                     { participants ->
                         Timber.d("Got participants votes successfully")
-                        val participantUiModels =
+                        val participantUiModels: List<VotingResultParticipantUiModel> =
                             participants.map { participant ->
                                 when (participant) {
                                     is GetVotingResultResponse.Success.Voted -> {
-                                        Timber.d("Participant ${participant.participantName} voted ${participant.score}")
+                                        Timber.d("Participant ${participant.participantName} voted ${participant.card.score}")
                                         VotingResultParticipantUiModel.Voted(
                                             participant.participantName,
-                                            participant.score
+                                            cardUiModelMapper.map(participant.card)
                                         )
                                     }
                                     is GetVotingResultResponse.Success.Unvoted -> {

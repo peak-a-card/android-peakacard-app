@@ -1,6 +1,8 @@
 package com.peakacard.app.result.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -10,11 +12,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
+import com.peakacard.app.recap.view.RecapActivity
 import com.peakacard.app.result.view.state.EndedVotingState
 import com.peakacard.app.result.view.state.VotingResultState
 import com.peakacard.core.ui.extensions.bindView
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class VotingResultActivity : AppCompatActivity(), VotingResultView {
 
@@ -61,11 +63,21 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
             }
             is EndedVotingState.VotingEnded -> {
                 error.isGone = true
-                Timber.d("Go to recap activity")
+                message.text = getString(R.string.voting_result_ended_title, state.title)
+
+                Handler().postDelayed({
+                    val intent = Intent(this, RecapActivity::class.java).apply {
+                        putExtra(RecapActivity.EXTRA_VOTING_TITLE, state.title)
+                    }
+                    startActivity(intent)
+                    finish()
+                    overridePendingTransition(
+                        R.anim.transition_slide_from_right,
+                        R.anim.transition_slide_to_left
+                    )
+                }, 1000)
             }
-            EndedVotingState.Error -> {
-                error.isVisible = true
-            }
+            EndedVotingState.Error -> error.isVisible = true
         }
     }
 }

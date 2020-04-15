@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/M"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/recap_title"
+        style="@style/H5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        tools:text="Votación XXX" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="@dimen/L" />
+
+    <TextView
+        android:id="@+id/recap_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/L"
+        android:text="@string/voting_result_error"
+        android:textAppearance="@style/ErrorTextStyle"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recap_participant_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:itemCount="4"
+        tools:listitem="@layout/recap_participant_item" />
+
+</LinearLayout>

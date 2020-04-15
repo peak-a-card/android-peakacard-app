@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="voting_result_title">Waiting other participants to vote…</string>
+    <string name="voting_result_ended_title">Voting \"%1$s\" has ended!</string>
     <string name="voting_result_error">Oops! An error occurred, please try it again later</string>
 </resources>
