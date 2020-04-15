@@ -19,8 +19,8 @@ class VotingRepository(
     private val votingLocalDataSource: VotingLocalDataSource
 ) {
 
-    suspend fun getVotation(sessionId: String): Flow<Either<GetVotingError, Voting>> {
-        return votingRemoteDataSource.listenVoting(sessionId).map { votingResponse ->
+    suspend fun getStartedVotation(sessionId: String): Flow<Either<GetVotingError, Voting>> {
+        return votingRemoteDataSource.listenStartedVoting(sessionId).map { votingResponse ->
             votingResponse.fold(
                 {
                     when (it) {

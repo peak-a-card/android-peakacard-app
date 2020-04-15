@@ -14,12 +14,12 @@ class GetVotingUseCase(
     private val sessionRepository: SessionRepository
 ) {
 
-    suspend fun getVoting(): Flow<Either<GetVotingError, Voting>> {
+    suspend fun getStartedVoting(): Flow<Either<GetVotingError, Voting>> {
         val sessionId = sessionRepository.getCurrentSession()
         return if (sessionId == null) {
             flowOf(Either.Left(GetVotingError.NoSessionJoined))
         } else {
-            votingRepository.getVotation(sessionId)
+            votingRepository.getStartedVotation(sessionId)
                 .onEach {
                     it.fold(
                         {

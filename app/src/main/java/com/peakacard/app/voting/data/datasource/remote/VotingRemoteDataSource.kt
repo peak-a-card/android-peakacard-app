@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.callbackFlow
 
 class VotingRemoteDataSource(private val database: FirebaseFirestore) {
 
-    suspend fun listenVoting(sessionId: String): Flow<Either<VotingResponse.Error, VotingResponse.Success>> {
+    suspend fun listenStartedVoting(sessionId: String): Flow<Either<VotingResponse.Error, VotingResponse.Success>> {
         return callbackFlow {
             val session = database.collection(SessionDataModel.COLLECTION_ID)
             val votations: CollectionReference =
@@ -26,26 +26,17 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
                 if (exception != null) {
                     offer(Either.Left(VotingResponse.Error.RemoteException))
                 } else {
-                    val documentChange = snapshot?.documentChanges?.firstOrNull()
-                    val votingDocument = documentChange?.document
-                    val votingStatus =
-                        VotingDataModel.Status.fromString(
-                            votingDocument?.getString(
-                                VotingDataModel.STATUS
-                            )
-                        )
-                    when (votingStatus) {
-                        VotingDataModel.Status.STARTED -> {
-                            val voting = votingDocument?.toObject(VotingDataModel::class.java)
-                            if (voting == null) {
-                                offer(Either.Left(VotingResponse.Error.NoVotingStarted))
-                            } else {
-                                offer(Either.Right(VotingResponse.Success(voting.name)))
-                            }
-                        }
-                        else -> {
-                            // DO NOTHING
-                        }
+                    val votingDocuments = snapshot?.documents
+                    val startedVoting = votingDocuments?.map {
+                        it.toObject(VotingDataModel::class.java)
+                    }?.firstOrNull {
+                        VotingDataModel.Status.fromString(it?.status) == VotingDataModel.Status.STARTED
+                    }
+
+                    if (startedVoting == null) {
+                        offer(Either.Left(VotingResponse.Error.NoVotingStarted))
+                    } else {
+                        offer(Either.Right(VotingResponse.Success(startedVoting.name)))
                     }
                 }
             }

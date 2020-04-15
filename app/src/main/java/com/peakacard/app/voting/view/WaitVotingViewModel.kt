@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.peakacard.app.participant.domain.GetSessionParticipantUseCase
 import com.peakacard.app.session.domain.LeaveSessionUseCase
 import com.peakacard.app.voting.domain.GetVotingUseCase
+import com.peakacard.app.voting.domain.model.GetVotingError
 import com.peakacard.app.voting.view.model.SessionParticipantUiModel
 import com.peakacard.app.voting.view.state.WaitParticipantState
 import com.peakacard.app.voting.view.state.WaitVotingState
@@ -42,10 +43,15 @@ class WaitVotingViewModel(
     fun listenForVotingToStart() {
         waitVotingState.offer(WaitVotingState.WaitingVotingStart)
         viewModelScope.launch {
-            getVotingUseCase.getVoting().collectLatest {
+            getVotingUseCase.getStartedVoting().collectLatest {
                 it.fold({ error ->
                     Timber.e("Error waiting voting. Error: $error")
-                    waitVotingState.offer(WaitVotingState.Error)
+                    when (error) {
+                        GetVotingError.NoVotingStarted -> {
+                            waitVotingState.offer(WaitVotingState.WaitingVotingStart)
+                        }
+                        else -> waitVotingState.offer(WaitVotingState.Error)
+                    }
                 }, { voting ->
                     Timber.d("Voting title: ${voting.title}")
                     waitVotingState.offer(WaitVotingState.VotingStarted(voting.title))
