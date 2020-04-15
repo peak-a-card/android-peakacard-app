@@ -4,7 +4,8 @@ import android.content.Context
 import com.peakacard.app.voting.data.datasource.local.VotingLocalDataSource
 import com.peakacard.app.voting.data.datasource.remote.VotingRemoteDataSource
 import com.peakacard.app.voting.data.repository.VotingRepository
-import com.peakacard.app.voting.domain.GetVotingUseCase
+import com.peakacard.app.voting.domain.GetEndedVotingUseCase
+import com.peakacard.app.voting.domain.GetStartedVotingUseCase
 import com.peakacard.app.voting.view.WaitVotingViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
@@ -12,7 +13,8 @@ import org.koin.dsl.module
 
 val votingModule = module {
     factory { WaitVotingViewModel(get(), get(), get()) }
-    factory { GetVotingUseCase(get(), get()) }
+    factory { GetStartedVotingUseCase(get(), get()) }
+    factory { GetEndedVotingUseCase(get(), get()) }
     factory { VotingRepository(get(), get()) }
     factory { VotingRemoteDataSource(get()) }
     factory { VotingLocalDataSource(get(named(VOTING_SHARED_PREFERENCES))) }

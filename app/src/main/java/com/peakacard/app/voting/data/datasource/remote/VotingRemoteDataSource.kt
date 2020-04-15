@@ -8,7 +8,7 @@ import com.peakacard.app.voting.data.datasource.remote.model.ParticipantVotation
 import com.peakacard.app.voting.data.datasource.remote.model.ParticipantsVotationRequest
 import com.peakacard.app.voting.data.datasource.remote.model.ParticipantsVotationResponse
 import com.peakacard.app.voting.data.datasource.remote.model.VotingDataModel
-import com.peakacard.app.voting.data.datasource.remote.model.VotingResponse
+import com.peakacard.app.voting.data.datasource.remote.model.VotingStatusResponse
 import com.peakacard.core.Either
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +16,18 @@ import kotlinx.coroutines.flow.callbackFlow
 
 class VotingRemoteDataSource(private val database: FirebaseFirestore) {
 
-    suspend fun listenStartedVoting(sessionId: String): Flow<Either<VotingResponse.Error, VotingResponse.Success>> {
+    suspend fun listenStartedVoting(sessionId: String): Flow<Either<VotingStatusResponse.Error, VotingStatusResponse.Success>> {
+        return listenVotingStatus(sessionId, VotingDataModel.Status.STARTED)
+    }
+
+    suspend fun listenEndedVoting(sessionId: String): Flow<Either<VotingStatusResponse.Error, VotingStatusResponse.Success>> {
+        return listenVotingStatus(sessionId, VotingDataModel.Status.ENDED)
+    }
+
+    private suspend fun listenVotingStatus(
+        sessionId: String,
+        status: VotingDataModel.Status
+    ): Flow<Either<VotingStatusResponse.Error, VotingStatusResponse.Success>> {
         return callbackFlow {
             val session = database.collection(SessionDataModel.COLLECTION_ID)
             val votations: CollectionReference =
@@ -24,19 +35,26 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
 
             val subscription = votations.addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
-                    offer(Either.Left(VotingResponse.Error.RemoteException))
+                    offer(Either.Left(VotingStatusResponse.Error.RemoteException))
                 } else {
                     val votingDocuments = snapshot?.documents
-                    val startedVoting = votingDocuments?.map {
+                    val voting = votingDocuments?.map {
                         it.toObject(VotingDataModel::class.java)
                     }?.firstOrNull {
-                        VotingDataModel.Status.fromString(it?.status) == VotingDataModel.Status.STARTED
+                        VotingDataModel.Status.fromString(it?.status) == status
                     }
 
-                    if (startedVoting == null) {
-                        offer(Either.Left(VotingResponse.Error.NoVotingStarted))
+                    if (voting == null) {
+                        when (status) {
+                            VotingDataModel.Status.STARTED -> {
+                                offer(Either.Left(VotingStatusResponse.Error.NoVotingStarted))
+                            }
+                            VotingDataModel.Status.ENDED -> {
+                                offer(Either.Left(VotingStatusResponse.Error.NoVotingEnded))
+                            }
+                        }
                     } else {
-                        offer(Either.Right(VotingResponse.Success(startedVoting.name)))
+                        offer(Either.Right(VotingStatusResponse.Success(voting.name)))
                     }
                 }
             }

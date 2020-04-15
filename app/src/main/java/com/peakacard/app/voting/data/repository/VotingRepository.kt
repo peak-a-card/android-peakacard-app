@@ -6,7 +6,7 @@ import com.peakacard.app.voting.data.datasource.local.VotingLocalDataSource
 import com.peakacard.app.voting.data.datasource.remote.VotingRemoteDataSource
 import com.peakacard.app.voting.data.datasource.remote.model.ParticipantsVotationRequest
 import com.peakacard.app.voting.data.datasource.remote.model.ParticipantsVotationResponse
-import com.peakacard.app.voting.data.datasource.remote.model.VotingResponse
+import com.peakacard.app.voting.data.datasource.remote.model.VotingStatusResponse
 import com.peakacard.app.voting.domain.model.GetVotingError
 import com.peakacard.app.voting.domain.model.ParticipantsVotation
 import com.peakacard.app.voting.domain.model.Voting
@@ -24,8 +24,28 @@ class VotingRepository(
             votingResponse.fold(
                 {
                     when (it) {
-                        VotingResponse.Error.NoVotingStarted -> Either.Left(GetVotingError.NoVotingStarted)
-                        VotingResponse.Error.RemoteException -> Either.Left(GetVotingError.Unspecified)
+                        VotingStatusResponse.Error.NoVotingStarted -> {
+                            Either.Left(GetVotingError.NoVotingStarted)
+                        }
+                        else -> Either.Left(GetVotingError.Unspecified)
+                    }
+                },
+                {
+                    Either.Right(Voting(it.votingTitle))
+                }
+            )
+        }
+    }
+
+    suspend fun getEndedVotation(sessionId: String): Flow<Either<GetVotingError, Voting>> {
+        return votingRemoteDataSource.listenEndedVoting(sessionId).map { votingResponse ->
+            votingResponse.fold(
+                {
+                    when (it) {
+                        VotingStatusResponse.Error.NoVotingEnded -> {
+                            Either.Left(GetVotingError.NoVotingEnded)
+                        }
+                        else -> Either.Left(GetVotingError.Unspecified)
                     }
                 },
                 {
@@ -53,17 +73,18 @@ class VotingRepository(
                         }
                     },
                     { participantsVotationResponse ->
-                        Either.Right(participantsVotationResponse.participantVotationDataModels.map {
-                            GetParticipantsVotationResponse(it.id, it.score)
-                        })
+                        Either.Right(participantsVotationResponse.participantVotationDataModels
+                            .map {
+                                GetParticipantsVotationResponse(it.id, it.score)
+                            })
                     }
                 )
             }
         }
     }
 
-    fun saveCurrentVoting(voting: Voting) {
-        votingLocalDataSource.saveVoting(voting.title)
+    fun saveCurrentVoting(voting: Voting?) {
+        votingLocalDataSource.saveVoting(voting?.title)
     }
 
     fun getCurrentVoting(): Voting? {

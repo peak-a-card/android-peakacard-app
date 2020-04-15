@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onEach
 
-class GetVotingUseCase(
+class GetStartedVotingUseCase(
     private val votingRepository: VotingRepository,
     private val sessionRepository: SessionRepository
 ) {

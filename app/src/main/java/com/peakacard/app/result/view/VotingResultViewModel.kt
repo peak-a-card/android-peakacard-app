@@ -5,7 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.peakacard.app.result.domain.GetVotingResultUseCase
 import com.peakacard.app.result.domain.model.GetVotingResultResponse
 import com.peakacard.app.result.view.model.VotingResultParticipantUiModel
+import com.peakacard.app.result.view.state.EndedVotingState
 import com.peakacard.app.result.view.state.VotingResultState
+import com.peakacard.app.voting.domain.GetEndedVotingUseCase
+import com.peakacard.app.voting.domain.model.GetVotingError
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
@@ -14,9 +17,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class VotingResultViewModel(private val getVotingResultUseCase: GetVotingResultUseCase) :
+class VotingResultViewModel(
+    private val getVotingResultUseCase: GetVotingResultUseCase,
+    private val getEndedVotingUseCase: GetEndedVotingUseCase
+) :
     ViewModel() {
 
+    private val endedVotingState: BroadcastChannel<EndedVotingState> = ConflatedBroadcastChannel()
     private val votingResultState: BroadcastChannel<VotingResultState> = ConflatedBroadcastChannel()
 
     fun bindView(view: VotingResultView) {
@@ -24,6 +31,11 @@ class VotingResultViewModel(private val getVotingResultUseCase: GetVotingResultU
             votingResultState
                 .asFlow()
                 .collect { view.updateState(it) }
+        }
+        viewModelScope.launch {
+            endedVotingState
+                .asFlow()
+                .collect { view.updateVotingState(it) }
         }
     }
 
@@ -58,6 +70,28 @@ class VotingResultViewModel(private val getVotingResultUseCase: GetVotingResultU
                         votingResultState.offer(
                             VotingResultState.ParticipantsLoaded(participantUiModels)
                         )
+                    }
+                )
+            }
+        }
+    }
+
+    fun listenForVotingToEnd() {
+        viewModelScope.launch {
+            getEndedVotingUseCase.getEndedVoting().collectLatest {
+                it.fold(
+                    { error ->
+                        Timber.e("Error waiting voting. Error: $error")
+                        when (error) {
+                            GetVotingError.NoVotingEnded -> {
+                                endedVotingState.offer(EndedVotingState.WaitingVotingEnd)
+                            }
+                            else -> endedVotingState.offer(EndedVotingState.Error)
+                        }
+                    },
+                    { voting ->
+                        Timber.d("Voting title: ${voting.title}")
+                        endedVotingState.offer(EndedVotingState.VotingEnded(voting.title))
                     }
                 )
             }

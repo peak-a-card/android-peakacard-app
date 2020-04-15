@@ -4,13 +4,17 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
+import com.peakacard.app.result.view.state.EndedVotingState
 import com.peakacard.app.result.view.state.VotingResultState
 import com.peakacard.core.ui.extensions.bindView
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class VotingResultActivity : AppCompatActivity(), VotingResultView {
 
@@ -35,14 +39,33 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
             adapter = votingParticipantsAdapter
         }
         votingResultViewModel.listenParticipantsVote()
+        votingResultViewModel.listenForVotingToEnd()
     }
 
     override fun updateState(state: VotingResultState) {
         when (state) {
             is VotingResultState.ParticipantsLoaded -> {
+                error.isGone = true
                 votingParticipantsAdapter.setParticipants(state.uiModels)
             }
-            VotingResultState.Error -> TODO()
+            VotingResultState.Error -> {
+                error.isVisible = true
+            }
+        }
+    }
+
+    override fun updateVotingState(state: EndedVotingState) {
+        when (state) {
+            EndedVotingState.WaitingVotingEnd -> {
+                error.isGone = true
+            }
+            is EndedVotingState.VotingEnded -> {
+                error.isGone = true
+                Timber.d("Go to recap activity")
+            }
+            EndedVotingState.Error -> {
+                error.isVisible = true
+            }
         }
     }
 }
