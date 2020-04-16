@@ -1,6 +1,5 @@
 package com.peakacard.app.voting.data.datasource.remote
 
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.peakacard.app.card.data.datasource.remote.model.VotationDataModel
 import com.peakacard.app.session.data.datasource.remote.model.SessionDataModel
@@ -30,8 +29,8 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
     ): Flow<Either<VotingStatusResponse.Error, VotingStatusResponse.Success>> {
         return callbackFlow {
             val session = database.collection(SessionDataModel.COLLECTION_ID)
-            val votations: CollectionReference =
-                session.document(sessionId).collection(SessionDataModel.VOTATIONS)
+            val votations = session.document(sessionId).collection(SessionDataModel.VOTATIONS)
+                .orderBy(VotationDataModel.CREATION_DATE)
 
             val subscription = votations.addSnapshotListener { snapshot, exception ->
                 if (exception != null) {

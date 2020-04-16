@@ -6,5 +6,7 @@ sealed class RecapState {
     data class VotationsLoaded(val uiModels: List<VotingResultParticipantUiModel.Voted>) :
         RecapState()
 
+    class VotingStarted(val title: String) : RecapState()
+
     object Error : RecapState()
 }
