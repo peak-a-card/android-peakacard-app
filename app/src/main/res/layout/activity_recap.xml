@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        tools:text="Votación XXX" />
+        android:text="@string/recap_title" />
 
     <Space
         android:layout_width="0dp"
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/L"
-        android:text="@string/voting_result_error"
+        android:text="@string/recap_error"
         android:textAppearance="@style/ErrorTextStyle"
         android:visibility="gone"
         tools:visibility="visible" />

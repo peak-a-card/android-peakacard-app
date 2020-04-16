@@ -8,19 +8,19 @@
 
     <TextView
         android:id="@+id/participant_name"
-        style="@style/Body"
+        style="@style/H6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/S"
         tools:text="Sergi" />
 
     <Space
-        android:layout_width="@dimen/S"
+        android:layout_width="@dimen/M"
         android:layout_height="0dp" />
 
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/participant_score"
-        style="@style/Body"
+        style="@style/H6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/S"

@@ -28,7 +28,7 @@ class RecapActivity : AppCompatActivity(), RecapView {
 
     private val votingTitle by lazy { intent.getStringExtra(EXTRA_VOTING_TITLE) }
 
-    private val participantsVoteAdapter by lazy { ParticipantsVoteAdapter() }
+    private val participantsVoteAdapter by lazy { RecapAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ class RecapActivity : AppCompatActivity(), RecapView {
 
         recapViewModel.bindView(this)
 
-        title.text = votingTitle
+        title.text = getString(R.string.recap_title, votingTitle)
         participantsList.apply {
             layoutManager = LinearLayoutManager(this@RecapActivity)
             itemAnimator = DefaultItemAnimator()

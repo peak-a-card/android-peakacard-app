@@ -11,7 +11,7 @@ import com.peakacard.app.result.view.model.VotingResultParticipantUiModel
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.inflate
 
-class ParticipantsVoteAdapter : RecyclerView.Adapter<ParticipantViewHolder>() {
+class RecapAdapter : RecyclerView.Adapter<ParticipantViewHolder>() {
 
     private val items: MutableSet<VotingResultParticipantUiModel.Voted> = mutableSetOf()
 
