@@ -92,7 +92,10 @@ class VotingResultViewModel(
                     },
                     { voting ->
                         Timber.d("Voting title: ${voting.title}")
-                        endedVotingState.offer(EndedVotingState.VotingEnded(voting.title))
+                        if (!endedVotingState.isClosedForSend) {
+                            endedVotingState.offer(EndedVotingState.VotingEnded(voting.title))
+                        }
+                        endedVotingState.close()
                     }
                 )
             }

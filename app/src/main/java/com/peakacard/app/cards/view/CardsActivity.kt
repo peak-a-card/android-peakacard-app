@@ -103,6 +103,7 @@ class CardsActivity : AppCompatActivity(), CardsView {
                     Handler().postDelayed({
                         val intent = Intent(this, VotingResultActivity::class.java)
                         startActivity(intent)
+                        finish()
                         overridePendingTransition(
                             R.anim.transition_slide_from_right,
                             R.anim.transition_slide_to_left

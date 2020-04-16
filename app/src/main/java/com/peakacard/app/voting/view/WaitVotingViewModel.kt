@@ -54,7 +54,10 @@ class WaitVotingViewModel(
                     }
                 }, { voting ->
                     Timber.d("Voting title: ${voting.title}")
-                    waitVotingState.offer(WaitVotingState.VotingStarted(voting.title))
+                    if (!waitVotingState.isClosedForSend) {
+                        waitVotingState.offer(WaitVotingState.VotingStarted(voting.title))
+                    }
+                    waitVotingState.close()
                 })
             }
         }
