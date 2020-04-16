@@ -18,7 +18,12 @@ class GetEndedVotingUseCase(
         return if (sessionId == null) {
             flowOf(Either.Left(GetVotingError.NoSessionJoined))
         } else {
-            votingRepository.getEndedVotation(sessionId)
+            val currentVoting = votingRepository.getCurrentVoting()
+            if (currentVoting == null) {
+                flowOf(Either.Left(GetVotingError.NoVotingStarted))
+            } else {
+                votingRepository.getEndedVotation(sessionId, currentVoting.title)
+            }
         }
     }
 }

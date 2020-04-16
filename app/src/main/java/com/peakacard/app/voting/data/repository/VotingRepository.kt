@@ -37,22 +37,26 @@ class VotingRepository(
         }
     }
 
-    suspend fun getEndedVotation(sessionId: String): Flow<Either<GetVotingError, Voting>> {
-        return votingRemoteDataSource.listenEndedVoting(sessionId).map { votingResponse ->
-            votingResponse.fold(
-                {
-                    when (it) {
-                        VotingStatusResponse.Error.NoVotingEnded -> {
-                            Either.Left(GetVotingError.NoVotingEnded)
+    suspend fun getEndedVotation(
+        sessionId: String,
+        votationTitle: String
+    ): Flow<Either<GetVotingError, Voting>> {
+        return votingRemoteDataSource.listenEndedVoting(sessionId, votationTitle)
+            .map { votingResponse ->
+                votingResponse.fold(
+                    {
+                        when (it) {
+                            VotingStatusResponse.Error.NoVotingEnded -> {
+                                Either.Left(GetVotingError.NoVotingEnded)
+                            }
+                            else -> Either.Left(GetVotingError.Unspecified)
                         }
-                        else -> Either.Left(GetVotingError.Unspecified)
+                    },
+                    {
+                        Either.Right(Voting(it.votingTitle))
                     }
-                },
-                {
-                    Either.Right(Voting(it.votingTitle))
-                }
-            )
-        }
+                )
+            }
     }
 
     suspend fun getParticipantsVotation(participantsVotation: ParticipantsVotation):
