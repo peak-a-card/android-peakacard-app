@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.peakacard.app.R
-import com.peakacard.app.session.view.model.mapper.FirebaseUserMapper
+import com.peakacard.session.view.model.mapper.FirebaseUserMapper
 import com.peakacard.app.session.view.state.JoinSessionState
 import com.peakacard.app.voting.view.WaitVotingActivity
 import com.peakacard.core.ui.extensions.bindView

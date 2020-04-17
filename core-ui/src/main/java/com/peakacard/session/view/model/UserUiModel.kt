@@ -1,4 +1,4 @@
-package com.peakacard.app.session.view.model
+package com.peakacard.session.view.model
 
 data class UserUiModel(
     val uid: String,

@@ -4,5 +4,8 @@ sealed class CreateSessionState {
 
     object GeneratingSessionId : CreateSessionState()
     class SessionIdGenerated(val sessionId: String) : CreateSessionState()
-    object Error : CreateSessionState()
+    sealed class Error : CreateSessionState() {
+        object UserSignIn : Error()
+        object CannotGenerateId : Error()
+    }
 }

@@ -1,7 +1,7 @@
 package com.peakacard.app.session.view.model.mapper
 
 import com.peakacard.app.session.domain.model.User
-import com.peakacard.app.session.view.model.UserUiModel
+import com.peakacard.session.view.model.UserUiModel
 
 class UserUiModelMapper {
 
