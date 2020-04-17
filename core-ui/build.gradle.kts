@@ -31,5 +31,7 @@ android {
 dependencies {
     api(project(":core"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    implementation("androidx.recyclerview:recyclerview")
+
+    api("com.google.android.material:material")
+    api("androidx.recyclerview:recyclerview")
 }

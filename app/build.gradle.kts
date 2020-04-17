@@ -54,8 +54,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("androidx.appcompat:appcompat")
     implementation("androidx.core:core-ktx")
-    implementation("com.google.android.material:material")
-    implementation("androidx.recyclerview:recyclerview")
     implementation("androidx.emoji:emoji-bundled")
     implementation("com.jakewharton.timber:timber")
     implementation("androidx.dynamicanimation:dynamicanimation-ktx")
