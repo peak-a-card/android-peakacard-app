@@ -7,10 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import com.github.razir.progressbutton.attachTextChangeAnimator
-import com.github.razir.progressbutton.bindProgressButton
-import com.github.razir.progressbutton.detachTextChangeAnimator
-import com.github.razir.progressbutton.hideProgress
+import com.github.razir.progressbutton.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -127,8 +124,14 @@ class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> 
                     // Sign in success, update UI with the signed-in user's information
                     Timber.d("signInWithCredential:success")
                     val user = firebaseAuth.currentUser
-                    Timber.d("User logged successfully with account ${user?.email}")
-                    doCreateSession(user)
+                    if (user != null) {
+                        Timber.d("User logged successfully with account ${user.email}")
+                        createSessionTitle.text =
+                            getString(R.string.create_session_title_logged, user.displayName)
+                        doCreateSession(user)
+                    } else {
+                        showSignInError()
+                    }
                 } else {
                     // If sign in fails, display a message to the user.
                     Timber.w(task.exception, "signInWithCredential:failure")
@@ -156,11 +159,16 @@ class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> 
                 createSessionError.isGone = true
                 createSessionCode.isGone = true
                 createSessionProgress.isVisible = true
+                createSessionButton.showProgress {
+                    buttonTextRes = R.string.create_session_creating
+                    progressColorRes = R.color.background
+                }
             }
             is CreateSessionState.SessionIdGenerated -> {
                 createSessionError.isGone = true
                 createSessionProgress.isGone = true
                 createSessionCode.text = state.sessionId
+                createSessionCode.isVisible = true
                 createSessionButton.hideProgress(R.string.create_session_created)
                 createSessionButton.hideKeyboard()
                 // TODO start activity

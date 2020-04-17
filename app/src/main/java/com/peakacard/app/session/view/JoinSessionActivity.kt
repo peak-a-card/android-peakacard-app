@@ -6,11 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import com.github.razir.progressbutton.attachTextChangeAnimator
-import com.github.razir.progressbutton.bindProgressButton
-import com.github.razir.progressbutton.detachTextChangeAnimator
-import com.github.razir.progressbutton.hideProgress
-import com.github.razir.progressbutton.showProgress
+import com.github.razir.progressbutton.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -22,11 +18,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.peakacard.app.R
-import com.peakacard.session.view.model.mapper.FirebaseUserMapper
 import com.peakacard.app.session.view.state.JoinSessionState
 import com.peakacard.app.voting.view.WaitVotingActivity
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.hideKeyboard
+import com.peakacard.session.view.model.mapper.FirebaseUserMapper
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -128,8 +124,15 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
                     // Sign in success, update UI with the signed-in user's information
                     Timber.d("signInWithCredential:success")
                     val user = firebaseAuth.currentUser
-                    Timber.d("User logged successfully with account ${user?.email}")
-                    doJoinSession(user)
+                    if (user != null) {
+                        Timber.d("User logged successfully with account ${user.email}")
+                        joinSessionTitle.text =
+                            getString(R.string.join_session_title_logged, user.displayName)
+                        doJoinSession(user)
+                    } else {
+                        showSignInError()
+                    }
+
                 } else {
                     // If sign in fails, display a message to the user.
                     Timber.w(task.exception, "signInWithCredential:failure")
