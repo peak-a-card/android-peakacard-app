@@ -8,7 +8,7 @@ android {
     compileSdkVersion(Versions.androidCompileSdkVersion)
 
     defaultConfig {
-        applicationId = "com.peakacard.app"
+        applicationId = "com.peakacard.host"
         setTargetSdkVersion(Versions.androidTargetSdkVersion)
         setMinSdkVersion(Versions.androidMinSdkVersion)
         versionCode = 1
