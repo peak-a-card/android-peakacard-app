@@ -1,3 +1,4 @@
+include(":host")
 include(
     "bom",
     "core",
