@@ -38,4 +38,7 @@ android {
 
 dependencies {
     implementation(project(":core-ui"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
 }
+
+apply(plugin = "com.google.gms.google-services")

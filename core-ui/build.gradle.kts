@@ -32,6 +32,15 @@ dependencies {
     api(project(":core"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
+    api("androidx.appcompat:appcompat")
     api("com.google.android.material:material")
     api("androidx.recyclerview:recyclerview")
+
+    api("androidx.lifecycle:lifecycle-viewmodel-ktx")
+    api("androidx.core:core-ktx")
+
+    api("com.google.firebase:firebase-auth")
+    api("com.google.android.gms:play-services-auth")
+
+    api("com.github.razir.progressbutton:progressbutton")
 }

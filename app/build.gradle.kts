@@ -39,30 +39,12 @@ android {
 dependencies {
     implementation(project(":core-ui"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services")
-
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx")
-
-    implementation("org.koin:koin-core")
-    implementation("org.koin:koin-android")
-    implementation("org.koin:koin-androidx-viewmodel")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
     implementation("com.google.code.gson:gson")
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    implementation("androidx.appcompat:appcompat")
-    implementation("androidx.core:core-ktx")
     implementation("androidx.emoji:emoji-bundled")
-    implementation("com.jakewharton.timber:timber")
     implementation("androidx.dynamicanimation:dynamicanimation-ktx")
-
-    implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.android.gms:play-services-auth")
-
-    implementation("com.github.razir.progressbutton:progressbutton")
 }
 
 apply(plugin = "com.google.gms.google-services")

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/M"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/XXL" />
+
+    <TextView
+        android:id="@+id/create_session_title"
+        style="@style/H4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="@string/create_session_title" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/XXL" />
+
+    <TextView
+        android:id="@+id/create_session_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/L"
+        android:textAppearance="@style/ErrorTextStyle"
+        android:visibility="gone"
+        tools:text="Error!"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/create_session_code"
+        style="@style/Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="@string/create_session_code" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/L" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/create_session_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_session_enter"
+        android:textAllCaps="false" />
+
+</LinearLayout>

@@ -60,4 +60,3 @@ instapk.log*
 
 # Proguard mappings
 mapping.txt
-/app/google-services.json

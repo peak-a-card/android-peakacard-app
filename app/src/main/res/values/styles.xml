@@ -15,58 +15,8 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="H1">
-        <item name="fontFamily">sans-serif-light</item>
-        <item name="android:textSize">@dimen/H1</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-    </style>
-
-    <style name="H3">
-        <item name="fontFamily">sans-serif</item>
-        <item name="android:textSize">@dimen/H3</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-    </style>
-
-    <style name="H4">
-        <item name="fontFamily">sans-serif</item>
-        <item name="android:textSize">@dimen/H4</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-    </style>
-
-    <style name="H5">
-        <item name="fontFamily">sans-serif</item>
-        <item name="android:textSize">@dimen/H5</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-    </style>
-
-    <style name="H6">
-        <item name="fontFamily">sans-serif-medium</item>
-        <item name="android:textSize">@dimen/H6</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-    </style>
-
-    <style name="Body">
-        <item name="fontFamily">sans-serif</item>
-        <item name="android:textSize">@dimen/Body</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-    </style>
-
-    <style name="ErrorTextStyle" parent="Body">
-        <item name="android:textColor">?attr/colorError</item>
-    </style>
-
     <style name="CardStyle">
         <item name="android:padding">@dimen/M</item>
-    </style>
-
-    <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">@color/text_input_color_state</item>
-        <item name="boxStrokeWidth">2dp</item>
-        <item name="android:textColorPrimary">?attr/colorPrimary</item>
-    </style>
-
-    <style name="TextEditTextStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:textColor">?attr/colorPrimary</item>
     </style>
 
 </resources>
