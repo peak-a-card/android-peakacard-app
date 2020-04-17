@@ -5,6 +5,7 @@ import com.peakacard.app.card.data.datasource.remote.model.VotationDataModel
 import com.peakacard.app.session.data.datasource.remote.model.SessionDataModel
 import com.peakacard.app.voting.data.datasource.remote.model.*
 import com.peakacard.core.Either
+import com.peakacard.core.data.remote.model.PeakDataModel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -33,7 +34,7 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
         status: VotingDataModel.Status
     ): Flow<Either<VotingStatusResponse.Error, VotingStatusResponse.Success>> {
         return callbackFlow {
-            val session = database.collection(SessionDataModel.COLLECTION_ID)
+            val session = database.collection(PeakDataModel.ROOT_COLLECTION_ID)
             val votations = session.document(sessionId).collection(SessionDataModel.VOTATIONS)
                 .orderBy(VotationDataModel.CREATION_DATE)
 
@@ -75,7 +76,7 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
     suspend fun listenForParticipantsVotation(participantsVotationRequest: ParticipantsVotationRequest):
             Flow<Either<ParticipantsVotationResponse.Error, ParticipantsVotationResponse.Success>> {
         return callbackFlow {
-            val session = database.collection(SessionDataModel.COLLECTION_ID)
+            val session = database.collection(PeakDataModel.ROOT_COLLECTION_ID)
             val votation =
                 session.document(participantsVotationRequest.sessionId)
                     .collection(SessionDataModel.VOTATIONS)

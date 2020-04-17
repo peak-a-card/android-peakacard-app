@@ -1,5 +1,6 @@
 <resources>
     <string name="create_session_title">Hooray! Create a session and share the code!</string>
-    <string name="create_session_code">The code of your session is: %1$d</string>
+    <string name="create_session_error">Error creating your session code, please try again later</string>
+    <string name="create_session_code">The code of your session is:</string>
     <string name="create_session_enter">Create session</string>
 </resources>

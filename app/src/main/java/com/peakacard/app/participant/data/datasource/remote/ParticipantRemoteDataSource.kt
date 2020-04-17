@@ -5,6 +5,7 @@ import com.peakacard.app.participant.data.datasource.remote.model.ParticipantDat
 import com.peakacard.app.participant.data.datasource.remote.model.ParticipantsResponse
 import com.peakacard.app.session.data.datasource.remote.model.SessionDataModel
 import com.peakacard.core.Either
+import com.peakacard.core.data.remote.model.PeakDataModel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -13,7 +14,7 @@ class ParticipantRemoteDataSource(private val database: FirebaseFirestore) {
 
     suspend fun getSessionParticipants(sessionId: String): Flow<Either<ParticipantsResponse.Error, ParticipantsResponse.Success>> {
         return callbackFlow {
-            val session = database.collection(SessionDataModel.COLLECTION_ID)
+            val session = database.collection(PeakDataModel.ROOT_COLLECTION_ID)
             val participants = session.document(sessionId).collection(SessionDataModel.PARTICIPANTS)
 
             val subscription = participants.addSnapshotListener { snapshot, exception ->

@@ -8,6 +8,7 @@ import com.peakacard.app.card.data.datasource.remote.model.VoteRequest
 import com.peakacard.app.card.data.datasource.remote.model.VoteResponse
 import com.peakacard.app.session.data.datasource.remote.model.SessionDataModel
 import com.peakacard.core.Either
+import com.peakacard.core.data.remote.model.PeakDataModel
 import kotlinx.coroutines.tasks.await
 
 class CardRemoteDataSource(private val database: FirebaseFirestore) {
@@ -15,7 +16,7 @@ class CardRemoteDataSource(private val database: FirebaseFirestore) {
     @Suppress("UNCHECKED_CAST")
     suspend fun sendVote(voteRequest: VoteRequest): Either<VoteResponse.Error, VoteResponse.Success> {
         return try {
-            val session = database.collection(SessionDataModel.COLLECTION_ID)
+            val session = database.collection(PeakDataModel.ROOT_COLLECTION_ID)
             val document = session.document(voteRequest.sessionId)
                 .collection(SessionDataModel.VOTATIONS)
                 .document(voteRequest.votingTitle)

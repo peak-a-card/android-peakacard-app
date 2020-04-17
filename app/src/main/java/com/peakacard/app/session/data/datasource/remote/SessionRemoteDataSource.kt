@@ -7,6 +7,7 @@ import com.peakacard.app.session.data.datasource.remote.model.SessionDataModel
 import com.peakacard.app.session.data.datasource.remote.model.SessionRequest
 import com.peakacard.app.session.data.datasource.remote.model.SessionResponse
 import com.peakacard.core.Either
+import com.peakacard.core.data.remote.model.PeakDataModel
 import kotlinx.coroutines.tasks.await
 
 class SessionRemoteDataSource(private val database: FirebaseFirestore) {
@@ -14,7 +15,7 @@ class SessionRemoteDataSource(private val database: FirebaseFirestore) {
     suspend fun joinSession(sessionRequest: SessionRequest):
             Either<SessionResponse.Error, SessionResponse.Success> {
         return try {
-            val session = database.collection(SessionDataModel.COLLECTION_ID)
+            val session = database.collection(PeakDataModel.ROOT_COLLECTION_ID)
             val sessionId = sessionRequest.code
             val currentSession = session.document(sessionId).get().await()
             if (currentSession.exists()) {
@@ -42,7 +43,7 @@ class SessionRemoteDataSource(private val database: FirebaseFirestore) {
     suspend fun leaveSession(sessionRequest: SessionRequest):
             Either<SessionResponse.Error, SessionResponse.Success> {
         return try {
-            val session = database.collection(SessionDataModel.COLLECTION_ID)
+            val session = database.collection(PeakDataModel.ROOT_COLLECTION_ID)
             val sessionId = sessionRequest.code
             val currentSession = session.document(sessionId).get().await()
             if (currentSession.exists()) {

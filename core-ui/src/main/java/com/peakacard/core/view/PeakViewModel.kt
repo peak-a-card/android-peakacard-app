@@ -1,0 +1,21 @@
+package com.peakacard.core.view
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+
+abstract class PeakViewModel<S> : ViewModel() {
+
+    abstract val state: BroadcastChannel<S>
+
+    fun bindView(view: PeakView<S>) {
+        viewModelScope.launch {
+            state
+                .asFlow()
+                .collect { view.updateState(it) }
+        }
+    }
+}
