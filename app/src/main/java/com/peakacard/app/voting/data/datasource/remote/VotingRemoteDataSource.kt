@@ -2,7 +2,7 @@ package com.peakacard.app.voting.data.datasource.remote
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.peakacard.app.card.data.datasource.remote.model.VotationDataModel
-import com.peakacard.app.session.data.datasource.remote.model.SessionDataModel
+import com.peakacard.session.data.datasource.remote.model.SessionDataModel
 import com.peakacard.app.voting.data.datasource.remote.model.*
 import com.peakacard.core.Either
 import com.peakacard.core.data.remote.model.PeakDataModel

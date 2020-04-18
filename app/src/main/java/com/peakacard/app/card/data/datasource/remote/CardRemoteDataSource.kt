@@ -6,7 +6,7 @@ import com.google.firebase.firestore.SetOptions
 import com.peakacard.app.card.data.datasource.remote.model.VotationDataModel
 import com.peakacard.app.card.data.datasource.remote.model.VoteRequest
 import com.peakacard.app.card.data.datasource.remote.model.VoteResponse
-import com.peakacard.app.session.data.datasource.remote.model.SessionDataModel
+import com.peakacard.session.data.datasource.remote.model.SessionDataModel
 import com.peakacard.core.Either
 import com.peakacard.core.data.remote.model.PeakDataModel
 import kotlinx.coroutines.tasks.await

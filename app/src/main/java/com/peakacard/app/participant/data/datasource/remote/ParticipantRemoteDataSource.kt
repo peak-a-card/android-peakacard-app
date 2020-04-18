@@ -3,7 +3,7 @@ package com.peakacard.app.participant.data.datasource.remote
 import com.google.firebase.firestore.FirebaseFirestore
 import com.peakacard.app.participant.data.datasource.remote.model.ParticipantDataModel
 import com.peakacard.app.participant.data.datasource.remote.model.ParticipantsResponse
-import com.peakacard.app.session.data.datasource.remote.model.SessionDataModel
+import com.peakacard.session.data.datasource.remote.model.SessionDataModel
 import com.peakacard.core.Either
 import com.peakacard.core.data.remote.model.PeakDataModel
 import kotlinx.coroutines.channels.awaitClose
