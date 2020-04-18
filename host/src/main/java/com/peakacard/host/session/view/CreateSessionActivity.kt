@@ -35,11 +35,11 @@ class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> 
 
     private val firebaseUserMapper: FirebaseUserMapper by inject()
 
-    private val createSessionTitle: TextView by bindView(R.id.create_session_title)
-    private val createSessionCode: TextView by bindView(R.id.create_session_code)
+    private val createSessionGreetings: TextView by bindView(R.id.create_session_greetings)
     private val createSessionButton: MaterialButton by bindView(R.id.create_session_button)
     private val createSessionError: TextView by bindView(R.id.create_session_error)
-    private val createSessionProgress: View by bindView(R.id.create_session_progress)
+    private val createSessionCreated: TextView by bindView(R.id.create_session_created)
+    private val createSessionCreatedMessage: View by bindView(R.id.create_session_created_message)
 
     private val googleSignInClient: GoogleSignInClient by lazy {
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -61,10 +61,10 @@ class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> 
         val currentUser = firebaseAuth.currentUser
         if (currentUser != null) {
             Timber.d("User already logged with account ${currentUser.email}")
-            createSessionTitle.text =
-                getString(R.string.create_session_title_logged, currentUser.displayName)
+            createSessionGreetings.text =
+                getString(R.string.create_session_greetings_logged, currentUser.displayName)
         } else {
-            createSessionTitle.text = getString(R.string.create_session_title)
+            createSessionGreetings.text = getString(R.string.create_session_title)
         }
         bindProgressButton(createSessionButton)
         configureButton()
@@ -126,8 +126,8 @@ class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> 
                     val user = firebaseAuth.currentUser
                     if (user != null) {
                         Timber.d("User logged successfully with account ${user.email}")
-                        createSessionTitle.text =
-                            getString(R.string.create_session_title_logged, user.displayName)
+                        createSessionGreetings.text =
+                            getString(R.string.create_session_greetings_logged, user.displayName)
                         doCreateSession(user)
                     } else {
                         showSignInError()
@@ -145,8 +145,7 @@ class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> 
     }
 
     private fun showSignInError() {
-        createSessionCode.isGone = true
-        createSessionProgress.isGone = true
+        createSessionCreatedMessage.isGone = true
         createSessionError.apply {
             text = getString(R.string.create_session_error_sign_in)
             isVisible = true
@@ -157,8 +156,7 @@ class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> 
         when (state) {
             CreateSessionState.GeneratingSessionId -> {
                 createSessionError.isGone = true
-                createSessionCode.isGone = true
-                createSessionProgress.isVisible = true
+                createSessionCreatedMessage.isGone = true
                 createSessionButton.showProgress {
                     buttonTextRes = R.string.create_session_creating
                     progressColorRes = R.color.background
@@ -166,19 +164,21 @@ class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> 
             }
             is CreateSessionState.SessionIdGenerated -> {
                 createSessionError.isGone = true
-                createSessionProgress.isGone = true
-                createSessionCode.text = state.sessionId
-                createSessionCode.isVisible = true
-                createSessionButton.hideProgress(R.string.create_session_created)
-                createSessionButton.hideKeyboard()
-                // TODO start activity
+                createSessionCreated.text = getString(R.string.create_session_code, state.sessionId)
+                createSessionCreatedMessage.isVisible = true
+                createSessionButton.apply {
+                    hideProgress(R.string.create_session_goto_vote)
+                    hideKeyboard()
+                    setOnClickListener {
+                        // TODO start activity
+                    }
+                }
             }
             is CreateSessionState.Error -> {
                 when (state) {
                     CreateSessionState.Error.UserSignIn -> showSignInError()
                     CreateSessionState.Error.CannotGenerateId -> {
-                        createSessionCode.isGone = true
-                        createSessionProgress.isGone = true
+                        createSessionCreatedMessage.isGone = true
                         createSessionError.isVisible = true
                     }
                 }

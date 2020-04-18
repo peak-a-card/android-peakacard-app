@@ -1,10 +1,12 @@
 <resources>
-    <string name="create_session_title">Hooray! Create a session and share the code!</string>
-    <string name="create_session_title_logged">Welcome back %1$s! Enter the code to join a session!</string>
+    <string name="create_session_greetings">Hooray!</string>
+    <string name="create_session_greetings_logged">Welcome back %1$s!</string>
+    <string name="create_session_title">Create a session to start refine your tasks!</string>
     <string name="create_session_error">Error creating your session code, please try again later</string>
-    <string name="create_session_code">The code of your session is:</string>
+    <string name="create_session_code">The code of your session is: <b>%1$s</b></string>
     <string name="create_session_error_sign_in">Oops! We have an error signing you in. Please try again later :-)</string>
     <string name="create_session_enter">Create session</string>
     <string name="create_session_creating">Creating session</string>
-    <string name="create_session_created">Session created!</string>
+    <string name="create_session_goto_vote">Create vote</string>
+    <string name="create_session_created_message">Share it with your teammates and let\'s go voting!</string>
 </resources>
