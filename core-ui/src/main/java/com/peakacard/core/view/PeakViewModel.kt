@@ -3,13 +3,14 @@ package com.peakacard.core.view
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 abstract class PeakViewModel<S> : ViewModel() {
 
-    abstract val state: BroadcastChannel<S>
+    val state: BroadcastChannel<S> = ConflatedBroadcastChannel()
 
     fun bindView(view: PeakView<S>) {
         viewModelScope.launch {

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/M"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/XXL" />
+
+    <TextView
+        style="@style/H4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_voting_title" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/M" />
+
+    <TextView
+        style="@style/Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_voting_message" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/XXL" />
+
+    <TextView
+        android:id="@+id/create_voting_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/L"
+        android:text="@string/create_voting_error_unspecified"
+        android:textAppearance="@style/ErrorTextStyle"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/TextInputStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/create_voting_task_title">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/create_voting_title"
+            style="@style/TextEditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionGo"
+            android:inputType="text"
+            android:lines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/L" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/create_voting_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_voting_button"
+        android:textAllCaps="false" />
+
+</LinearLayout>

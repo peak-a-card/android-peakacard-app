@@ -13,8 +13,6 @@ import timber.log.Timber
 class CreateSessionViewModel(private val createSessionUseCase: CreateSessionUseCase) :
     PeakViewModel<CreateSessionState>() {
 
-    override val state: BroadcastChannel<CreateSessionState> = ConflatedBroadcastChannel()
-
     fun createSession(user: UserUiModel?) {
         if (user == null) {
             state.offer(CreateSessionState.Error.UserSignIn)

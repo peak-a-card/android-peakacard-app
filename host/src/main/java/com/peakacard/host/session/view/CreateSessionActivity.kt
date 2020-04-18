@@ -22,6 +22,7 @@ import com.peakacard.core.ui.extensions.hideKeyboard
 import com.peakacard.core.view.PeakView
 import com.peakacard.host.R
 import com.peakacard.host.session.view.state.CreateSessionState
+import com.peakacard.host.voting.view.CreateVotingActivity
 import com.peakacard.session.view.model.mapper.FirebaseUserMapper
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -170,7 +171,16 @@ class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> 
                     hideProgress(R.string.create_session_goto_vote)
                     hideKeyboard()
                     setOnClickListener {
-                        // TODO start activity
+                        startActivity(
+                            Intent(
+                                this@CreateSessionActivity,
+                                CreateVotingActivity::class.java
+                            )
+                        )
+                        overridePendingTransition(
+                            R.anim.transition_slide_from_right,
+                            R.anim.transition_slide_to_left
+                        )
                     }
                 }
             }

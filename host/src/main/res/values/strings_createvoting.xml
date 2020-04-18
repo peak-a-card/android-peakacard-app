@@ -1,0 +1,11 @@
+<resources>
+    <string name="create_voting_title">Create a vote!</string>
+    <string name="create_voting_message">Set the title of the task to start its refinement</string>
+    <string name="create_voting_task_title">Title</string>
+    <string name="create_voting_button">Create vote</string>
+    <string name="create_voting_button_creating">Creating vote</string>
+    <string name="create_voting_button_created">Vote created</string>
+    <string name="create_voting_error_unspecified">Error creating your vote, please try again later</string>
+    <string name="create_voting_error_title_required">Task title is required :-/</string>
+    <string name="create_voting_error_no_session">Something is wrong with the session, please try again later</string>
+</resources>
