@@ -35,7 +35,7 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
 
     private val firebaseUserMapper: FirebaseUserMapper by inject()
 
-    private val joinSessionTitle: TextView by bindView(R.id.join_session_title)
+    private val joinSessionGreetings: TextView by bindView(R.id.join_session_greetings)
     private val joinSessionCode: TextInputEditText by bindView(R.id.join_session_code)
     private val joinSessionButton: MaterialButton by bindView(R.id.join_session_button)
     private val joinSessionError: TextView by bindView(R.id.join_session_error)
@@ -61,10 +61,10 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
         val currentUser = firebaseAuth.currentUser
         if (currentUser != null) {
             Timber.d("User already logged with account ${currentUser.email}")
-            joinSessionTitle.text =
-                getString(R.string.join_session_title_logged, currentUser.displayName)
+            joinSessionGreetings.text =
+                getString(R.string.join_session_greetings_logged, currentUser.displayName)
         } else {
-            joinSessionTitle.text = getString(R.string.join_session_title)
+            joinSessionGreetings.text = getString(R.string.join_session_greetings)
         }
         bindProgressButton(joinSessionButton)
         configureButton()
@@ -126,8 +126,8 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
                     val user = firebaseAuth.currentUser
                     if (user != null) {
                         Timber.d("User logged successfully with account ${user.email}")
-                        joinSessionTitle.text =
-                            getString(R.string.join_session_title_logged, user.displayName)
+                        joinSessionGreetings.text =
+                            getString(R.string.join_session_greetings_logged, user.displayName)
                         doJoinSession(user)
                     } else {
                         showSignInError()

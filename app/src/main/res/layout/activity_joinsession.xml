@@ -12,11 +12,22 @@
         android:layout_height="@dimen/XXL" />
 
     <TextView
-        android:id="@+id/join_session_title"
+        android:id="@+id/join_session_greetings"
         style="@style/H4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="@string/join_session_title" />
+        tools:text="@string/join_session_greetings" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/M" />
+
+    <TextView
+        android:id="@+id/join_session_title"
+        style="@style/Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/join_session_title" />
 
     <Space
         android:layout_width="match_parent"

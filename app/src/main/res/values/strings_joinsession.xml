@@ -1,6 +1,7 @@
 <resources>
-    <string name="join_session_title">Hooray! Enter the code to join a session!</string>
-    <string name="join_session_title_logged">Welcome back %1$s! Enter the code to join a session!</string>
+    <string name="join_session_greetings">Hooray!</string>
+    <string name="join_session_greetings_logged">Welcome back %1$s!</string>
+    <string name="join_session_title">Enter the code to join a session!</string>
     <string name="join_session_enter">Join session</string>
     <string name="join_session_code">Code</string>
     <string name="join_session_name">Name</string>
