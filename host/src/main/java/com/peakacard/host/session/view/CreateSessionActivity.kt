@@ -69,6 +69,7 @@ class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> 
         }
         bindProgressButton(createSessionButton)
         configureButton()
+        configureViews()
     }
 
     private fun configureButton() {
@@ -85,6 +86,11 @@ class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> 
                 }
             }
         }
+    }
+
+    private fun configureViews() {
+        createSessionError.isGone = true
+        createSessionCreatedMessage.isGone = true
     }
 
     override fun onPause() {

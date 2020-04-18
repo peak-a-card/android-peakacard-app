@@ -1,6 +1,7 @@
 package com.peakacard.host.voting.view
 
 import android.os.Bundle
+import android.os.Handler
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
@@ -79,6 +80,7 @@ class CreateVotingActivity : AppCompatActivity(), PeakView<CreateVotingState> {
                     }
                     CreateVotingState.Error.NoSessionFound -> {
                         createVotingError.text = getString(R.string.create_voting_error_no_session)
+                        Handler().postDelayed({ onBackPressed() }, 1000)
                     }
                     CreateVotingState.Error.Unspecified -> {
                         createVotingError.text = getString(R.string.create_voting_error_unspecified)
@@ -87,5 +89,13 @@ class CreateVotingActivity : AppCompatActivity(), PeakView<CreateVotingState> {
                 createVotingButton.hideProgress(R.string.create_voting_button)
             }
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(
+            R.anim.transition_slide_from_left,
+            R.anim.transition_slide_to_right
+        )
     }
 }
