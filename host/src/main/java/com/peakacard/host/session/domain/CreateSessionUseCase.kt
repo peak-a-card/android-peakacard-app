@@ -15,7 +15,7 @@ class CreateSessionUseCase(private val sessionRepository: SessionRepository) {
                         Either.Left(CreateSessionResponse.Error)
                     }
                     GetAllSessionIdsResponse.Error.NoSessionStarted -> {
-                        Either.Right(CreateSessionResponse.Success(1))
+                        Either.Right(CreateSessionResponse.Success("1"))
                     }
                 }
             },
@@ -24,14 +24,20 @@ class CreateSessionUseCase(private val sessionRepository: SessionRepository) {
                 if (maxId == null) {
                     Either.Left(CreateSessionResponse.Error)
                 } else {
-                    Either.Right(CreateSessionResponse.Success(maxId + 1))
+                    val nextId = maxId + 1
+                    Either.Right(CreateSessionResponse.Success(nextId.toString()))
                 }
             }
         ).run {
             when (this) {
                 is Either.Left -> this
-                is Either.Right -> sessionRepository.createSession(item.id)
+                is Either.Right -> createSessionById(item)
             }
         }
     }
+
+    private suspend fun createSessionById(item: CreateSessionResponse.Success) =
+        sessionRepository.createSession(item.id).also {
+            sessionRepository.saveSessionId(item.id)
+        }
 }

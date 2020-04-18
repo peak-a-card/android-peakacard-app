@@ -1,11 +1,11 @@
 package com.peakacard.app.voting.data.datasource.remote
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.peakacard.app.card.data.datasource.remote.model.VotationDataModel
 import com.peakacard.session.data.datasource.remote.model.SessionDataModel
 import com.peakacard.app.voting.data.datasource.remote.model.*
 import com.peakacard.core.Either
 import com.peakacard.core.data.remote.model.PeakDataModel
+import com.peakacard.voting.data.datasource.remote.model.VotingDataModel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -36,7 +36,7 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
         return callbackFlow {
             val session = database.collection(PeakDataModel.ROOT_COLLECTION_ID)
             val votations = session.document(sessionId).collection(SessionDataModel.VOTATIONS)
-                .orderBy(VotationDataModel.CREATION_DATE)
+                .orderBy(VotingDataModel.CREATION_DATE)
 
             val subscription = votations.addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
@@ -87,7 +87,7 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
                     offer(Either.Left(ParticipantsVotationResponse.Error.RemoteException))
                 } else {
                     val participantsVotation =
-                        snapshot?.get(VotationDataModel.PARTICIPANT_VOTATION) as Map<String, Float>
+                        snapshot?.get(VotingDataModel.PARTICIPANT_VOTATION) as Map<String, Float>
 
                     val participantVotationDataModels = participantsVotation.map { (key, value) ->
                         ParticipantVotationDataModel(

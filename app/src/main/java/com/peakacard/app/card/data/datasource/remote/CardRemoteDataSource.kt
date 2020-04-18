@@ -3,12 +3,12 @@ package com.peakacard.app.card.data.datasource.remote
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.SetOptions
-import com.peakacard.app.card.data.datasource.remote.model.VotationDataModel
 import com.peakacard.app.card.data.datasource.remote.model.VoteRequest
 import com.peakacard.app.card.data.datasource.remote.model.VoteResponse
 import com.peakacard.session.data.datasource.remote.model.SessionDataModel
 import com.peakacard.core.Either
 import com.peakacard.core.data.remote.model.PeakDataModel
+import com.peakacard.voting.data.datasource.remote.model.VotingDataModel
 import kotlinx.coroutines.tasks.await
 
 class CardRemoteDataSource(private val database: FirebaseFirestore) {
@@ -27,7 +27,7 @@ class CardRemoteDataSource(private val database: FirebaseFirestore) {
             } else {
                 val participantVotationValue = mapOf(voteRequest.uid to voteRequest.score)
                 val participantVotation =
-                    mapOf(VotationDataModel.PARTICIPANT_VOTATION to participantVotationValue)
+                    mapOf(VotingDataModel.PARTICIPANT_VOTATION to participantVotationValue)
 
                 document.set(participantVotation, SetOptions.merge())
                 Either.Right(VoteResponse.Success)
