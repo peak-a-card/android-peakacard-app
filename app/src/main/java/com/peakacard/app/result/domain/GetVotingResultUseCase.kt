@@ -1,7 +1,7 @@
 package com.peakacard.app.result.domain
 
 import com.peakacard.app.result.domain.model.GetVotingResultResponse
-import com.peakacard.app.session.data.repository.SessionRepository
+import com.peakacard.session.data.repository.SessionRepository
 import com.peakacard.app.voting.data.repository.VotingRepository
 import com.peakacard.core.Either
 import kotlinx.coroutines.flow.Flow

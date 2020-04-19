@@ -1,4 +1,4 @@
-package com.peakacard.app.session.data.datasource.remote.model
+package com.peakacard.session.data.datasource.remote.model
 
 sealed class SessionResponse {
     object Success : SessionResponse()

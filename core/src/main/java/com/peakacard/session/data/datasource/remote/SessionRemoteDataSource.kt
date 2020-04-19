@@ -1,11 +1,11 @@
-package com.peakacard.app.session.data.datasource.remote
+package com.peakacard.session.data.datasource.remote
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.peakacard.participant.data.datasource.remote.model.ParticipantDataModel
 import com.peakacard.session.data.datasource.remote.model.SessionDataModel
-import com.peakacard.app.session.data.datasource.remote.model.SessionRequest
-import com.peakacard.app.session.data.datasource.remote.model.SessionResponse
+import com.peakacard.session.data.datasource.remote.model.SessionRequest
+import com.peakacard.session.data.datasource.remote.model.SessionResponse
 import com.peakacard.core.Either
 import com.peakacard.core.data.remote.model.PeakDataModel
 import kotlinx.coroutines.tasks.await

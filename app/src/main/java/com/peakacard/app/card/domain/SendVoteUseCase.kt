@@ -5,8 +5,8 @@ import com.peakacard.card.domain.model.Card
 import com.peakacard.card.domain.model.SendVoteResponseError
 import com.peakacard.card.domain.model.SendVoteSuccess
 import com.peakacard.card.domain.model.Vote
-import com.peakacard.app.session.data.repository.SessionRepository
-import com.peakacard.app.user.data.repository.UserRepository
+import com.peakacard.session.data.repository.SessionRepository
+import com.peakacard.user.data.repository.UserRepository
 import com.peakacard.app.voting.data.repository.VotingRepository
 import com.peakacard.core.Either
 

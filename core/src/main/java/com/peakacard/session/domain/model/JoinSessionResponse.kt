@@ -1,4 +1,4 @@
-package com.peakacard.app.session.domain.model
+package com.peakacard.session.domain.model
 
 sealed class JoinSessionResponse {
     object Success : JoinSessionResponse()

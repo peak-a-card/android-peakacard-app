@@ -1,9 +1,9 @@
 package com.peakacard.app.session.domain
 
-import com.peakacard.app.session.data.repository.SessionRepository
-import com.peakacard.app.session.domain.model.LeaveSessionResponse
-import com.peakacard.app.session.domain.model.UserSession
-import com.peakacard.app.user.data.repository.UserRepository
+import com.peakacard.session.data.repository.SessionRepository
+import com.peakacard.session.domain.model.LeaveSessionResponse
+import com.peakacard.session.domain.model.UserSession
+import com.peakacard.user.data.repository.UserRepository
 import com.peakacard.core.Either
 
 class LeaveSessionUseCase(

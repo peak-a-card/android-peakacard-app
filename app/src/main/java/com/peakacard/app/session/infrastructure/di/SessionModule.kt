@@ -1,9 +1,9 @@
 package com.peakacard.app.session.infrastructure.di
 
 import android.content.Context
-import com.peakacard.app.session.data.datasource.local.SessionLocalDataSource
-import com.peakacard.app.session.data.datasource.remote.SessionRemoteDataSource
-import com.peakacard.app.session.data.repository.SessionRepository
+import com.peakacard.session.data.datasource.local.SessionLocalDataSource
+import com.peakacard.session.data.datasource.remote.SessionRemoteDataSource
+import com.peakacard.session.data.repository.SessionRepository
 import com.peakacard.app.session.domain.JoinSessionUseCase
 import com.peakacard.app.session.domain.LeaveSessionUseCase
 import com.peakacard.app.session.view.JoinSessionViewModel

@@ -3,8 +3,8 @@ package com.peakacard.app.session.view
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peakacard.app.session.domain.JoinSessionUseCase
-import com.peakacard.app.session.domain.model.UserSession
-import com.peakacard.app.session.domain.model.JoinSessionResponse
+import com.peakacard.session.domain.model.UserSession
+import com.peakacard.session.domain.model.JoinSessionResponse
 import com.peakacard.session.view.model.UserUiModel
 import com.peakacard.app.session.view.model.mapper.UserUiModelMapper
 import com.peakacard.app.session.view.state.JoinSessionState

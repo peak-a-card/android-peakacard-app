@@ -1,6 +1,6 @@
 package com.peakacard.app.voting.domain
 
-import com.peakacard.app.session.data.repository.SessionRepository
+import com.peakacard.session.data.repository.SessionRepository
 import com.peakacard.app.voting.data.repository.VotingRepository
 import com.peakacard.app.voting.domain.model.GetVotingError
 import com.peakacard.app.voting.domain.model.Voting

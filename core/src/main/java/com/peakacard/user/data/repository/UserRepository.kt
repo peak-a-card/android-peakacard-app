@@ -1,9 +1,9 @@
-package com.peakacard.app.user.data.repository
+package com.peakacard.user.data.repository
 
-import com.peakacard.app.session.data.datasource.remote.model.mapper.UserDataModelMapper
-import com.peakacard.app.session.data.datasource.remote.model.mapper.UserMapper
-import com.peakacard.app.session.domain.model.User
-import com.peakacard.app.user.data.datasource.local.UserLocalDataSource
+import com.peakacard.session.data.datasource.remote.model.mapper.UserDataModelMapper
+import com.peakacard.session.data.datasource.remote.model.mapper.UserMapper
+import com.peakacard.user.domain.model.User
+import com.peakacard.user.data.datasource.local.UserLocalDataSource
 
 class UserRepository(
     private val userLocalDataSource: UserLocalDataSource,

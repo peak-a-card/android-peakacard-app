@@ -1,4 +1,4 @@
-package com.peakacard.app.session.data.datasource.local
+package com.peakacard.session.data.datasource.local
 
 import android.content.SharedPreferences
 

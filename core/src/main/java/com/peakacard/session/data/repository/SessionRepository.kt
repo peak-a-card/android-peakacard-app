@@ -1,13 +1,13 @@
-package com.peakacard.app.session.data.repository
+package com.peakacard.session.data.repository
 
-import com.peakacard.app.session.data.datasource.local.SessionLocalDataSource
-import com.peakacard.app.session.data.datasource.remote.SessionRemoteDataSource
-import com.peakacard.app.session.data.datasource.remote.model.SessionRequest
-import com.peakacard.app.session.data.datasource.remote.model.SessionResponse
-import com.peakacard.app.session.data.datasource.remote.model.mapper.UserMapper
-import com.peakacard.app.session.domain.model.JoinSessionResponse
-import com.peakacard.app.session.domain.model.LeaveSessionResponse
-import com.peakacard.app.session.domain.model.UserSession
+import com.peakacard.session.data.datasource.local.SessionLocalDataSource
+import com.peakacard.session.data.datasource.remote.SessionRemoteDataSource
+import com.peakacard.session.data.datasource.remote.model.SessionRequest
+import com.peakacard.session.data.datasource.remote.model.SessionResponse
+import com.peakacard.session.data.datasource.remote.model.mapper.UserMapper
+import com.peakacard.session.domain.model.JoinSessionResponse
+import com.peakacard.session.domain.model.LeaveSessionResponse
+import com.peakacard.session.domain.model.UserSession
 import com.peakacard.core.Either
 
 class SessionRepository(
