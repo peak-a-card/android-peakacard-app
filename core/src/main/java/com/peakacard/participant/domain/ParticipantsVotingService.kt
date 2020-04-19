@@ -1,4 +1,4 @@
-package com.peakacard.app.result.domain
+package com.peakacard.participant.domain
 
 import com.peakacard.cards.data.repository.CardsRepository
 import com.peakacard.participant.data.repository.ParticipantRepository

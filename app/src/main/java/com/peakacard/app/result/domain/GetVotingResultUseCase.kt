@@ -4,6 +4,7 @@ import com.peakacard.result.domain.model.GetVotingResultResponse
 import com.peakacard.session.data.repository.SessionRepository
 import com.peakacard.voting.data.repository.VotingRepository
 import com.peakacard.core.Either
+import com.peakacard.participant.domain.ParticipantsVotingService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
