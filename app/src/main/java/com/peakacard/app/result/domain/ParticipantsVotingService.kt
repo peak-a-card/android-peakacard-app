@@ -1,9 +1,9 @@
 package com.peakacard.app.result.domain
 
 import com.peakacard.app.cards.data.repository.CardsRepository
-import com.peakacard.app.participant.data.repository.ParticipantRepository
-import com.peakacard.app.participant.domain.model.Participant
-import com.peakacard.app.participant.domain.model.ParticipantError
+import com.peakacard.participant.data.repository.ParticipantRepository
+import com.peakacard.participant.domain.model.Participant
+import com.peakacard.participant.domain.model.ParticipantError
 import com.peakacard.app.result.domain.model.GetParticipantsVotationError
 import com.peakacard.app.result.domain.model.GetParticipantsVotationResponse
 import com.peakacard.app.result.domain.model.GetVotingResultResponse

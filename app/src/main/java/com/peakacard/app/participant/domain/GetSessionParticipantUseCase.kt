@@ -1,8 +1,8 @@
 package com.peakacard.app.participant.domain
 
-import com.peakacard.app.participant.data.repository.ParticipantRepository
-import com.peakacard.app.participant.domain.model.Participant
-import com.peakacard.app.participant.domain.model.ParticipantError
+import com.peakacard.participant.data.repository.ParticipantRepository
+import com.peakacard.participant.domain.model.Participant
+import com.peakacard.participant.domain.model.ParticipantError
 import com.peakacard.app.session.data.repository.SessionRepository
 import com.peakacard.core.Either
 import kotlinx.coroutines.flow.Flow

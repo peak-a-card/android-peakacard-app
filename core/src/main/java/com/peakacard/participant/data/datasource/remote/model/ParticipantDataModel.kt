@@ -1,4 +1,4 @@
-package com.peakacard.app.participant.data.datasource.remote.model
+package com.peakacard.participant.data.datasource.remote.model
 
 data class ParticipantDataModel(
     val id: String,

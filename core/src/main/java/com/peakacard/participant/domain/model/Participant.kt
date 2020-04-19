@@ -1,4 +1,4 @@
-package com.peakacard.app.participant.domain.model
+package com.peakacard.participant.domain.model
 
 data class Participant(
     val uid: String,
