@@ -46,7 +46,16 @@ class VotingResultViewModel(
                 it.fold(
                     { error ->
                         Timber.e("Error listening participants votes. Error $error")
-                        votingResultState.offer(VotingResultState.Error)
+                        when (error) {
+                            GetVotingResultResponse.Error.NoParticipants -> {
+                                votingResultState.offer(
+                                    VotingResultState.ParticipantsLoaded(emptyList())
+                                )
+                            }
+                            GetVotingResultResponse.Error.Unspecified -> {
+                                votingResultState.offer(VotingResultState.Error)
+                            }
+                        }
                     },
                     { participants ->
                         Timber.d("Got participants votes successfully")

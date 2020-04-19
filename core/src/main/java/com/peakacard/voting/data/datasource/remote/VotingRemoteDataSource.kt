@@ -3,10 +3,10 @@ package com.peakacard.voting.data.datasource.remote
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
-import com.peakacard.session.data.datasource.remote.model.SessionDataModel
-import com.peakacard.voting.data.datasource.remote.model.*
 import com.peakacard.core.Either
 import com.peakacard.core.data.remote.model.PeakDataModel
+import com.peakacard.session.data.datasource.remote.model.SessionDataModel
+import com.peakacard.voting.data.datasource.remote.model.*
 import com.peakacard.voting.data.datasource.remote.model.VotingDataModel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -120,7 +120,8 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
         val votationValues = mapOf(
             VotingDataModel.CREATION_DATE to Timestamp.now(),
             VotingDataModel.NAME to title,
-            VotingDataModel.STATUS to VotingDataModel.Status.STARTED.toString()
+            VotingDataModel.STATUS to VotingDataModel.Status.STARTED.toString(),
+            VotingDataModel.PARTICIPANT_VOTATION to emptyMap<String, Float>()
         )
 
         return try {

@@ -3,6 +3,8 @@ package com.peakacard.host.voting.view
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,6 +38,14 @@ class WaitingVotesActivity : AppCompatActivity(), WaitingVotesView {
     }
 
     override fun updateState(state: WaitingVotesState) {
-
+        when (state) {
+            is WaitingVotesState.ParticipantsVoteLoaded -> {
+                error.isGone = true
+                votedParticipantsAdapter.setParticipants(state.participants)
+            }
+            WaitingVotesState.Error -> {
+                error.isVisible = true
+            }
+        }
     }
 }

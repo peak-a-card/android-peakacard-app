@@ -9,6 +9,7 @@ import com.peakacard.voting.domain.model.GetVotingError
 import com.peakacard.app.voting.view.model.SessionParticipantUiModel
 import com.peakacard.app.voting.view.state.WaitParticipantState
 import com.peakacard.app.voting.view.state.WaitVotingState
+import com.peakacard.participant.domain.model.ParticipantError
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
@@ -68,7 +69,16 @@ class WaitVotingViewModel(
             getSessionParticipantUseCase.getSessionParticipant().collectLatest {
                 it.fold({ error ->
                     Timber.e("Error waiting for participant. Error: $error")
-                    waitParticipantState.offer(WaitParticipantState.Error)
+                    when (error) {
+                        ParticipantError.NoParticipants -> {
+                            waitParticipantState.offer(
+                                WaitParticipantState.ParticipantsLoaded(emptyList())
+                            )
+                        }
+                        ParticipantError.Unspecified -> {
+                            waitParticipantState.offer(WaitParticipantState.Error)
+                        }
+                    }
                 }, { participants ->
                     Timber.d("$participants")
                     val participantUiModels =

@@ -7,6 +7,7 @@ import com.peakacard.app.recap.view.state.RecapState
 import com.peakacard.app.result.domain.GetFinalVotingResultUseCase
 import com.peakacard.app.result.view.model.VotingResultParticipantUiModel
 import com.peakacard.app.voting.domain.GetStartedVotingUseCase
+import com.peakacard.result.domain.model.GetVotingResultResponse
 import com.peakacard.voting.domain.model.GetVotingError
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -37,7 +38,14 @@ class RecapViewModel(
             getFinalVotingResultUseCase.getFinalVotingResult().fold(
                 { error ->
                     Timber.e("Error getting final participants votes. Error $error")
-                    recapState.offer(RecapState.Error)
+                    when (error) {
+                        GetVotingResultResponse.Error.NoParticipants -> {
+                            recapState.offer(RecapState.VotationsLoaded(emptyList()))
+                        }
+                        GetVotingResultResponse.Error.Unspecified -> {
+                            recapState.offer(RecapState.Error)
+                        }
+                    }
                 },
                 { participants ->
                     Timber.d("Got final participants votes successfully")

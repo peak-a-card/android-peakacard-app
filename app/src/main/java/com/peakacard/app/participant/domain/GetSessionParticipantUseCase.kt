@@ -16,7 +16,7 @@ class GetSessionParticipantUseCase(
     suspend fun getSessionParticipant(): Flow<Either<ParticipantError, List<Participant>>> {
         val sessionId = sessionRepository.getCurrentSession()
         return if (sessionId == null) {
-            flowOf(Either.Left(ParticipantError))
+            flowOf(Either.Left(ParticipantError.Unspecified))
         } else {
             participantRepository.getSessionParticipants(sessionId)
         }

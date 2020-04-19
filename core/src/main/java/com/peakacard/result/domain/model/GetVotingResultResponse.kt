@@ -15,6 +15,7 @@ sealed class GetVotingResultResponse(open val participantName: String) {
     }
 
     sealed class Error {
+        object NoParticipants : Error()
         object Unspecified : Error()
     }
 }

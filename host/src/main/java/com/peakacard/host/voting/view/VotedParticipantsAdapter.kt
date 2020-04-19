@@ -24,8 +24,8 @@ class VotedParticipantsAdapter : RecyclerView.Adapter<ParticipantViewHolder>() {
     }
 
     fun setParticipants(votedParticipantUiModels: List<VotedParticipantUiModel>) {
-        participantUiModels.clear()
-        notifyDataSetChanged()
+//        participantUiModels.clear()
+//        notifyDataSetChanged()
 
         votedParticipantUiModels.forEach { sessionParticipantUiModel ->
             if (participantUiModels.add(sessionParticipantUiModel)) {

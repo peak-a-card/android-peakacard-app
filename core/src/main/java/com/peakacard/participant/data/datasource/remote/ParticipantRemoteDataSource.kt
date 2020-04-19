@@ -19,14 +19,14 @@ class ParticipantRemoteDataSource(private val database: FirebaseFirestore) {
 
             val subscription = participants.addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
-                    offer(Either.Left(ParticipantsResponse.Error))
+                    offer(Either.Left(ParticipantsResponse.Error.RemoteException))
                 } else {
                     val participantDocuments = snapshot?.documents
                     val participantDataModels = participantDocuments?.mapNotNull { document ->
                         document.toObject(ParticipantDataModel::class.java)
                     }
                     if (participantDataModels.isNullOrEmpty()) {
-                        offer(Either.Left(ParticipantsResponse.Error))
+                        offer(Either.Left(ParticipantsResponse.Error.NoParticipants))
                     } else {
                         offer(Either.Right(ParticipantsResponse.Success(participantDataModels)))
                     }

@@ -1,3 +1,6 @@
 package com.peakacard.participant.domain.model
 
-object ParticipantError
+sealed class ParticipantError {
+    object NoParticipants : ParticipantError()
+    object Unspecified : ParticipantError()
+}
