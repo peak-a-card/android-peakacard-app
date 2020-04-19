@@ -13,5 +13,6 @@ val coreModules = listOf(
     participantCoreModule,
     sessionCoreModule,
     userCoreModule,
-    votingCoreModule
+    votingCoreModule,
+    dataModule
 )
