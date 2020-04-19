@@ -1,4 +1,4 @@
-package com.peakacard.app.card.domain.model
+package com.peakacard.card.domain.model
 
 sealed class SendVoteResponseError {
     object Unspecified : SendVoteResponseError()

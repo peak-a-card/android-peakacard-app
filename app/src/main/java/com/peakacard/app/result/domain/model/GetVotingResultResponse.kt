@@ -1,6 +1,6 @@
 package com.peakacard.app.result.domain.model
 
-import com.peakacard.app.card.domain.model.Card
+import com.peakacard.card.domain.model.Card
 
 sealed class GetVotingResultResponse(open val participantName: String) {
 

@@ -1,4 +1,4 @@
-package com.peakacard.app.card.data.datasource.remote.model
+package com.peakacard.card.data.datasource.remote.model
 
 sealed class VoteResponse {
     object Success : VoteResponse()

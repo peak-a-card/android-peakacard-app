@@ -1,6 +1,6 @@
 package com.peakacard.app.result.domain
 
-import com.peakacard.app.cards.data.repository.CardsRepository
+import com.peakacard.cards.data.repository.CardsRepository
 import com.peakacard.participant.data.repository.ParticipantRepository
 import com.peakacard.participant.domain.model.Participant
 import com.peakacard.participant.domain.model.ParticipantError

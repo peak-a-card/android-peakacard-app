@@ -1,10 +1,10 @@
 package com.peakacard.app.card.domain
 
-import com.peakacard.app.card.data.repository.CardRepository
-import com.peakacard.app.card.domain.model.Card
-import com.peakacard.app.card.domain.model.SendVoteResponseError
-import com.peakacard.app.card.domain.model.SendVoteSuccess
-import com.peakacard.app.card.domain.model.Vote
+import com.peakacard.card.data.repository.CardRepository
+import com.peakacard.card.domain.model.Card
+import com.peakacard.card.domain.model.SendVoteResponseError
+import com.peakacard.card.domain.model.SendVoteSuccess
+import com.peakacard.card.domain.model.Vote
 import com.peakacard.app.session.data.repository.SessionRepository
 import com.peakacard.app.user.data.repository.UserRepository
 import com.peakacard.app.voting.data.repository.VotingRepository

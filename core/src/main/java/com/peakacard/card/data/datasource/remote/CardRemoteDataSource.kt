@@ -1,10 +1,10 @@
-package com.peakacard.app.card.data.datasource.remote
+package com.peakacard.card.data.datasource.remote
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.SetOptions
-import com.peakacard.app.card.data.datasource.remote.model.VoteRequest
-import com.peakacard.app.card.data.datasource.remote.model.VoteResponse
+import com.peakacard.card.data.datasource.remote.model.VoteRequest
+import com.peakacard.card.data.datasource.remote.model.VoteResponse
 import com.peakacard.session.data.datasource.remote.model.SessionDataModel
 import com.peakacard.core.Either
 import com.peakacard.core.data.remote.model.PeakDataModel

@@ -1,6 +1,6 @@
-package com.peakacard.app.card.domain.model
+package com.peakacard.card.data.datasource.remote.model
 
-data class Vote(
+data class VoteRequest(
     val sessionId: String,
     val votingTitle: String,
     val uid: String,

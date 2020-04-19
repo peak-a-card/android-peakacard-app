@@ -1,6 +1,6 @@
-package com.peakacard.app.cards.data.datasource.local
+package com.peakacard.cards.data.datasource.local
 
-import com.peakacard.app.cards.data.datasource.local.model.CardDataModel
+import com.peakacard.cards.data.datasource.local.model.CardDataModel
 
 class CardsLocalDataSource {
 

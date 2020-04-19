@@ -1,11 +1,11 @@
-package com.peakacard.app.card.data.repository
+package com.peakacard.card.data.repository
 
-import com.peakacard.app.card.data.datasource.remote.CardRemoteDataSource
-import com.peakacard.app.card.data.datasource.remote.model.VoteResponse
-import com.peakacard.app.card.data.datasource.remote.model.mapper.VoteMapper
-import com.peakacard.app.card.domain.model.SendVoteResponseError
-import com.peakacard.app.card.domain.model.SendVoteSuccess
-import com.peakacard.app.card.domain.model.Vote
+import com.peakacard.card.data.datasource.remote.CardRemoteDataSource
+import com.peakacard.card.data.datasource.remote.model.VoteResponse
+import com.peakacard.card.data.datasource.remote.model.mapper.VoteMapper
+import com.peakacard.card.domain.model.SendVoteResponseError
+import com.peakacard.card.domain.model.SendVoteSuccess
+import com.peakacard.card.domain.model.Vote
 import com.peakacard.core.Either
 
 class CardRepository(

@@ -1,6 +1,6 @@
 package com.peakacard.app.card.view.model.mapper
 
-import com.peakacard.app.card.domain.model.Card
+import com.peakacard.card.domain.model.Card
 import com.peakacard.app.card.view.model.CardUiModel
 
 class CardUiModelMapper {
