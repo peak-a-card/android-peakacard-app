@@ -22,7 +22,7 @@ import com.peakacard.app.session.view.state.JoinSessionState
 import com.peakacard.app.voting.view.WaitVotingActivity
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.hideKeyboard
-import com.peakacard.session.view.model.mapper.FirebaseUserMapper
+import com.peakacard.user.view.model.mapper.FirebaseUserMapper
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber

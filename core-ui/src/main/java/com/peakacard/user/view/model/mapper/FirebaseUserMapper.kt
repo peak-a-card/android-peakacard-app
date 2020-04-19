@@ -1,7 +1,7 @@
-package com.peakacard.session.view.model.mapper
+package com.peakacard.user.view.model.mapper
 
 import com.google.firebase.auth.FirebaseUser
-import com.peakacard.session.view.model.UserUiModel
+import com.peakacard.user.view.model.UserUiModel
 
 class FirebaseUserMapper {
 

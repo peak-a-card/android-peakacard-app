@@ -4,9 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.peakacard.core.view.PeakViewModel
 import com.peakacard.host.session.domain.CreateSessionUseCase
 import com.peakacard.host.session.view.state.CreateSessionState
-import com.peakacard.session.view.model.UserUiModel
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import com.peakacard.user.view.model.UserUiModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 

@@ -4,6 +4,8 @@ import android.app.Application
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.FirebaseApp
+import com.peakacard.core.infrastructure.di.coreModules
+import com.peakacard.core.infrastructure.di.coreUiModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -28,6 +30,8 @@ abstract class PeakACardApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@PeakACardApplication)
+            modules(coreModules)
+            modules(coreUiModules)
             modules(modules)
         }
     }

@@ -23,7 +23,7 @@ import com.peakacard.core.view.PeakView
 import com.peakacard.host.R
 import com.peakacard.host.session.view.state.CreateSessionState
 import com.peakacard.host.voting.view.CreateVotingActivity
-import com.peakacard.session.view.model.mapper.FirebaseUserMapper
+import com.peakacard.user.view.model.mapper.FirebaseUserMapper
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
