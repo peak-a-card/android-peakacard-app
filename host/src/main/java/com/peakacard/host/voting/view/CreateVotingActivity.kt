@@ -1,5 +1,6 @@
 package com.peakacard.host.voting.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.widget.TextView
@@ -10,12 +11,11 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.hideKeyboard
-import com.peakacard.core.view.PeakView
 import com.peakacard.host.R
 import com.peakacard.host.voting.view.state.CreateVotingState
 import org.koin.android.ext.android.inject
 
-class CreateVotingActivity : AppCompatActivity(), PeakView<CreateVotingState> {
+class CreateVotingActivity : AppCompatActivity(), CreateVotingView {
 
     private val createVotingViewModel: CreateVotingViewModel by inject()
 
@@ -67,10 +67,17 @@ class CreateVotingActivity : AppCompatActivity(), PeakView<CreateVotingState> {
                 createVotingButton.apply {
                     hideProgress(R.string.create_voting_button_created)
                     hideKeyboard()
-                    setOnClickListener {
-                        // TODO
-                    }
+                    setOnClickListener(null)
                 }
+                Handler().postDelayed({
+                    val intent = Intent(this, WaitingVotesActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                    overridePendingTransition(
+                        R.anim.transition_slide_from_right,
+                        R.anim.transition_slide_to_left
+                    )
+                }, 1000)
             }
             is CreateVotingState.Error -> {
                 when (state) {

@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".voting.view.CreateVotingActivity" />
+        <activity android:name=".voting.view.WaitingVotesActivity" />
     </application>
 
 </manifest>
