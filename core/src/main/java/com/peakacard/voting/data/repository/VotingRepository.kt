@@ -1,5 +1,6 @@
 package com.peakacard.voting.data.repository
 
+import com.peakacard.core.Either
 import com.peakacard.result.domain.model.GetParticipantsVotationError
 import com.peakacard.result.domain.model.GetParticipantsVotationResponse
 import com.peakacard.voting.data.datasource.local.VotingLocalDataSource
@@ -7,11 +8,11 @@ import com.peakacard.voting.data.datasource.remote.VotingRemoteDataSource
 import com.peakacard.voting.data.datasource.remote.model.ParticipantsVotationRequest
 import com.peakacard.voting.data.datasource.remote.model.ParticipantsVotationResponse
 import com.peakacard.voting.data.datasource.remote.model.VotingStatusResponse
+import com.peakacard.voting.domain.model.CreateVotingResponse
+import com.peakacard.voting.domain.model.EndVoteResponse
 import com.peakacard.voting.domain.model.GetVotingError
 import com.peakacard.voting.domain.model.ParticipantsVotation
 import com.peakacard.voting.domain.model.Voting
-import com.peakacard.core.Either
-import com.peakacard.voting.domain.model.CreateVotingResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -95,6 +96,16 @@ class VotingRepository(
         return votingRemoteDataSource.createVoting(sessionId, title).fold(
             { Either.Left(CreateVotingResponse.Error.Unspecified) },
             { Either.Right(CreateVotingResponse.Success(title)) }
+        )
+    }
+
+    suspend fun endVote(
+        sessionId: String,
+        title: String
+    ): Either<EndVoteResponse.Error, EndVoteResponse.Success> {
+        return votingRemoteDataSource.endVoting(sessionId, title).fold(
+            { Either.Left(EndVoteResponse.Error.Unspecified) },
+            { Either.Right(EndVoteResponse.Success) }
         )
     }
 

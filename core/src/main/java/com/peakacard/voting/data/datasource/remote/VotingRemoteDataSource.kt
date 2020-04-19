@@ -6,8 +6,12 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.peakacard.core.Either
 import com.peakacard.core.data.remote.model.PeakDataModel
 import com.peakacard.session.data.datasource.remote.model.SessionDataModel
-import com.peakacard.voting.data.datasource.remote.model.*
+import com.peakacard.voting.data.datasource.remote.model.ParticipantVotationDataModel
+import com.peakacard.voting.data.datasource.remote.model.ParticipantsVotationRequest
+import com.peakacard.voting.data.datasource.remote.model.ParticipantsVotationResponse
 import com.peakacard.voting.data.datasource.remote.model.VotingDataModel
+import com.peakacard.voting.data.datasource.remote.model.VotingResponse
+import com.peakacard.voting.data.datasource.remote.model.VotingStatusResponse
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -140,6 +144,22 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
             session.document(sessionId).collection(SessionDataModel.VOTATIONS)
                 .document(title)
                 .set(votationValues)
+                .await()
+            Either.Right(VotingResponse.Success)
+        } catch (e: FirebaseFirestoreException) {
+            Either.Left(VotingResponse.RemoteError)
+        }
+    }
+
+    suspend fun endVoting(
+        sessionId: String,
+        title: String
+    ): Either<VotingResponse.RemoteError, VotingResponse.Success> {
+        return try {
+            database.collection(PeakDataModel.ROOT_COLLECTION_ID)
+                .document(sessionId).collection(SessionDataModel.VOTATIONS)
+                .document(title)
+                .update(VotingDataModel.STATUS, VotingDataModel.Status.ENDED)
                 .await()
             Either.Right(VotingResponse.Success)
         } catch (e: FirebaseFirestoreException) {
