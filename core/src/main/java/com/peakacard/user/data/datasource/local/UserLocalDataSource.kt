@@ -2,7 +2,7 @@ package com.peakacard.user.data.datasource.local
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.peakacard.session.data.datasource.remote.model.UserDataModel
+import com.peakacard.user.data.datasource.remote.model.UserDataModel
 
 private const val USER = "USER"
 
