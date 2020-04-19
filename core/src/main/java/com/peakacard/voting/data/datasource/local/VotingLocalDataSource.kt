@@ -1,4 +1,4 @@
-package com.peakacard.app.voting.data.datasource.local
+package com.peakacard.voting.data.datasource.local
 
 import android.content.SharedPreferences
 

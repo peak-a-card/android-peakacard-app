@@ -1,9 +1,9 @@
 package com.peakacard.app.voting.infrastructure.di
 
 import android.content.Context
-import com.peakacard.app.voting.data.datasource.local.VotingLocalDataSource
-import com.peakacard.app.voting.data.datasource.remote.VotingRemoteDataSource
-import com.peakacard.app.voting.data.repository.VotingRepository
+import com.peakacard.voting.data.datasource.local.VotingLocalDataSource
+import com.peakacard.voting.data.datasource.remote.VotingRemoteDataSource
+import com.peakacard.voting.data.repository.VotingRepository
 import com.peakacard.app.voting.domain.GetEndedVotingUseCase
 import com.peakacard.app.voting.domain.GetStartedVotingUseCase
 import com.peakacard.app.voting.view.WaitVotingViewModel

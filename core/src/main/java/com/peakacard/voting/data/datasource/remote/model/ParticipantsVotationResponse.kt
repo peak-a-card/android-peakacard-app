@@ -1,4 +1,4 @@
-package com.peakacard.app.voting.data.datasource.remote.model
+package com.peakacard.voting.data.datasource.remote.model
 
 sealed class ParticipantsVotationResponse {
     data class Success(val participantVotationDataModels: List<ParticipantVotationDataModel>) :

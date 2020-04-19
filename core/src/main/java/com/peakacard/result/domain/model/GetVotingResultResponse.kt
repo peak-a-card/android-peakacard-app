@@ -1,4 +1,4 @@
-package com.peakacard.app.result.domain.model
+package com.peakacard.result.domain.model
 
 import com.peakacard.card.domain.model.Card
 

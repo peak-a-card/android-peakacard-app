@@ -7,7 +7,7 @@ import com.peakacard.card.domain.model.SendVoteSuccess
 import com.peakacard.card.domain.model.Vote
 import com.peakacard.session.data.repository.SessionRepository
 import com.peakacard.user.data.repository.UserRepository
-import com.peakacard.app.voting.data.repository.VotingRepository
+import com.peakacard.voting.data.repository.VotingRepository
 import com.peakacard.core.Either
 
 class SendVoteUseCase(

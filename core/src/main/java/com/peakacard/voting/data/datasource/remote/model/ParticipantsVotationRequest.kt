@@ -1,4 +1,4 @@
-package com.peakacard.app.voting.data.datasource.remote.model
+package com.peakacard.voting.data.datasource.remote.model
 
 data class ParticipantsVotationRequest(
     val sessionId: String,

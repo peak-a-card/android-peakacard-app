@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.peakacard.app.participant.domain.GetSessionParticipantUseCase
 import com.peakacard.app.session.domain.LeaveSessionUseCase
 import com.peakacard.app.voting.domain.GetStartedVotingUseCase
-import com.peakacard.app.voting.domain.model.GetVotingError
+import com.peakacard.voting.domain.model.GetVotingError
 import com.peakacard.app.voting.view.model.SessionParticipantUiModel
 import com.peakacard.app.voting.view.state.WaitParticipantState
 import com.peakacard.app.voting.view.state.WaitVotingState

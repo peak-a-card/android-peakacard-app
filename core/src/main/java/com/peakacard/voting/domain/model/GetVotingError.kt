@@ -1,4 +1,4 @@
-package com.peakacard.app.voting.domain.model
+package com.peakacard.voting.domain.model
 
 sealed class GetVotingError {
     object NoVotingStarted : GetVotingError()

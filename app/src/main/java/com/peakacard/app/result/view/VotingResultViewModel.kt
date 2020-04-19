@@ -4,12 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peakacard.app.card.view.model.mapper.CardUiModelMapper
 import com.peakacard.app.result.domain.GetVotingResultUseCase
-import com.peakacard.app.result.domain.model.GetVotingResultResponse
+import com.peakacard.result.domain.model.GetVotingResultResponse
 import com.peakacard.app.result.view.model.VotingResultParticipantUiModel
 import com.peakacard.app.result.view.state.EndedVotingState
 import com.peakacard.app.result.view.state.VotingResultState
 import com.peakacard.app.voting.domain.GetEndedVotingUseCase
-import com.peakacard.app.voting.domain.model.GetVotingError
+import com.peakacard.voting.domain.model.GetVotingError
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow

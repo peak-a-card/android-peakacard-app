@@ -1,9 +1,9 @@
 package com.peakacard.app.voting.domain
 
 import com.peakacard.session.data.repository.SessionRepository
-import com.peakacard.app.voting.data.repository.VotingRepository
-import com.peakacard.app.voting.domain.model.GetVotingError
-import com.peakacard.app.voting.domain.model.Voting
+import com.peakacard.voting.data.repository.VotingRepository
+import com.peakacard.voting.domain.model.GetVotingError
+import com.peakacard.voting.domain.model.Voting
 import com.peakacard.core.Either
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf

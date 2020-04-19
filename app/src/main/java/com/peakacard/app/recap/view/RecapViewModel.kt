@@ -7,7 +7,7 @@ import com.peakacard.app.recap.view.state.RecapState
 import com.peakacard.app.result.domain.GetFinalVotingResultUseCase
 import com.peakacard.app.result.view.model.VotingResultParticipantUiModel
 import com.peakacard.app.voting.domain.GetStartedVotingUseCase
-import com.peakacard.app.voting.domain.model.GetVotingError
+import com.peakacard.voting.domain.model.GetVotingError
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.asFlow
