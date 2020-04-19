@@ -1,7 +1,5 @@
 package com.peakacard.app.infrastructure
 
-import androidx.emoji.bundled.BundledEmojiCompatConfig
-import androidx.emoji.text.EmojiCompat
 import com.peakacard.app.card.infrastructure.di.cardModule
 import com.peakacard.app.cards.infrastructure.di.cardsModule
 import com.peakacard.app.participant.infrastructure.di.participantModule
@@ -24,10 +22,4 @@ class ClientApplication : PeakACardApplication() {
         resultModule,
         recapModule
     )
-
-    override fun onCreate() {
-        super.onCreate()
-        val config = BundledEmojiCompatConfig(this)
-        EmojiCompat.init(config)
-    }
 }

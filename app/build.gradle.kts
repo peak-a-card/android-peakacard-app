@@ -41,9 +41,6 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
-    implementation("com.google.code.gson:gson")
-
-    implementation("androidx.emoji:emoji-bundled")
     implementation("androidx.dynamicanimation:dynamicanimation-ktx")
 }
 

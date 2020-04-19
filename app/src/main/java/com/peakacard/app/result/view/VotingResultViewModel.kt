@@ -2,7 +2,7 @@ package com.peakacard.app.result.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.peakacard.app.card.view.model.mapper.CardUiModelMapper
+import com.peakacard.card.view.model.mapper.CardUiModelMapper
 import com.peakacard.app.result.domain.GetVotingResultUseCase
 import com.peakacard.result.domain.model.GetVotingResultResponse
 import com.peakacard.app.result.view.model.VotingResultParticipantUiModel

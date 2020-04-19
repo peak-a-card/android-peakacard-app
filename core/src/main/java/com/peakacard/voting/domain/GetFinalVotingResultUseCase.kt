@@ -1,4 +1,4 @@
-package com.peakacard.app.result.domain
+package com.peakacard.voting.domain
 
 import com.peakacard.result.domain.model.GetVotingResultResponse
 import com.peakacard.session.data.repository.SessionRepository

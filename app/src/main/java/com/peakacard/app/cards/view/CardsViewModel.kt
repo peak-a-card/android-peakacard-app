@@ -2,7 +2,7 @@ package com.peakacard.app.cards.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.peakacard.app.card.view.model.mapper.CardUiModelMapper
+import com.peakacard.card.view.model.mapper.CardUiModelMapper
 import com.peakacard.app.cards.domain.GetCardsUseCase
 import com.peakacard.app.cards.view.state.CardsState
 import com.peakacard.app.session.domain.LeaveSessionUseCase

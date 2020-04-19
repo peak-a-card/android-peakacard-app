@@ -1,7 +1,7 @@
-package com.peakacard.app.card.view.model.mapper
+package com.peakacard.card.view.model.mapper
 
 import com.peakacard.card.domain.model.Card
-import com.peakacard.app.card.view.model.CardUiModel
+import com.peakacard.card.view.model.CardUiModel
 
 class CardUiModelMapper {
     fun map(card: Card): CardUiModel {

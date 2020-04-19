@@ -8,9 +8,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.emoji.widget.EmojiTextView
 import com.peakacard.app.R
-import com.peakacard.app.card.view.model.CardUiModel
+import com.peakacard.card.view.model.CardUiModel
 import com.peakacard.app.card.view.state.CardState
-import com.peakacard.app.extensions.applyCardText
+import com.peakacard.core.ui.extensions.applyCardText
 import com.peakacard.core.ui.extensions.bindView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

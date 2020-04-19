@@ -3,6 +3,8 @@ package com.peakacard.core.infrastructure
 import android.app.Application
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.emoji.bundled.BundledEmojiCompatConfig
+import androidx.emoji.text.EmojiCompat
 import com.google.firebase.FirebaseApp
 import com.peakacard.core.infrastructure.di.coreModules
 import com.peakacard.core.infrastructure.di.coreUiModules
@@ -20,6 +22,9 @@ abstract class PeakACardApplication : Application() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         FirebaseApp.initializeApp(this)
+
+        val config = BundledEmojiCompatConfig(this)
+        EmojiCompat.init(config)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);

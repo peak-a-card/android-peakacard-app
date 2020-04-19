@@ -1,7 +1,7 @@
 package com.peakacard.voting.domain.model
 
 sealed class EndVoteResponse {
-    object Success : EndVoteResponse()
+    data class Success(val title: String) : EndVoteResponse()
     sealed class Error : EndVoteResponse() {
         object NoSessionId : Error()
         object NoVoteRunning : Error()

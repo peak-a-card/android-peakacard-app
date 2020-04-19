@@ -105,7 +105,7 @@ class VotingRepository(
     ): Either<EndVoteResponse.Error, EndVoteResponse.Success> {
         return votingRemoteDataSource.endVoting(sessionId, title).fold(
             { Either.Left(EndVoteResponse.Error.Unspecified) },
-            { Either.Right(EndVoteResponse.Success) }
+            { Either.Right(EndVoteResponse.Success(title)) }
         )
     }
 

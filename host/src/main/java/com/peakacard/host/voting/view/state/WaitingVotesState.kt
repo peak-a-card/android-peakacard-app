@@ -9,7 +9,7 @@ sealed class WaitingVotesState {
 
     object EndingVote : WaitingVotesState()
 
-    object VoteEnded : WaitingVotesState()
+    data class VoteEnded(val title: String) : WaitingVotesState()
 
     object Error : WaitingVotesState()
 }

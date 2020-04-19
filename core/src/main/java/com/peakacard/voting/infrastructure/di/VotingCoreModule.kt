@@ -4,6 +4,7 @@ import android.content.Context
 import com.peakacard.voting.data.datasource.local.VotingLocalDataSource
 import com.peakacard.voting.data.datasource.remote.VotingRemoteDataSource
 import com.peakacard.voting.data.repository.VotingRepository
+import com.peakacard.voting.domain.GetFinalVotingResultUseCase
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -16,6 +17,14 @@ val votingCoreModule = module {
         androidContext().getSharedPreferences(
             VOTING_SHARED_PREFERENCES,
             Context.MODE_PRIVATE
+        )
+    }
+
+    factory {
+        GetFinalVotingResultUseCase(
+            get(),
+            get(),
+            get()
         )
     }
 }

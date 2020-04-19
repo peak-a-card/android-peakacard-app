@@ -54,8 +54,8 @@ class WaitingVotesViewModel(
                     state.offer(WaitingVotesState.Error)
                 },
                 {
-                    Timber.d("Ended vote success")
-                    state.offer(WaitingVotesState.VoteEnded)
+                    Timber.d("Ended vote ${it.title} successfully")
+                    state.offer(WaitingVotesState.VoteEnded(it.title))
                 }
             )
         }

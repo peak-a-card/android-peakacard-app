@@ -1,8 +1,7 @@
-package com.peakacard.app.extensions
+package com.peakacard.core.ui.extensions
 
 import androidx.emoji.widget.EmojiTextView
-import com.peakacard.app.card.view.model.CardUiModel
-import com.peakacard.core.ui.extensions.fromHtmlCompat
+import com.peakacard.card.view.model.CardUiModel
 
 fun EmojiTextView.applyCardText(cardUiModel: CardUiModel) {
     text = when (cardUiModel) {

@@ -9,10 +9,13 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.github.razir.progressbutton.*
+import com.github.razir.progressbutton.attachTextChangeAnimator
+import com.github.razir.progressbutton.bindProgressButton
+import com.github.razir.progressbutton.detachTextChangeAnimator
+import com.github.razir.progressbutton.hideProgress
+import com.github.razir.progressbutton.showProgress
 import com.google.android.material.button.MaterialButton
 import com.peakacard.core.ui.extensions.bindView
-import com.peakacard.core.ui.extensions.hideKeyboard
 import com.peakacard.host.R
 import com.peakacard.host.voting.view.state.WaitingVotesState
 import org.koin.android.ext.android.inject
@@ -78,14 +81,16 @@ class WaitingVotesActivity : AppCompatActivity(), WaitingVotesView {
                     progressColorRes = R.color.background
                 }
             }
-            WaitingVotesState.VoteEnded -> {
+            is WaitingVotesState.VoteEnded -> {
                 endVoteButton.hideProgress(R.string.waiting_votes_ended_button)
-                // TODO open results activity
-//                startActivity(Intent(this, CreateVotingActivity::class.java))
-//                overridePendingTransition(
-//                    R.anim.transition_slide_from_right,
-//                    R.anim.transition_slide_to_left
-//                )
+                val intent = Intent(this, VotingResultActivity::class.java).apply {
+                    putExtra(VotingResultActivity.EXTRA_VOTING_TITLE, state.title)
+                }
+                startActivity(intent)
+                overridePendingTransition(
+                    R.anim.transition_slide_from_right,
+                    R.anim.transition_slide_to_left
+                )
             }
             WaitingVotesState.Error -> {
                 error.isVisible = true

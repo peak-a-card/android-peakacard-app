@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.emoji.widget.EmojiTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
-import com.peakacard.app.extensions.applyCardText
+import com.peakacard.core.ui.extensions.applyCardText
 import com.peakacard.app.result.view.model.VotingResultParticipantUiModel
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.inflate

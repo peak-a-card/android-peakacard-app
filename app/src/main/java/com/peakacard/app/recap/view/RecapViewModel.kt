@@ -2,9 +2,9 @@ package com.peakacard.app.recap.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.peakacard.app.card.view.model.mapper.CardUiModelMapper
+import com.peakacard.card.view.model.mapper.CardUiModelMapper
 import com.peakacard.app.recap.view.state.RecapState
-import com.peakacard.app.result.domain.GetFinalVotingResultUseCase
+import com.peakacard.voting.domain.GetFinalVotingResultUseCase
 import com.peakacard.app.result.view.model.VotingResultParticipantUiModel
 import com.peakacard.app.voting.domain.GetStartedVotingUseCase
 import com.peakacard.result.domain.model.GetVotingResultResponse

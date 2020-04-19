@@ -1,6 +1,6 @@
 package com.peakacard.app.result.view.model
 
-import com.peakacard.app.card.view.model.CardUiModel
+import com.peakacard.card.view.model.CardUiModel
 
 sealed class VotingResultParticipantUiModel(open val name: String) {
 

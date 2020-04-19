@@ -3,7 +3,7 @@ package com.peakacard.app.card.view
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peakacard.app.card.domain.SendVoteUseCase
-import com.peakacard.app.card.view.model.CardUiModel
+import com.peakacard.card.view.model.CardUiModel
 import com.peakacard.app.card.view.model.mapper.CardModelMapper
 import com.peakacard.app.card.view.state.CardState
 import kotlinx.coroutines.channels.BroadcastChannel

@@ -50,5 +50,6 @@ dependencies {
     api("com.google.firebase:firebase-auth")
     api("com.google.android.gms:play-services-auth")
 
+    api("androidx.emoji:emoji-bundled")
     api("com.github.razir.progressbutton:progressbutton")
 }
