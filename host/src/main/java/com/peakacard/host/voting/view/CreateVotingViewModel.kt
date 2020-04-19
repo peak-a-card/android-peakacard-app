@@ -3,7 +3,7 @@ package com.peakacard.host.voting.view
 import androidx.lifecycle.viewModelScope
 import com.peakacard.core.view.PeakViewModel
 import com.peakacard.host.voting.domain.CreateVotingUseCase
-import com.peakacard.host.voting.domain.model.CreateVotingResponse
+import com.peakacard.voting.domain.model.CreateVotingResponse
 import com.peakacard.host.voting.view.state.CreateVotingState
 import kotlinx.coroutines.launch
 import timber.log.Timber

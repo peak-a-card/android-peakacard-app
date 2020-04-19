@@ -2,8 +2,8 @@ package com.peakacard.host.voting.domain
 
 import com.peakacard.core.Either
 import com.peakacard.session.data.repository.SessionRepository
-import com.peakacard.host.voting.data.repository.VotingRepository
-import com.peakacard.host.voting.domain.model.CreateVotingResponse
+import com.peakacard.voting.data.repository.VotingRepository
+import com.peakacard.voting.domain.model.CreateVotingResponse
 
 class CreateVotingUseCase(
     private val votingRepository: VotingRepository,

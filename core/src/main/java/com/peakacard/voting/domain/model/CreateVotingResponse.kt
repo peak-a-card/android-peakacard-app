@@ -1,4 +1,4 @@
-package com.peakacard.host.voting.domain.model
+package com.peakacard.voting.domain.model
 
 sealed class CreateVotingResponse {
     data class Success(val title: String) : CreateVotingResponse()

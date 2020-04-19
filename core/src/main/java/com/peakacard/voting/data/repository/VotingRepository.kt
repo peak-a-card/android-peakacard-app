@@ -11,6 +11,7 @@ import com.peakacard.voting.domain.model.GetVotingError
 import com.peakacard.voting.domain.model.ParticipantsVotation
 import com.peakacard.voting.domain.model.Voting
 import com.peakacard.core.Either
+import com.peakacard.voting.domain.model.CreateVotingResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -85,6 +86,16 @@ class VotingRepository(
                 )
             }
         }
+    }
+
+    suspend fun createVoting(
+        sessionId: String,
+        title: String
+    ): Either<CreateVotingResponse.Error, CreateVotingResponse.Success> {
+        return votingRemoteDataSource.createVoting(sessionId, title).fold(
+            { Either.Left(CreateVotingResponse.Error.Unspecified) },
+            { Either.Right(CreateVotingResponse.Success(title)) }
+        )
     }
 
     fun saveCurrentVoting(voting: Voting?) {

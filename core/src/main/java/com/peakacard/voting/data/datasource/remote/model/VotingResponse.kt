@@ -1,4 +1,4 @@
-package com.peakacard.host.voting.data.datasource.remote.model
+package com.peakacard.voting.data.datasource.remote.model
 
 sealed class VotingResponse {
 
