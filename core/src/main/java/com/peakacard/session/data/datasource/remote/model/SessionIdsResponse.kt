@@ -1,4 +1,4 @@
-package com.peakacard.host.session.data.datasource.remote.model
+package com.peakacard.session.data.datasource.remote.model
 
 sealed class SessionIdsResponse {
 

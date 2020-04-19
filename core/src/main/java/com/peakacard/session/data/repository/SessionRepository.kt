@@ -1,14 +1,13 @@
 package com.peakacard.session.data.repository
 
+import com.peakacard.core.Either
 import com.peakacard.session.data.datasource.local.SessionLocalDataSource
 import com.peakacard.session.data.datasource.remote.SessionRemoteDataSource
+import com.peakacard.session.data.datasource.remote.model.SessionIdsResponse
 import com.peakacard.session.data.datasource.remote.model.SessionRequest
 import com.peakacard.session.data.datasource.remote.model.SessionResponse
 import com.peakacard.session.data.datasource.remote.model.mapper.UserMapper
-import com.peakacard.session.domain.model.JoinSessionResponse
-import com.peakacard.session.domain.model.LeaveSessionResponse
-import com.peakacard.session.domain.model.UserSession
-import com.peakacard.core.Either
+import com.peakacard.session.domain.model.*
 
 class SessionRepository(
     private val remoteDataSource: SessionRemoteDataSource,
@@ -36,14 +35,6 @@ class SessionRepository(
             })
     }
 
-    fun setCurrentSession(sessionId: String?) {
-        localDataSource.saveSessionId(sessionId)
-    }
-
-    fun getCurrentSession(): String? {
-        return localDataSource.getSessionId()
-    }
-
     suspend fun leaveSession(request: UserSession):
             Either<LeaveSessionResponse.Error, LeaveSessionResponse.Success> {
         return remoteDataSource.leaveSession(
@@ -65,5 +56,36 @@ class SessionRepository(
             {
                 Either.Right(LeaveSessionResponse.Success)
             })
+    }
+
+    suspend fun getAllSessionIds(): Either<GetAllSessionIdsResponse.Error, GetAllSessionIdsResponse.Success> {
+        return remoteDataSource.getAllSessionIds().fold(
+            { error ->
+                when (error) {
+                    SessionIdsResponse.Error.RemoteException -> {
+                        Either.Left(GetAllSessionIdsResponse.Error.Unspecified)
+                    }
+                    SessionIdsResponse.Error.NoSessionIdsFound -> {
+                        Either.Left(GetAllSessionIdsResponse.Error.NoSessionStarted)
+                    }
+                }
+            },
+            { success -> Either.Right(GetAllSessionIdsResponse.Success(success.ids)) }
+        )
+    }
+
+    suspend fun createSession(id: String): Either<CreateSessionResponse.Error, CreateSessionResponse.Success> {
+        return remoteDataSource.createSession(id).fold(
+            { Either.Left(CreateSessionResponse.Error) },
+            { Either.Right(CreateSessionResponse.Success(id)) }
+        )
+    }
+
+    fun setCurrentSession(sessionId: String?) {
+        localDataSource.saveSessionId(sessionId)
+    }
+
+    fun getCurrentSession(): String? {
+        return localDataSource.getSessionId()
     }
 }

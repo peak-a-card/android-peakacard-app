@@ -1,4 +1,4 @@
-package com.peakacard.host.session.domain.model
+package com.peakacard.session.domain.model
 
 sealed class CreateSessionResponse {
 

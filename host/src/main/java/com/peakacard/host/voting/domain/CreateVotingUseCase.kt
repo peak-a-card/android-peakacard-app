@@ -1,7 +1,7 @@
 package com.peakacard.host.voting.domain
 
 import com.peakacard.core.Either
-import com.peakacard.host.session.data.repository.SessionRepository
+import com.peakacard.session.data.repository.SessionRepository
 import com.peakacard.host.voting.data.repository.VotingRepository
 import com.peakacard.host.voting.domain.model.CreateVotingResponse
 
@@ -11,7 +11,7 @@ class CreateVotingUseCase(
 ) {
 
     suspend fun createVoting(title: String): Either<CreateVotingResponse.Error, CreateVotingResponse.Success> {
-        val sessionId = sessionRepository.getSessionId()
+        val sessionId = sessionRepository.getCurrentSession()
         return if (sessionId == null) {
             Either.Left(CreateVotingResponse.Error.NoSessionId)
         } else {

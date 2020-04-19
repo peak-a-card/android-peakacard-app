@@ -1,9 +1,9 @@
 package com.peakacard.host.session.domain
 
 import com.peakacard.core.Either
-import com.peakacard.host.session.data.repository.SessionRepository
-import com.peakacard.host.session.domain.model.CreateSessionResponse
-import com.peakacard.host.session.domain.model.GetAllSessionIdsResponse
+import com.peakacard.session.data.repository.SessionRepository
+import com.peakacard.session.domain.model.CreateSessionResponse
+import com.peakacard.session.domain.model.GetAllSessionIdsResponse
 
 class CreateSessionUseCase(private val sessionRepository: SessionRepository) {
 
@@ -38,6 +38,6 @@ class CreateSessionUseCase(private val sessionRepository: SessionRepository) {
 
     private suspend fun createSessionById(item: CreateSessionResponse.Success) =
         sessionRepository.createSession(item.id).also {
-            sessionRepository.saveSessionId(item.id)
+            sessionRepository.setCurrentSession(item.id)
         }
 }
