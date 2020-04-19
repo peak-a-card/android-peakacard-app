@@ -90,22 +90,33 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
                     offer(Either.Left(ParticipantsVotationResponse.Error.RemoteException))
                 } else {
                     val participantsVotation =
-                        snapshot?.get(VotingDataModel.PARTICIPANT_VOTATION) as Map<String, Float>
+                        snapshot?.get(VotingDataModel.PARTICIPANT_VOTATION) as? Map<String, Float>
 
-                    val participantVotationDataModels = participantsVotation.map { (key, value) ->
-                        ParticipantVotationDataModel(
-                            key,
-                            value
-                        )
-                    }
-
-                    offer(
-                        Either.Right(
-                            ParticipantsVotationResponse.Success(
-                                participantVotationDataModels
+                    if (participantsVotation == null) {
+                        offer(
+                            Either.Right(
+                                ParticipantsVotationResponse.Success(
+                                    emptyList<ParticipantVotationDataModel>()
+                                )
                             )
                         )
-                    )
+                    } else {
+                        val participantVotationDataModels =
+                            participantsVotation.map { (key, value) ->
+                                ParticipantVotationDataModel(
+                                    key,
+                                    value
+                                )
+                            }
+
+                        offer(
+                            Either.Right(
+                                ParticipantsVotationResponse.Success(
+                                    participantVotationDataModels
+                                )
+                            )
+                        )
+                    }
                 }
             }
 
