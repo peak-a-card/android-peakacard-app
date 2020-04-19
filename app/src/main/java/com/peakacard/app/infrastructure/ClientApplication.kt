@@ -4,7 +4,6 @@ import androidx.emoji.bundled.BundledEmojiCompatConfig
 import androidx.emoji.text.EmojiCompat
 import com.peakacard.app.card.infrastructure.di.cardModule
 import com.peakacard.app.cards.infrastructure.di.cardsModule
-import com.peakacard.app.infrastructure.di.dataModule
 import com.peakacard.app.participant.infrastructure.di.participantModule
 import com.peakacard.app.recap.infrastructure.di.recapModule
 import com.peakacard.app.result.infrastructure.di.resultModule
@@ -16,7 +15,6 @@ import org.koin.core.module.Module
 
 class ClientApplication : PeakACardApplication() {
     override val modules: List<Module> = listOf(
-        dataModule,
         cardsModule,
         cardModule,
         sessionModule,
