@@ -4,6 +4,7 @@ import com.peakacard.core.Either
 import com.peakacard.session.data.repository.SessionRepository
 import com.peakacard.voting.data.repository.VotingRepository
 import com.peakacard.voting.domain.model.CreateVotingResponse
+import com.peakacard.voting.domain.model.Voting
 
 class CreateVotingUseCase(
     private val votingRepository: VotingRepository,
@@ -15,7 +16,9 @@ class CreateVotingUseCase(
         return if (sessionId == null) {
             Either.Left(CreateVotingResponse.Error.NoSessionId)
         } else {
-            votingRepository.createVoting(sessionId, title)
+            votingRepository.createVoting(sessionId, title).also {
+                votingRepository.saveCurrentVoting(Voting(title))
+            }
         }
     }
 }
