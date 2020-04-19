@@ -42,4 +42,11 @@ class WaitingVotesViewModel(private val getParticipantsVoteUseCase: GetParticipa
         }
     }
 
+    fun endVote() {
+        state.offer(WaitingVotesState.EndingVote)
+        viewModelScope.launch {
+
+        }
+    }
+
 }

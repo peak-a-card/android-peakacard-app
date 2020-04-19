@@ -7,5 +7,9 @@ sealed class WaitingVotesState {
     data class ParticipantsVoteLoaded(val participants: List<VotedParticipantUiModel>) :
         WaitingVotesState()
 
+    object EndingVote : WaitingVotesState()
+
+    object VoteEnded : WaitingVotesState()
+
     object Error : WaitingVotesState()
 }

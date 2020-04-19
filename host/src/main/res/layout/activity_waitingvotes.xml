@@ -4,33 +4,59 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/M"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="5">
 
-    <TextView
-        style="@style/H6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/waiting_votes_title" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4.9"
+        android:orientation="vertical">
 
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="@dimen/L" />
+        <TextView
+            style="@style/H6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/waiting_votes_title" />
 
-    <TextView
-        android:id="@+id/waiting_votes_error"
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="@dimen/L" />
+
+        <TextView
+            android:id="@+id/waiting_votes_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/L"
+            android:text="@string/waiting_votes_error"
+            android:textAppearance="@style/ErrorTextStyle"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/waiting_votes_participant_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:itemCount="4"
+            tools:listitem="@layout/waiting_votes_participant_item" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/L"
-        android:text="@string/waiting_votes_error"
-        android:textAppearance="@style/ErrorTextStyle"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        android:orientation="vertical"
+        android:layout_weight="0.1">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/waiting_votes_participant_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:itemCount="4"
-        tools:listitem="@layout/waiting_votes_participant_item" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="@dimen/L" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/waiting_votes_end_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/waiting_votes_end_button"
+            android:textAllCaps="false" />
+    </LinearLayout>
 
 </LinearLayout>

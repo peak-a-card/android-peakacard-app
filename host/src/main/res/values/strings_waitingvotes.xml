@@ -2,4 +2,7 @@
 <resources>
     <string name="waiting_votes_title">Waiting participants to vote…</string>
     <string name="waiting_votes_error">Oops! An error occurred, please try it again later</string>
+    <string name="waiting_votes_end_button">End vote</string>
+    <string name="waiting_votes_ending_button">Ending vote</string>
+    <string name="waiting_votes_ended_button">Vote ended!</string>
 </resources>
