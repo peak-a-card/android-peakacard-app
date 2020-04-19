@@ -2,4 +2,5 @@
 <resources>
     <string name="voting_result_title">\"%1$s\" results:</string>
     <string name="voting_result_error">Oops! An error occurred, please try it again later</string>
+    <string name="voting_result_start_button">Start another vote</string>
 </resources>

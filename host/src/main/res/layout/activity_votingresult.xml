@@ -4,35 +4,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/M"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="5">
 
-    <TextView
-        android:id="@+id/voting_result_title"
-        style="@style/H5"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4.9"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/voting_result_title"
+            style="@style/H5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/voting_result_title" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="@dimen/L" />
+
+        <TextView
+            android:id="@+id/voting_result_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/L"
+            android:text="@string/voting_result_error"
+            android:textAppearance="@style/ErrorTextStyle"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/voting_result_participant_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:itemCount="4"
+            tools:listitem="@layout/voting_result_participant_item" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/voting_result_title" />
+        android:orientation="vertical"
+        android:layout_weight="0.1">
 
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="@dimen/L" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="@dimen/L" />
 
-    <TextView
-        android:id="@+id/voting_result_error"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/L"
-        android:text="@string/voting_result_error"
-        android:textAppearance="@style/ErrorTextStyle"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/voting_result_participant_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:itemCount="4"
-        tools:listitem="@layout/voting_result_participant_item" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/voting_result_start_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/voting_result_start_button"
+            android:textAllCaps="false" />
+    </LinearLayout>
 
 </LinearLayout>

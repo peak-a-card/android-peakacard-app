@@ -1,5 +1,6 @@
 package com.peakacard.host.voting.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -9,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.host.R
 import com.peakacard.host.voting.view.state.VotingResultState
@@ -25,6 +27,7 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
     private val title: TextView by bindView(R.id.voting_result_title)
     private val error: View by bindView(R.id.voting_result_error)
     private val participantsList: RecyclerView by bindView(R.id.voting_result_participant_list)
+    private val startVoteButton: MaterialButton by bindView(R.id.voting_result_start_button)
 
     private val votingTitle by lazy { intent.getStringExtra(EXTRA_VOTING_TITLE) }
 
@@ -41,6 +44,15 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
             layoutManager = LinearLayoutManager(this@VotingResultActivity)
             itemAnimator = DefaultItemAnimator()
             adapter = participantsVoteAdapter
+        }
+
+        startVoteButton.setOnClickListener {
+            startActivity(Intent(this@VotingResultActivity, CreateVotingActivity::class.java))
+            finish()
+            overridePendingTransition(
+                R.anim.transition_slide_from_left,
+                R.anim.transition_slide_to_right
+            )
         }
 
         votingResultViewModel.getVotingResult()
