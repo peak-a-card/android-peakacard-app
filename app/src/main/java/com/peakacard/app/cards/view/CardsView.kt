@@ -1,7 +1,6 @@
 package com.peakacard.app.cards.view
 
 import com.peakacard.app.cards.view.state.CardsState
+import com.peakacard.core.view.PeakView
 
-interface CardsView {
-  fun updateState(state: CardsState)
-}
+interface CardsView : PeakView<CardsState>

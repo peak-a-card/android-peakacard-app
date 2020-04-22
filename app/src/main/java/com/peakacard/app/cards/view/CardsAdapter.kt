@@ -12,19 +12,25 @@ import com.peakacard.core.ui.extensions.applyCardText
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.inflate
 
-class CardsAdapter(private val cardUiModels: List<CardUiModel>, private val listener: (CardUiModel, View) -> Unit) :
-  RecyclerView.Adapter<CardViewHolder>() {
+class CardsAdapter(private val listener: (CardUiModel, View) -> Unit) : RecyclerView.Adapter<CardViewHolder>() {
+
+  private val items: MutableList<CardUiModel> = mutableListOf()
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
     return CardViewHolder(parent.inflate(R.layout.card_item), listener)
   }
 
-  override fun getItemCount() = cardUiModels.size
+  override fun getItemCount() = items.size
 
   override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-    val card = cardUiModels[position]
+    val card = items[position]
     ViewCompat.setTransitionName(holder.itemView, card.name)
     holder.bind(card, position)
+  }
+
+  fun setItems(cardUiModels: List<CardUiModel>) {
+    items.addAll(cardUiModels)
+    notifyDataSetChanged()
   }
 }
 

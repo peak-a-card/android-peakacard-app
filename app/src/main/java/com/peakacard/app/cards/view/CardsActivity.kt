@@ -36,10 +36,22 @@ class CardsActivity : AppCompatActivity(), CardsView {
     resources.getDimensionPixelSize(R.dimen.card_width) + (resources.getDimensionPixelSize(R.dimen.M) * 2)
   }
   private val gridLayoutManagerBuilder by lazy {
-    GridLayoutManagerBuilder(
-      this@CardsActivity,
-      cardWidth
-    )
+    GridLayoutManagerBuilder(this@CardsActivity, cardWidth)
+  }
+  private val cardsAdapter: CardsAdapter by lazy {
+    CardsAdapter { card, view ->
+      val activityOptions =
+        ActivityOptionsCompat.makeSceneTransitionAnimation(
+          this@CardsActivity,
+          view,
+          ViewCompat.getTransitionName(view).orEmpty()
+        )
+      startActivityForResult(
+        CardActivity.newIntent(this, card),
+        REQUEST_CODE_CARD,
+        activityOptions.toBundle()
+      )
+    }
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,9 +66,11 @@ class CardsActivity : AppCompatActivity(), CardsView {
         this@CardsActivity,
         R.anim.cards_animation_from_bottom
       )
+      adapter = cardsAdapter
     }
 
     cardsViewModel.bindView(this)
+    cardsViewModel.getCards()
   }
 
   override fun updateState(state: CardsState) {
@@ -64,25 +78,11 @@ class CardsActivity : AppCompatActivity(), CardsView {
       CardsState.Loading -> {
         cardsLoading.isVisible = true
         cardsGrid.isGone = true
-        cardsViewModel.getCards()
       }
       is CardsState.Loaded -> {
         cardsLoading.isGone = true
         cardsGrid.isVisible = true
-        cardsGrid.adapter =
-          CardsAdapter(state.cardUiModels) { card, view ->
-            val activityOptions =
-              ActivityOptionsCompat.makeSceneTransitionAnimation(
-                this,
-                view,
-                ViewCompat.getTransitionName(view).orEmpty()
-              )
-            startActivityForResult(
-              CardActivity.newIntent(this, card),
-              REQUEST_CODE_CARD,
-              activityOptions.toBundle()
-            )
-          }
+        cardsAdapter.setItems(state.cardUiModels)
       }
       CardsState.Empty -> Timber.d("Empty")
       CardsState.Error -> Timber.d("Error")
