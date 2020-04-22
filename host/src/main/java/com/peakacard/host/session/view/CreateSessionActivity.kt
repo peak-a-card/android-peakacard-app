@@ -23,7 +23,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.hideKeyboard
-import com.peakacard.core.view.PeakView
 import com.peakacard.host.R
 import com.peakacard.host.session.view.state.CreateSessionState
 import com.peakacard.host.voting.view.CreateVotingActivity
@@ -34,7 +33,7 @@ import timber.log.Timber
 
 private const val RC_SIGN_IN = 1005
 
-class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> {
+class CreateSessionActivity : AppCompatActivity(), CreateSessionView {
 
   private val createSessionViewModel: CreateSessionViewModel by viewModel()
 
@@ -72,11 +71,15 @@ class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> 
       createSessionGreetings.text = getString(R.string.create_session_title)
     }
     bindProgressButton(createSessionButton)
-    configureButton()
-    configureViews()
+    createSessionViewModel.initView()
   }
 
-  private fun configureButton() {
+  override fun configureToCreateSession() {
+    configureCreateSessionButton()
+    configureSessionCreatedView()
+  }
+
+  private fun configureCreateSessionButton() {
     createSessionButton.apply {
       text = getString(R.string.create_session_enter)
       attachTextChangeAnimator()
@@ -92,9 +95,27 @@ class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> 
     }
   }
 
-  private fun configureViews() {
+  private fun configureSessionCreatedView() {
     createSessionError.isGone = true
     createSessionCreatedMessage.isGone = true
+  }
+
+  override fun configureToCreateVote() {
+    configureCreateVoteButton()
+    configureCreateVoteView()
+  }
+
+  private fun configureCreateVoteButton() {
+    createSessionButton.apply {
+      text = getString(R.string.create_session_goto_vote)
+      attachTextChangeAnimator()
+      setOnClickListener { goToCreatingVotingActivity() }
+    }
+  }
+
+  private fun configureCreateVoteView() {
+    createSessionError.isGone = true
+    createSessionCreatedMessage.isVisible = true
   }
 
   override fun onPause() {
@@ -180,18 +201,7 @@ class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> 
         createSessionButton.apply {
           hideProgress(R.string.create_session_goto_vote)
           hideKeyboard()
-          setOnClickListener {
-            startActivity(
-              Intent(
-                this@CreateSessionActivity,
-                CreateVotingActivity::class.java
-              )
-            )
-            overridePendingTransition(
-              R.anim.transition_slide_from_right,
-              R.anim.transition_slide_to_left
-            )
-          }
+          setOnClickListener { goToCreatingVotingActivity() }
         }
       }
       is CreateSessionState.Error -> {
@@ -204,5 +214,18 @@ class CreateSessionActivity : AppCompatActivity(), PeakView<CreateSessionState> 
         }
       }
     }
+  }
+
+  private fun goToCreatingVotingActivity() {
+    startActivity(
+      Intent(
+        this@CreateSessionActivity,
+        CreateVotingActivity::class.java
+      )
+    )
+    overridePendingTransition(
+      R.anim.transition_slide_from_right,
+      R.anim.transition_slide_to_left
+    )
   }
 }

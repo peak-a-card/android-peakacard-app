@@ -12,7 +12,7 @@ abstract class PeakViewModel<S> : ViewModel() {
 
   val state: BroadcastChannel<S> = ConflatedBroadcastChannel()
 
-  fun bindView(view: PeakView<S>) {
+  open fun bindView(view: PeakView<S>) {
     viewModelScope.launch {
       state
         .asFlow()
