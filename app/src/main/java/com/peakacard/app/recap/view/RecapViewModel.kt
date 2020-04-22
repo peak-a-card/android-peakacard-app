@@ -1,18 +1,14 @@
 package com.peakacard.app.recap.view
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peakacard.app.recap.view.state.RecapState
 import com.peakacard.app.result.view.model.VotingResultParticipantUiModel
 import com.peakacard.app.voting.domain.GetStartedVotingUseCase
 import com.peakacard.card.view.model.mapper.CardUiModelMapper
+import com.peakacard.core.view.PeakViewModel
 import com.peakacard.result.domain.model.GetVotingResultResponse
 import com.peakacard.voting.domain.GetFinalVotingResultUseCase
 import com.peakacard.voting.domain.model.GetVotingError
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -21,17 +17,7 @@ class RecapViewModel(
   private val getFinalVotingResultUseCase: GetFinalVotingResultUseCase,
   private val getStartedVotingUseCase: GetStartedVotingUseCase,
   private val cardUiModelMapper: CardUiModelMapper
-) : ViewModel() {
-
-  private val recapState: BroadcastChannel<RecapState> = ConflatedBroadcastChannel()
-
-  fun bindView(view: RecapView) {
-    viewModelScope.launch {
-      recapState
-        .asFlow()
-        .collect { view.updateState(it) }
-    }
-  }
+) : PeakViewModel<RecapState>() {
 
   fun getVotingResult() {
     viewModelScope.launch {
@@ -40,10 +26,10 @@ class RecapViewModel(
           Timber.e("Error getting final participants votes. Error $error")
           when (error) {
             GetVotingResultResponse.Error.NoParticipants -> {
-              recapState.offer(RecapState.VotationsLoaded(emptyList()))
+              state.offer(RecapState.VotationsLoaded(emptyList()))
             }
             GetVotingResultResponse.Error.Unspecified -> {
-              recapState.offer(RecapState.Error)
+              state.offer(RecapState.Error)
             }
           }
         },
@@ -57,7 +43,7 @@ class RecapViewModel(
                 cardUiModelMapper.map(participant.card)
               )
             }
-          recapState.offer(RecapState.VotationsLoaded(participantUiModels))
+          state.offer(RecapState.VotationsLoaded(participantUiModels))
         }
       )
     }
@@ -72,14 +58,14 @@ class RecapViewModel(
             GetVotingError.NoVotingStarted -> {
               // DO NOTHING
             }
-            else -> recapState.offer(RecapState.Error)
+            else -> state.offer(RecapState.Error)
           }
         }, { voting ->
           Timber.d("Voting title: ${voting.title}")
-          if (!recapState.isClosedForSend) {
-            recapState.offer(RecapState.VotingStarted(voting.title))
+          if (!state.isClosedForSend) {
+            state.offer(RecapState.VotingStarted(voting.title))
           }
-          recapState.close()
+          state.close()
         })
       }
     }
