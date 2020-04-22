@@ -6,8 +6,6 @@ import com.peakacard.app.card.view.model.mapper.CardModelMapper
 import com.peakacard.app.card.view.state.CardState
 import com.peakacard.card.view.model.CardUiModel
 import com.peakacard.core.view.PeakViewModel
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -15,14 +13,6 @@ class CardViewModel(
   private val sendVoteUseCase: SendVoteUseCase,
   private val cardModelMapper: CardModelMapper
 ) : PeakViewModel<CardState>() {
-
-  fun bindView(view: CardView) {
-    viewModelScope.launch {
-      state
-        .asFlow()
-        .collect { view.updateState(it) }
-    }
-  }
 
   fun sendCard(cardUiModel: CardUiModel) {
     state.offer(CardState.Sending)
