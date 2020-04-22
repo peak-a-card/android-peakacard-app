@@ -19,82 +19,82 @@ import com.peakacard.core.ui.extensions.bindView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WaitVotingActivity : AppCompatActivity(),
-    WaitVotingView {
+  WaitVotingView {
 
-    private val waitVotingViewModel: WaitVotingViewModel by viewModel()
+  private val waitVotingViewModel: WaitVotingViewModel by viewModel()
 
-    private val message: TextView by bindView(R.id.wait_voting_message)
-    private val progress: View by bindView(R.id.wait_voting_progress)
-    private val error: View by bindView(R.id.wait_voting_error)
-    private val participantList: RecyclerView by bindView(R.id.participant_list)
+  private val message: TextView by bindView(R.id.wait_voting_message)
+  private val progress: View by bindView(R.id.wait_voting_progress)
+  private val error: View by bindView(R.id.wait_voting_error)
+  private val participantList: RecyclerView by bindView(R.id.participant_list)
 
-    private val participantsAdapter: ParticipantsAdapter by lazy { ParticipantsAdapter() }
+  private val participantsAdapter: ParticipantsAdapter by lazy { ParticipantsAdapter() }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_waitvoting)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_waitvoting)
 
-        waitVotingViewModel.bindView(this)
+    waitVotingViewModel.bindView(this)
 
-        participantList.apply {
-            layoutManager = LinearLayoutManager(this@WaitVotingActivity)
-            itemAnimator = DefaultItemAnimator()
-            adapter = participantsAdapter
-        }
-        waitVotingViewModel.listenForVotingToStart()
-        waitVotingViewModel.listenParticipantsToJoin()
+    participantList.apply {
+      layoutManager = LinearLayoutManager(this@WaitVotingActivity)
+      itemAnimator = DefaultItemAnimator()
+      adapter = participantsAdapter
     }
+    waitVotingViewModel.listenForVotingToStart()
+    waitVotingViewModel.listenParticipantsToJoin()
+  }
 
-    override fun updateVotingState(state: WaitVotingState) {
-        when (state) {
-            WaitVotingState.WaitingVotingStart -> {
-                progress.isVisible = true
-                error.isGone = true
-            }
-            is WaitVotingState.VotingStarted -> {
-                progress.isGone = true
-                error.isGone = true
-                message.text = getString(R.string.wait_voting_message, state.title)
+  override fun updateVotingState(state: WaitVotingState) {
+    when (state) {
+      WaitVotingState.WaitingVotingStart -> {
+        progress.isVisible = true
+        error.isGone = true
+      }
+      is WaitVotingState.VotingStarted -> {
+        progress.isGone = true
+        error.isGone = true
+        message.text = getString(R.string.wait_voting_message, state.title)
 
-                Handler().postDelayed({
-                    val intent = Intent(this, CardsActivity::class.java).apply {
-                        putExtra(CardsActivity.EXTRA_SESSION_TITLE, state.title)
-                    }
-                    startActivity(intent)
-                    finish()
-                    overridePendingTransition(
-                        R.anim.transition_slide_from_right,
-                        R.anim.transition_slide_to_left
-                    )
-                }, 1000)
-            }
-            WaitVotingState.Error -> {
-                progress.isGone = true
-                error.isVisible = true
-            }
-            WaitVotingState.VotingLeft -> {
-                super.onBackPressed()
-                overridePendingTransition(
-                    R.anim.transition_slide_from_left,
-                    R.anim.transition_slide_to_right
-                )
-            }
-        }
+        Handler().postDelayed({
+          val intent = Intent(this, CardsActivity::class.java).apply {
+            putExtra(CardsActivity.EXTRA_SESSION_TITLE, state.title)
+          }
+          startActivity(intent)
+          finish()
+          overridePendingTransition(
+            R.anim.transition_slide_from_right,
+            R.anim.transition_slide_to_left
+          )
+        }, 1000)
+      }
+      WaitVotingState.Error -> {
+        progress.isGone = true
+        error.isVisible = true
+      }
+      WaitVotingState.VotingLeft -> {
+        super.onBackPressed()
+        overridePendingTransition(
+          R.anim.transition_slide_from_left,
+          R.anim.transition_slide_to_right
+        )
+      }
     }
+  }
 
-    override fun updateParticipantState(state: WaitParticipantState) {
-        when (state) {
-            is WaitParticipantState.ParticipantsLoaded -> {
-                participantsAdapter.setParticipants(state.participantUiModels)
-            }
-            WaitParticipantState.Error -> {
-                progress.isGone = true
-                error.isVisible = true
-            }
-        }
+  override fun updateParticipantState(state: WaitParticipantState) {
+    when (state) {
+      is WaitParticipantState.ParticipantsLoaded -> {
+        participantsAdapter.setParticipants(state.participantUiModels)
+      }
+      WaitParticipantState.Error -> {
+        progress.isGone = true
+        error.isVisible = true
+      }
     }
+  }
 
-    override fun onBackPressed() {
-        waitVotingViewModel.leaveSession()
-    }
+  override fun onBackPressed() {
+    waitVotingViewModel.leaveSession()
+  }
 }

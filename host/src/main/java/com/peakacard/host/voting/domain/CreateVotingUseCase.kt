@@ -7,18 +7,18 @@ import com.peakacard.voting.domain.model.CreateVotingResponse
 import com.peakacard.voting.domain.model.Voting
 
 class CreateVotingUseCase(
-    private val votingRepository: VotingRepository,
-    private val sessionRepository: SessionRepository
+  private val votingRepository: VotingRepository,
+  private val sessionRepository: SessionRepository
 ) {
 
-    suspend fun createVoting(title: String): Either<CreateVotingResponse.Error, CreateVotingResponse.Success> {
-        val sessionId = sessionRepository.getCurrentSession()
-        return if (sessionId == null) {
-            Either.Left(CreateVotingResponse.Error.NoSessionId)
-        } else {
-            votingRepository.createVoting(sessionId, title).also {
-                votingRepository.saveCurrentVoting(Voting(title))
-            }
-        }
+  suspend fun createVoting(title: String): Either<CreateVotingResponse.Error, CreateVotingResponse.Success> {
+    val sessionId = sessionRepository.getCurrentSession()
+    return if (sessionId == null) {
+      Either.Left(CreateVotingResponse.Error.NoSessionId)
+    } else {
+      votingRepository.createVoting(sessionId, title).also {
+        votingRepository.saveCurrentVoting(Voting(title))
+      }
     }
+  }
 }

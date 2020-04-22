@@ -11,38 +11,38 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class VotingResultViewModel(
-    private val getFinalVotingResultUseCase: GetFinalVotingResultUseCase,
-    private val cardUiModelMapper: CardUiModelMapper
+  private val getFinalVotingResultUseCase: GetFinalVotingResultUseCase,
+  private val cardUiModelMapper: CardUiModelMapper
 ) :
-    PeakViewModel<VotingResultState>() {
+  PeakViewModel<VotingResultState>() {
 
-    fun getVotingResult() {
-        viewModelScope.launch {
-            getFinalVotingResultUseCase.getFinalVotingResult().fold(
-                { error ->
-                    Timber.e("Error getting final participants votes. Error $error")
-                    when (error) {
-                        GetVotingResultResponse.Error.NoParticipants -> {
-                            state.offer(VotingResultState.VotationsLoaded(emptyList()))
-                        }
-                        GetVotingResultResponse.Error.Unspecified -> {
-                            state.offer(VotingResultState.Error)
-                        }
-                    }
-                },
-                { participants ->
-                    Timber.d("Got final participants votes successfully")
-                    val participantUiModels: List<VotingResultParticipantUiModel> =
-                        participants.map { participant ->
-                            Timber.d("Participant ${participant.participantName} voted ${participant.card.score}")
-                            VotingResultParticipantUiModel(
-                                participant.participantName,
-                                cardUiModelMapper.map(participant.card)
-                            )
-                        }
-                    state.offer(VotingResultState.VotationsLoaded(participantUiModels))
-                }
-            )
+  fun getVotingResult() {
+    viewModelScope.launch {
+      getFinalVotingResultUseCase.getFinalVotingResult().fold(
+        { error ->
+          Timber.e("Error getting final participants votes. Error $error")
+          when (error) {
+            GetVotingResultResponse.Error.NoParticipants -> {
+              state.offer(VotingResultState.VotationsLoaded(emptyList()))
+            }
+            GetVotingResultResponse.Error.Unspecified -> {
+              state.offer(VotingResultState.Error)
+            }
+          }
+        },
+        { participants ->
+          Timber.d("Got final participants votes successfully")
+          val participantUiModels: List<VotingResultParticipantUiModel> =
+            participants.map { participant ->
+              Timber.d("Participant ${participant.participantName} voted ${participant.card.score}")
+              VotingResultParticipantUiModel(
+                participant.participantName,
+                cardUiModelMapper.map(participant.card)
+              )
+            }
+          state.offer(VotingResultState.VotationsLoaded(participantUiModels))
         }
+      )
     }
+  }
 }

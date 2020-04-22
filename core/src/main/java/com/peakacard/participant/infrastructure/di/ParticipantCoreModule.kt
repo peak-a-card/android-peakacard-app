@@ -6,13 +6,13 @@ import com.peakacard.participant.domain.ParticipantsVotingService
 import org.koin.dsl.module
 
 val participantCoreModule = module {
-    factory { ParticipantRepository(get()) }
-    factory { ParticipantRemoteDataSource(get()) }
-    factory {
-        ParticipantsVotingService(
-            get(),
-            get(),
-            get()
-        )
-    }
+  factory { ParticipantRepository(get()) }
+  factory { ParticipantRemoteDataSource(get()) }
+  factory {
+    ParticipantsVotingService(
+      get(),
+      get(),
+      get()
+    )
+  }
 }

@@ -9,11 +9,11 @@ import com.peakacard.host.voting.infrastructure.di.waitingVotesModule
 import org.koin.core.module.Module
 
 class HostApplication : PeakACardApplication() {
-    override val modules: List<Module> = listOf(
-        dataModule,
-        createSessionModule,
-        createVotingModule,
-        waitingVotesModule,
-        votingResultModule
-    )
+  override val modules: List<Module> = listOf(
+    dataModule,
+    createSessionModule,
+    createVotingModule,
+    waitingVotesModule,
+    votingResultModule
+  )
 }

@@ -10,16 +10,16 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val userCoreModule = module {
-    factory { UserRepository(get(), get(), get()) }
-    factory { UserLocalDataSource(get(named(USER_SHARED_PREFERENCES)), get()) }
-    factory { UserMapper() }
-    factory { UserDataModelMapper() }
-    factory(named(USER_SHARED_PREFERENCES)) {
-        androidContext().getSharedPreferences(
-            USER_SHARED_PREFERENCES,
-            Context.MODE_PRIVATE
-        )
-    }
+  factory { UserRepository(get(), get(), get()) }
+  factory { UserLocalDataSource(get(named(USER_SHARED_PREFERENCES)), get()) }
+  factory { UserMapper() }
+  factory { UserDataModelMapper() }
+  factory(named(USER_SHARED_PREFERENCES)) {
+    androidContext().getSharedPreferences(
+      USER_SHARED_PREFERENCES,
+      Context.MODE_PRIVATE
+    )
+  }
 }
 
 private const val USER_SHARED_PREFERENCES = "USER_SHARED_PREFERENCES"

@@ -9,15 +9,15 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val sessionCoreModule = module {
-    factory { SessionRepository(get(), get(), get()) }
-    factory { SessionRemoteDataSource(get()) }
-    factory { SessionLocalDataSource(get(named(SESSION_SHARED_PREFERENCES))) }
-    factory(named(SESSION_SHARED_PREFERENCES)) {
-        androidContext().getSharedPreferences(
-            SESSION_SHARED_PREFERENCES,
-            Context.MODE_PRIVATE
-        )
-    }
+  factory { SessionRepository(get(), get(), get()) }
+  factory { SessionRemoteDataSource(get()) }
+  factory { SessionLocalDataSource(get(named(SESSION_SHARED_PREFERENCES))) }
+  factory(named(SESSION_SHARED_PREFERENCES)) {
+    androidContext().getSharedPreferences(
+      SESSION_SHARED_PREFERENCES,
+      Context.MODE_PRIVATE
+    )
+  }
 }
 
 private const val SESSION_SHARED_PREFERENCES = "SESSION_SHARED_PREFERENCES"

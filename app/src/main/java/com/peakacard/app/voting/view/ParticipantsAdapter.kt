@@ -11,34 +11,34 @@ import com.peakacard.core.ui.extensions.inflate
 
 class ParticipantsAdapter : RecyclerView.Adapter<ParticipantViewHolder>() {
 
-    private val participantUiModels: MutableSet<SessionParticipantUiModel> = mutableSetOf()
+  private val participantUiModels: MutableSet<SessionParticipantUiModel> = mutableSetOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParticipantViewHolder {
-        return ParticipantViewHolder(parent.inflate(R.layout.participant_item))
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParticipantViewHolder {
+    return ParticipantViewHolder(parent.inflate(R.layout.participant_item))
+  }
+
+  override fun getItemCount() = participantUiModels.size
+
+  override fun onBindViewHolder(holder: ParticipantViewHolder, position: Int) {
+    holder.bind(participantUiModels.elementAt(position))
+  }
+
+  fun setParticipants(sessionParticipantUiModels: List<SessionParticipantUiModel>) {
+    participantUiModels.clear()
+    notifyDataSetChanged()
+
+    sessionParticipantUiModels.forEach { sessionParticipantUiModel ->
+      if (participantUiModels.add(sessionParticipantUiModel)) {
+        notifyItemInserted(participantUiModels.size - 1)
+      }
     }
-
-    override fun getItemCount() = participantUiModels.size
-
-    override fun onBindViewHolder(holder: ParticipantViewHolder, position: Int) {
-        holder.bind(participantUiModels.elementAt(position))
-    }
-
-    fun setParticipants(sessionParticipantUiModels: List<SessionParticipantUiModel>) {
-        participantUiModels.clear()
-        notifyDataSetChanged()
-
-        sessionParticipantUiModels.forEach { sessionParticipantUiModel ->
-            if (participantUiModels.add(sessionParticipantUiModel)) {
-                notifyItemInserted(participantUiModels.size - 1)
-            }
-        }
-    }
+  }
 }
 
 class ParticipantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val name: TextView by bindView(R.id.participant_name)
+  private val name: TextView by bindView(R.id.participant_name)
 
-    fun bind(participantUiModel: SessionParticipantUiModel) {
-        name.text = participantUiModel.name
-    }
+  fun bind(participantUiModel: SessionParticipantUiModel) {
+    name.text = participantUiModel.name
+  }
 }

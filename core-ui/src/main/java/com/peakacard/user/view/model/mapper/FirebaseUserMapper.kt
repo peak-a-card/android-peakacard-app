@@ -5,14 +5,14 @@ import com.peakacard.user.view.model.UserUiModel
 
 class FirebaseUserMapper {
 
-    fun map(firebaseUser: FirebaseUser?): UserUiModel? {
-        if (firebaseUser == null) return null
-        return with(firebaseUser) {
-            UserUiModel(
-                uid,
-                displayName ?: "",
-                email ?: ""
-            )
-        }
+  fun map(firebaseUser: FirebaseUser?): UserUiModel? {
+    if (firebaseUser == null) return null
+    return with(firebaseUser) {
+      UserUiModel(
+        uid,
+        displayName ?: "",
+        email ?: ""
+      )
     }
+  }
 }

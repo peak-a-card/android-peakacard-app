@@ -5,9 +5,9 @@ import com.peakacard.card.domain.model.Vote
 
 class VoteMapper {
 
-    fun map(vote: Vote): VoteRequest {
-        return with(vote) {
-            VoteRequest(sessionId, votingTitle, uid, score)
-        }
+  fun map(vote: Vote): VoteRequest {
+    return with(vote) {
+      VoteRequest(sessionId, votingTitle, uid, score)
     }
+  }
 }

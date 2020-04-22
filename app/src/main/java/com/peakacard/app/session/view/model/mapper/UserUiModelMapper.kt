@@ -5,9 +5,9 @@ import com.peakacard.user.view.model.UserUiModel
 
 class UserUiModelMapper {
 
-    fun map(userUiModel: UserUiModel): User {
-        return with(userUiModel) {
-            User(uid, name, mail)
-        }
+  fun map(userUiModel: UserUiModel): User {
+    return with(userUiModel) {
+      User(uid, name, mail)
     }
+  }
 }

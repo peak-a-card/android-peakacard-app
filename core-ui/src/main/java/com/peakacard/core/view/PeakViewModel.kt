@@ -10,13 +10,13 @@ import kotlinx.coroutines.launch
 
 abstract class PeakViewModel<S> : ViewModel() {
 
-    val state: BroadcastChannel<S> = ConflatedBroadcastChannel()
+  val state: BroadcastChannel<S> = ConflatedBroadcastChannel()
 
-    fun bindView(view: PeakView<S>) {
-        viewModelScope.launch {
-            state
-                .asFlow()
-                .collect { view.updateState(it) }
-        }
+  fun bindView(view: PeakView<S>) {
+    viewModelScope.launch {
+      state
+        .asFlow()
+        .collect { view.updateState(it) }
     }
+  }
 }

@@ -6,7 +6,7 @@ import com.peakacard.card.data.repository.CardRepository
 import org.koin.dsl.module
 
 val cardCoreModule = module {
-    factory { CardRepository(get(), get()) }
-    factory { CardRemoteDataSource(get()) }
-    factory { VoteMapper() }
+  factory { CardRepository(get(), get()) }
+  factory { CardRemoteDataSource(get()) }
+  factory { VoteMapper() }
 }

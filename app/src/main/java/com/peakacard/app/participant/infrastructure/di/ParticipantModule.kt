@@ -4,5 +4,5 @@ import com.peakacard.app.participant.domain.GetSessionParticipantUseCase
 import org.koin.dsl.module
 
 val participantModule = module {
-    factory { GetSessionParticipantUseCase(get(), get()) }
+  factory { GetSessionParticipantUseCase(get(), get()) }
 }

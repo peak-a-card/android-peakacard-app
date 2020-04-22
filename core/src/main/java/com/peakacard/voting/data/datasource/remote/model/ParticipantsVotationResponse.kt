@@ -1,10 +1,10 @@
 package com.peakacard.voting.data.datasource.remote.model
 
 sealed class ParticipantsVotationResponse {
-    data class Success(val participantVotationDataModels: List<ParticipantVotationDataModel>) :
-        ParticipantsVotationResponse()
+  data class Success(val participantVotationDataModels: List<ParticipantVotationDataModel>) :
+    ParticipantsVotationResponse()
 
-    sealed class Error : ParticipantsVotationResponse() {
-        object RemoteException : Error()
-    }
+  sealed class Error : ParticipantsVotationResponse() {
+    object RemoteException : Error()
+  }
 }

@@ -4,6 +4,6 @@ import com.peakacard.card.view.model.CardUiModel
 
 sealed class VotingResultParticipantUiModel(open val name: String) {
 
-    class Voted(override val name: String, val card: CardUiModel) : VotingResultParticipantUiModel(name)
-    class Waiting(override val name: String) : VotingResultParticipantUiModel(name)
+  class Voted(override val name: String, val card: CardUiModel) : VotingResultParticipantUiModel(name)
+  class Waiting(override val name: String) : VotingResultParticipantUiModel(name)
 }

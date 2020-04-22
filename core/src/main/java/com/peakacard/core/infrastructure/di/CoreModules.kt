@@ -8,11 +8,11 @@ import com.peakacard.user.infrastructure.di.userCoreModule
 import com.peakacard.voting.infrastructure.di.votingCoreModule
 
 val coreModules = listOf(
-    cardCoreModule,
-    cardsCoreModule,
-    participantCoreModule,
-    sessionCoreModule,
-    userCoreModule,
-    votingCoreModule,
-    dataModule
+  cardCoreModule,
+  cardsCoreModule,
+  participantCoreModule,
+  sessionCoreModule,
+  userCoreModule,
+  votingCoreModule,
+  dataModule
 )

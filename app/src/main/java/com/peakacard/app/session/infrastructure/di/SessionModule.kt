@@ -6,7 +6,7 @@ import com.peakacard.app.session.view.JoinSessionViewModel
 import org.koin.dsl.module
 
 val sessionModule = module {
-    factory { JoinSessionViewModel(get(), get()) }
-    factory { JoinSessionUseCase(get(), get()) }
-    factory { LeaveSessionUseCase(get(), get()) }
+  factory { JoinSessionViewModel(get(), get()) }
+  factory { JoinSessionUseCase(get(), get()) }
+  factory { LeaveSessionUseCase(get(), get()) }
 }

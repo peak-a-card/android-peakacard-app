@@ -31,6 +31,6 @@
         android:layout_height="18dp"
         android:src="@drawable/ic_done_primary_18dp"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
 </LinearLayout>

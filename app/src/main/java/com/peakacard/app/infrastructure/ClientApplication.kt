@@ -12,14 +12,14 @@ import com.peakacard.core.infrastructure.PeakACardApplication
 import org.koin.core.module.Module
 
 class ClientApplication : PeakACardApplication() {
-    override val modules: List<Module> = listOf(
-        cardsModule,
-        cardModule,
-        sessionModule,
-        votingModule,
-        participantModule,
-        userModule,
-        resultModule,
-        recapModule
-    )
+  override val modules: List<Module> = listOf(
+    cardsModule,
+    cardModule,
+    sessionModule,
+    votingModule,
+    participantModule,
+    userModule,
+    resultModule,
+    recapModule
+  )
 }

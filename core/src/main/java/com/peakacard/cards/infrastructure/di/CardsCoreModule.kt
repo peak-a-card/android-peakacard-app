@@ -5,6 +5,6 @@ import com.peakacard.cards.data.repository.CardsRepository
 import org.koin.dsl.module
 
 val cardsCoreModule = module {
-    factory { CardsRepository(get()) }
-    factory { CardsLocalDataSource() }
+  factory { CardsRepository(get()) }
+  factory { CardsLocalDataSource() }
 }

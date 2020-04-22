@@ -6,11 +6,11 @@ private const val VOTING_TITLE = "VOTING_TITLE"
 
 class VotingLocalDataSource(private val sharedPreferences: SharedPreferences) {
 
-    fun saveVoting(votingTitle: String?) {
-        sharedPreferences.edit().putString(VOTING_TITLE, votingTitle).apply()
-    }
+  fun saveVoting(votingTitle: String?) {
+    sharedPreferences.edit().putString(VOTING_TITLE, votingTitle).apply()
+  }
 
-    fun getVoting(): String? {
-        return sharedPreferences.getString(VOTING_TITLE, null)
-    }
+  fun getVoting(): String? {
+    return sharedPreferences.getString(VOTING_TITLE, null)
+  }
 }

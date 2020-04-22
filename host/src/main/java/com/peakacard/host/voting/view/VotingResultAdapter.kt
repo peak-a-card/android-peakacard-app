@@ -13,30 +13,30 @@ import com.peakacard.host.voting.view.model.VotingResultParticipantUiModel
 
 class VotingResultAdapter : RecyclerView.Adapter<VotingResultParticipantViewHolder>() {
 
-    private val items: MutableSet<VotingResultParticipantUiModel> = mutableSetOf()
+  private val items: MutableSet<VotingResultParticipantUiModel> = mutableSetOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VotingResultParticipantViewHolder {
-        return VotingResultParticipantViewHolder(parent.inflate(R.layout.voting_result_participant_item))
-    }
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VotingResultParticipantViewHolder {
+    return VotingResultParticipantViewHolder(parent.inflate(R.layout.voting_result_participant_item))
+  }
 
-    override fun getItemCount() = items.size
+  override fun getItemCount() = items.size
 
-    override fun onBindViewHolder(holder: VotingResultParticipantViewHolder, position: Int) {
-        holder.bind(items.elementAt(position))
-    }
+  override fun onBindViewHolder(holder: VotingResultParticipantViewHolder, position: Int) {
+    holder.bind(items.elementAt(position))
+  }
 
-    fun setParticipants(participantVotes: List<VotingResultParticipantUiModel>) {
-        this.items.addAll(participantVotes)
-        notifyDataSetChanged()
-    }
+  fun setParticipants(participantVotes: List<VotingResultParticipantUiModel>) {
+    this.items.addAll(participantVotes)
+    notifyDataSetChanged()
+  }
 }
 
 class VotingResultParticipantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val name: TextView by bindView(R.id.participant_name)
-    private val score: EmojiTextView by bindView(R.id.participant_score)
+  private val name: TextView by bindView(R.id.participant_name)
+  private val score: EmojiTextView by bindView(R.id.participant_score)
 
-    fun bind(participantVote: VotingResultParticipantUiModel) {
-        name.text = participantVote.name
-        score.applyCardText(participantVote.card)
-    }
+  fun bind(participantVote: VotingResultParticipantUiModel) {
+    name.text = participantVote.name
+    score.applyCardText(participantVote.card)
+  }
 }

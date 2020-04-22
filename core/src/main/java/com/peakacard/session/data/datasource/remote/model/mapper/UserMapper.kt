@@ -5,13 +5,13 @@ import com.peakacard.user.domain.model.User
 
 class UserMapper {
 
-    fun map(user: User): UserDataModel {
-        return with(user) {
-            UserDataModel(
-                uid,
-                name,
-                mail
-            )
-        }
+  fun map(user: User): UserDataModel {
+    return with(user) {
+      UserDataModel(
+        uid,
+        name,
+        mail
+      )
     }
+  }
 }

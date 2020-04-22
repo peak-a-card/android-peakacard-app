@@ -10,23 +10,23 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val votingCoreModule = module {
-    factory { VotingRepository(get(), get()) }
-    factory { VotingRemoteDataSource(get()) }
-    factory { VotingLocalDataSource(get(named(VOTING_SHARED_PREFERENCES))) }
-    factory(named(VOTING_SHARED_PREFERENCES)) {
-        androidContext().getSharedPreferences(
-            VOTING_SHARED_PREFERENCES,
-            Context.MODE_PRIVATE
-        )
-    }
+  factory { VotingRepository(get(), get()) }
+  factory { VotingRemoteDataSource(get()) }
+  factory { VotingLocalDataSource(get(named(VOTING_SHARED_PREFERENCES))) }
+  factory(named(VOTING_SHARED_PREFERENCES)) {
+    androidContext().getSharedPreferences(
+      VOTING_SHARED_PREFERENCES,
+      Context.MODE_PRIVATE
+    )
+  }
 
-    factory {
-        GetFinalVotingResultUseCase(
-            get(),
-            get(),
-            get()
-        )
-    }
+  factory {
+    GetFinalVotingResultUseCase(
+      get(),
+      get(),
+      get()
+    )
+  }
 }
 
 private const val VOTING_SHARED_PREFERENCES = "VOTING_SHARED_PREFERENCES"

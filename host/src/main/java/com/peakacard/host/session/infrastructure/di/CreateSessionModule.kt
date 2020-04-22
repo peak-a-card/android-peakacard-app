@@ -5,6 +5,6 @@ import com.peakacard.host.session.view.CreateSessionViewModel
 import org.koin.dsl.module
 
 val createSessionModule = module {
-    factory { CreateSessionViewModel(get()) }
-    factory { CreateSessionUseCase(get()) }
+  factory { CreateSessionViewModel(get()) }
+  factory { CreateSessionUseCase(get()) }
 }
