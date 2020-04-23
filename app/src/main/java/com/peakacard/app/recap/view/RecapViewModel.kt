@@ -62,10 +62,7 @@ class RecapViewModel(
           }
         }, { voting ->
           Timber.d("Voting title: ${voting.title}")
-          if (!state.isClosedForSend) {
-            state.offer(RecapState.VotingStarted(voting.title))
-          }
-          state.close()
+          state.offer(RecapState.VotingStarted(voting.title))
         })
       }
     }
