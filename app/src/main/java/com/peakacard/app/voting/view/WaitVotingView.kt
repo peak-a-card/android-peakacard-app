@@ -1,9 +1,6 @@
 package com.peakacard.app.voting.view
 
-import com.peakacard.app.voting.view.state.WaitParticipantState
 import com.peakacard.app.voting.view.state.WaitVotingState
+import com.peakacard.core.view.PeakView
 
-interface WaitVotingView {
-  fun updateVotingState(state: WaitVotingState)
-  fun updateParticipantState(state: WaitParticipantState)
-}
+interface WaitVotingView : PeakView<WaitVotingState>

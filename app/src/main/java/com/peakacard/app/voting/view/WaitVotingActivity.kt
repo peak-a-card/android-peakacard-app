@@ -13,13 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
 import com.peakacard.app.cards.view.CardsActivity
-import com.peakacard.app.voting.view.state.WaitParticipantState
 import com.peakacard.app.voting.view.state.WaitVotingState
 import com.peakacard.core.ui.extensions.bindView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class WaitVotingActivity : AppCompatActivity(),
-  WaitVotingView {
+class WaitVotingActivity : AppCompatActivity(), WaitVotingView {
 
   private val waitVotingViewModel: WaitVotingViewModel by viewModel()
 
@@ -45,7 +43,7 @@ class WaitVotingActivity : AppCompatActivity(),
     waitVotingViewModel.listenParticipantsToJoin()
   }
 
-  override fun updateVotingState(state: WaitVotingState) {
+  override fun updateState(state: WaitVotingState) {
     when (state) {
       WaitVotingState.WaitingVotingStart -> {
         progress.isVisible = true
@@ -79,17 +77,16 @@ class WaitVotingActivity : AppCompatActivity(),
           R.anim.transition_slide_to_right
         )
       }
-    }
-  }
-
-  override fun updateParticipantState(state: WaitParticipantState) {
-    when (state) {
-      is WaitParticipantState.ParticipantsLoaded -> {
-        participantsAdapter.setParticipants(state.participantUiModels)
-      }
-      WaitParticipantState.Error -> {
-        progress.isGone = true
-        error.isVisible = true
+      is WaitVotingState.WaitParticipantState -> {
+        when (state) {
+          is WaitVotingState.WaitParticipantState.ParticipantsLoaded -> {
+            participantsAdapter.setParticipants(state.participantUiModels)
+          }
+          WaitVotingState.WaitParticipantState.Error -> {
+            progress.isGone = true
+            error.isVisible = true
+          }
+        }
       }
     }
   }

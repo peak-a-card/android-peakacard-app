@@ -1,6 +1,8 @@
 package com.peakacard.voting.data.datasource.remote
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.peakacard.core.Either
@@ -49,26 +51,11 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
         if (exception != null) {
           offer(Either.Left(VotingStatusResponse.Error.RemoteException))
         } else {
-          val votingDocuments = snapshot?.documents
-          val votingsByStatus = votingDocuments?.map {
-            it.toObject(VotingDataModel::class.java)
-          }?.filter {
-            VotingDataModel.Status.fromString(it?.status) == status
-          }
-
-          if (votingsByStatus.isNullOrEmpty()) {
-            when (status) {
-              VotingDataModel.Status.STARTED -> {
-                offer(Either.Left(VotingStatusResponse.Error.NoVotingStarted))
-              }
-              VotingDataModel.Status.ENDED -> {
-                offer(Either.Left(VotingStatusResponse.Error.NoVotingEnded))
-              }
-            }
-          } else {
-            votingsByStatus.forEach { votingDataModel ->
-              if (votingDataModel != null) {
-                offer(Either.Right(VotingStatusResponse.Success(votingDataModel.name)))
+          snapshot?.documentChanges?.forEach { documentChange ->
+            when (documentChange.type) {
+              DocumentChange.Type.ADDED -> offer(buildVoteStatus(snapshot.documents, status))
+              else -> {
+                // DO NOTHING
               }
             }
           }
@@ -79,47 +66,49 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
     }
   }
 
+  private fun buildVoteStatus(
+    votingDocuments: List<DocumentSnapshot>,
+    status: VotingDataModel.Status
+  ): Either<VotingStatusResponse.Error, VotingStatusResponse.Success> {
+    val votingsByStatus = votingDocuments
+      .map { it.toObject(VotingDataModel::class.java) }
+      .filter { VotingDataModel.Status.fromString(it?.status) == status }
+
+    return if (votingsByStatus.isNullOrEmpty()) {
+      when (status) {
+        VotingDataModel.Status.STARTED -> Either.Left(VotingStatusResponse.Error.NoVotingStarted)
+        VotingDataModel.Status.ENDED -> Either.Left(VotingStatusResponse.Error.NoVotingEnded)
+      }
+    } else {
+      val votingDataModel = votingsByStatus.firstOrNull()
+      if (votingDataModel != null) {
+        Either.Right(VotingStatusResponse.Success(votingDataModel.name))
+      } else {
+        Either.Left(VotingStatusResponse.Error.NoVotingStarted)
+      }
+    }
+  }
+
   @Suppress("UNCHECKED_CAST")
   suspend fun listenForParticipantsVotation(participantsVotationRequest: ParticipantsVotationRequest):
     Flow<Either<ParticipantsVotationResponse.Error, ParticipantsVotationResponse.Success>> {
     return callbackFlow {
       val session = database.collection(PeakDataModel.ROOT_COLLECTION_ID)
-      val votation =
-        session.document(participantsVotationRequest.sessionId)
-          .collection(SessionDataModel.VOTATIONS)
-          .document(participantsVotationRequest.votationTitle)
+      val votation = session.document(participantsVotationRequest.sessionId)
+        .collection(SessionDataModel.VOTATIONS)
+        .document(participantsVotationRequest.votationTitle)
 
       val subscription = votation.addSnapshotListener { snapshot, exception ->
         if (exception != null) {
           offer(Either.Left(ParticipantsVotationResponse.Error.RemoteException))
         } else {
-          val participantsVotation =
-            snapshot?.get(VotingDataModel.PARTICIPANT_VOTATION) as? Map<String, Float>
+          val participantsVotation = snapshot?.get(VotingDataModel.PARTICIPANT_VOTATION) as? Map<String, Float>
 
           if (participantsVotation == null) {
-            offer(
-              Either.Right(
-                ParticipantsVotationResponse.Success(
-                  emptyList<ParticipantVotationDataModel>()
-                )
-              )
-            )
+            offer(Either.Right(ParticipantsVotationResponse.Success(emptyList<ParticipantVotationDataModel>())))
           } else {
-            val participantVotationDataModels =
-              participantsVotation.map { (key, value) ->
-                ParticipantVotationDataModel(
-                  key,
-                  value
-                )
-              }
-
-            offer(
-              Either.Right(
-                ParticipantsVotationResponse.Success(
-                  participantVotationDataModels
-                )
-              )
-            )
+            val participantVotationDataModels = participantsVotation.map { (key, value) -> ParticipantVotationDataModel(key, value) }
+            offer(Either.Right(ParticipantsVotationResponse.Success(participantVotationDataModels)))
           }
         }
       }
