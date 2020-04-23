@@ -5,6 +5,7 @@ import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.Query
 import com.peakacard.core.Either
 import com.peakacard.core.data.remote.model.PeakDataModel
 import com.peakacard.session.data.datasource.remote.model.SessionDataModel
@@ -23,14 +24,56 @@ import kotlinx.coroutines.tasks.await
 class VotingRemoteDataSource(private val database: FirebaseFirestore) {
 
   suspend fun listenStartedVoting(sessionId: String): Flow<Either<VotingStatusResponse.Error, VotingStatusResponse.Success>> {
-    return listenVotingStatus(sessionId, VotingDataModel.Status.STARTED)
+    return callbackFlow {
+      val session = database.collection(PeakDataModel.ROOT_COLLECTION_ID)
+      val votations = session.document(sessionId).collection(SessionDataModel.VOTATIONS)
+        .orderBy(VotingDataModel.CREATION_DATE)
+
+      val subscription = votations.addSnapshotListener { snapshot, exception ->
+        if (exception != null) {
+          offer(Either.Left(VotingStatusResponse.Error.RemoteException))
+        } else {
+          snapshot?.documentChanges?.forEach { documentChange ->
+            when (documentChange.type) {
+              DocumentChange.Type.ADDED -> offer(buildVoteStatus(snapshot.documents, VotingDataModel.Status.STARTED))
+              else -> {
+                // DO NOTHING
+              }
+            }
+          }
+        }
+      }
+
+      awaitClose { subscription.remove() }
+    }
   }
 
   suspend fun listenEndedVoting(
     sessionId: String,
     votationTitle: String
   ): Flow<Either<VotingStatusResponse.Error, VotingStatusResponse.Success>> {
-    return listenVotingStatus(sessionId, VotingDataModel.Status.ENDED).filter {
+    return callbackFlow {
+      val session = database.collection(PeakDataModel.ROOT_COLLECTION_ID)
+      val votations = session.document(sessionId).collection(SessionDataModel.VOTATIONS)
+        .orderBy(VotingDataModel.CREATION_DATE, Query.Direction.DESCENDING)
+
+      val subscription = votations.addSnapshotListener { snapshot, exception ->
+        if (exception != null) {
+          offer(Either.Left(VotingStatusResponse.Error.RemoteException))
+        } else {
+          snapshot?.documentChanges?.forEach { documentChange ->
+            when (documentChange.type) {
+              DocumentChange.Type.MODIFIED -> offer(buildVoteStatus(snapshot.documents, VotingDataModel.Status.ENDED))
+              else -> {
+                // DO NOTHING
+              }
+            }
+          }
+        }
+      }
+
+      awaitClose { subscription.remove() }
+    }.filter {
       it.fold(
         { return@fold true },
         { votingSuccess -> return@fold votingSuccess.votingTitle == votationTitle }

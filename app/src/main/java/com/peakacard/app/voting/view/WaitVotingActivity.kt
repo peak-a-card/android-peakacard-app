@@ -77,16 +77,18 @@ class WaitVotingActivity : AppCompatActivity(), WaitVotingView {
           R.anim.transition_slide_to_right
         )
       }
-      is WaitVotingState.WaitParticipantState -> {
-        when (state) {
-          is WaitVotingState.WaitParticipantState.ParticipantsLoaded -> {
-            participantsAdapter.setParticipants(state.participantUiModels)
-          }
-          WaitVotingState.WaitParticipantState.Error -> {
-            progress.isGone = true
-            error.isVisible = true
-          }
-        }
+      is WaitVotingState.WaitParticipantState -> updateParticipantState(state)
+    }
+  }
+
+  private fun updateParticipantState(state: WaitVotingState.WaitParticipantState) {
+    when (state) {
+      is WaitVotingState.WaitParticipantState.ParticipantsLoaded -> {
+        participantsAdapter.setParticipants(state.participantUiModels)
+      }
+      WaitVotingState.WaitParticipantState.Error -> {
+        progress.isGone = true
+        error.isVisible = true
       }
     }
   }

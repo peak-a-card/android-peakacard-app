@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
 import com.peakacard.app.recap.view.RecapActivity
-import com.peakacard.app.result.view.state.EndedVotingState
 import com.peakacard.app.result.view.state.VotingResultState
 import com.peakacard.core.ui.extensions.bindView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -50,18 +49,17 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
         error.isGone = true
         votingParticipantsAdapter.setParticipants(state.uiModels)
       }
-      VotingResultState.Error -> {
-        error.isVisible = true
-      }
+      VotingResultState.Error -> error.isVisible = true
+      is VotingResultState.EndedVotingState -> updateVotingState(state)
     }
   }
 
-  override fun updateVotingState(state: EndedVotingState) {
+  private fun updateVotingState(state: VotingResultState.EndedVotingState) {
     when (state) {
-      EndedVotingState.WaitingVotingEnd -> {
+      VotingResultState.EndedVotingState.WaitingVotingEnd -> {
         error.isGone = true
       }
-      is EndedVotingState.VotingEnded -> {
+      is VotingResultState.EndedVotingState.VotingEnded -> {
         error.isGone = true
         message.text = getString(R.string.voting_result_ended_title, state.title)
 
@@ -77,7 +75,7 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
           )
         }, 1000)
       }
-      EndedVotingState.Error -> error.isVisible = true
+      VotingResultState.EndedVotingState.Error -> error.isVisible = true
     }
   }
 }
