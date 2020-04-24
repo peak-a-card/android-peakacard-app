@@ -24,8 +24,8 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.hideKeyboard
 import com.peakacard.host.R
+import com.peakacard.host.common.navigator.HostNavigator
 import com.peakacard.host.session.view.state.CreateSessionState
-import com.peakacard.host.voting.view.CreateVotingActivity
 import com.peakacard.user.view.model.mapper.FirebaseUserMapper
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -38,6 +38,7 @@ class CreateSessionActivity : AppCompatActivity(), CreateSessionView {
   private val createSessionViewModel: CreateSessionViewModel by viewModel()
 
   private val firebaseUserMapper: FirebaseUserMapper by inject()
+  private val hostNavigator: HostNavigator by inject()
 
   private val createSessionGreetings: TextView by bindView(R.id.create_session_greetings)
   private val createSessionButton: MaterialButton by bindView(R.id.create_session_button)
@@ -109,7 +110,7 @@ class CreateSessionActivity : AppCompatActivity(), CreateSessionView {
     createSessionButton.apply {
       text = getString(R.string.create_session_goto_vote)
       attachTextChangeAnimator()
-      setOnClickListener { goToCreatingVotingActivity() }
+      setOnClickListener { hostNavigator.goToCreatingVoting(this@CreateSessionActivity) }
     }
   }
 
@@ -201,7 +202,7 @@ class CreateSessionActivity : AppCompatActivity(), CreateSessionView {
         createSessionButton.apply {
           hideProgress(R.string.create_session_goto_vote)
           hideKeyboard()
-          setOnClickListener { goToCreatingVotingActivity() }
+          setOnClickListener { hostNavigator.goToCreatingVoting(this@CreateSessionActivity) }
         }
       }
       is CreateSessionState.Error -> {
@@ -214,18 +215,5 @@ class CreateSessionActivity : AppCompatActivity(), CreateSessionView {
         }
       }
     }
-  }
-
-  private fun goToCreatingVotingActivity() {
-    startActivity(
-      Intent(
-        this@CreateSessionActivity,
-        CreateVotingActivity::class.java
-      )
-    )
-    overridePendingTransition(
-      R.anim.transition_slide_from_right,
-      R.anim.transition_slide_to_left
-    )
   }
 }

@@ -1,6 +1,5 @@
 package com.peakacard.host.voting.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.widget.TextView
@@ -16,12 +15,14 @@ import com.google.android.material.textfield.TextInputEditText
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.hideKeyboard
 import com.peakacard.host.R
+import com.peakacard.host.common.navigator.HostNavigator
 import com.peakacard.host.voting.view.state.CreateVotingState
 import org.koin.android.ext.android.inject
 
 class CreateVotingActivity : AppCompatActivity(), CreateVotingView {
 
   private val createVotingViewModel: CreateVotingViewModel by inject()
+  private val hostNavigator: HostNavigator by inject()
 
   private val createVotingTitle: TextInputEditText by bindView(R.id.create_voting_title)
   private val createVotingError: TextView by bindView(R.id.create_voting_error)
@@ -74,13 +75,7 @@ class CreateVotingActivity : AppCompatActivity(), CreateVotingView {
           setOnClickListener(null)
         }
         Handler().postDelayed({
-          val intent = Intent(this, WaitingVotesActivity::class.java)
-          startActivity(intent)
-          finish()
-          overridePendingTransition(
-            R.anim.transition_slide_from_right,
-            R.anim.transition_slide_to_left
-          )
+          hostNavigator.goToWaitingVotes(this)
         }, 1000)
       }
       is CreateVotingState.Error -> {

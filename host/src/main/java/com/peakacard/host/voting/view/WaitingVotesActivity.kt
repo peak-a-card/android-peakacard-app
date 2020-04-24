@@ -1,6 +1,5 @@
 package com.peakacard.host.voting.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -17,12 +16,14 @@ import com.github.razir.progressbutton.showProgress
 import com.google.android.material.button.MaterialButton
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.host.R
+import com.peakacard.host.common.navigator.HostNavigator
 import com.peakacard.host.voting.view.state.WaitingVotesState
 import org.koin.android.ext.android.inject
 
 class WaitingVotesActivity : AppCompatActivity(), WaitingVotesView {
 
   private val waitingVotesViewModel: WaitingVotesViewModel by inject()
+  private val hostNavigator: HostNavigator by inject()
 
   private val error: View by bindView(R.id.waiting_votes_error)
   private val votedParticipantList: RecyclerView by bindView(R.id.waiting_votes_participant_list)
@@ -83,15 +84,7 @@ class WaitingVotesActivity : AppCompatActivity(), WaitingVotesView {
       }
       is WaitingVotesState.VoteEnded -> {
         endVoteButton.hideProgress(R.string.waiting_votes_ended_button)
-        val intent = Intent(this, VotingResultActivity::class.java).apply {
-          putExtra(VotingResultActivity.EXTRA_VOTING_TITLE, state.title)
-        }
-        startActivity(intent)
-        finish()
-        overridePendingTransition(
-          R.anim.transition_slide_from_right,
-          R.anim.transition_slide_to_left
-        )
+        hostNavigator.goToVotingResult(this, state.title)
       }
       WaitingVotesState.Error -> {
         error.isVisible = true

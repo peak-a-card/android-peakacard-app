@@ -1,6 +1,5 @@
 package com.peakacard.host.voting.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -13,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.host.R
+import com.peakacard.host.common.navigator.HostNavigator
 import com.peakacard.host.voting.view.state.VotingResultState
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class VotingResultActivity : AppCompatActivity(), VotingResultView {
@@ -23,6 +24,7 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
   }
 
   private val votingResultViewModel: VotingResultViewModel by viewModel()
+  private val hostNavigator: HostNavigator by inject()
 
   private val title: TextView by bindView(R.id.voting_result_title)
   private val error: View by bindView(R.id.voting_result_error)
@@ -47,12 +49,7 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
     }
 
     startVoteButton.setOnClickListener {
-      startActivity(Intent(this@VotingResultActivity, CreateVotingActivity::class.java))
-      finish()
-      overridePendingTransition(
-        R.anim.transition_slide_from_left,
-        R.anim.transition_slide_to_right
-      )
+      hostNavigator.goBackToCreateVoting(this)
     }
 
     votingResultViewModel.getVotingResult()
