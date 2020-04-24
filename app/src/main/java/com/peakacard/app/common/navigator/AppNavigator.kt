@@ -95,10 +95,4 @@ class AppNavigator {
       )
     }
   }
-
-  fun goTo(activity: Activity) {
-    with(activity) {
-
-    }
-  }
 }
