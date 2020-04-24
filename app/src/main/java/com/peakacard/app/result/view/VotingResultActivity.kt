@@ -66,6 +66,7 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
         Handler().postDelayed({
           val intent = Intent(this, RecapActivity::class.java).apply {
             putExtra(RecapActivity.EXTRA_VOTING_TITLE, state.title)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
           }
           startActivity(intent)
           finish()

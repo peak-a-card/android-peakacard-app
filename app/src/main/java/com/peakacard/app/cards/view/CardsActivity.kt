@@ -14,6 +14,7 @@ import com.peakacard.app.R
 import com.peakacard.app.card.view.CardActivity
 import com.peakacard.app.cards.view.state.CardsState
 import com.peakacard.app.result.view.VotingResultActivity
+import com.peakacard.app.session.view.JoinSessionActivity
 import com.peakacard.core.ui.extensions.bindView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -91,6 +92,10 @@ class CardsActivity : AppCompatActivity(), CardsView {
   }
 
   private fun goBack() {
+    val intent = Intent(this, JoinSessionActivity::class.java).apply {
+      flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+    }
+    startActivity(intent)
     finish()
     overridePendingTransition(
       R.anim.transition_slide_from_left,

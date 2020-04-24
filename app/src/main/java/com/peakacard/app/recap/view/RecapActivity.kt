@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
 import com.peakacard.app.cards.view.CardsActivity
 import com.peakacard.app.recap.view.state.RecapState
+import com.peakacard.app.session.view.JoinSessionActivity
 import com.peakacard.core.ui.extensions.bindView
 import org.koin.android.ext.android.inject
 
@@ -72,5 +73,17 @@ class RecapActivity : AppCompatActivity(), RecapView {
       }
       RecapState.Error -> error.isVisible = true
     }
+  }
+
+  override fun onBackPressed() {
+    val intent = Intent(this, JoinSessionActivity::class.java).apply {
+      flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+    }
+    startActivity(intent)
+    finish()
+    overridePendingTransition(
+      R.anim.transition_slide_from_left,
+      R.anim.transition_slide_to_right
+    )
   }
 }
