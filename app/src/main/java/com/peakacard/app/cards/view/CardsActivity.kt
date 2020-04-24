@@ -6,16 +6,14 @@ import android.os.Handler
 import android.view.animation.AnimationUtils
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.view.ViewCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.peakacard.app.R
 import com.peakacard.app.card.view.CardActivity
 import com.peakacard.app.cards.view.state.CardsState
-import com.peakacard.app.result.view.VotingResultActivity
-import com.peakacard.app.session.view.JoinSessionActivity
+import com.peakacard.app.common.navigator.AppNavigator
 import com.peakacard.core.ui.extensions.bindView
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -32,6 +30,8 @@ class CardsActivity : AppCompatActivity(), CardsView {
   private val cardsGrid: GridRecyclerView by bindView(R.id.cards)
   private val cardsLoading: ProgressBar by bindView(R.id.cards_loading)
 
+  private val appNavigator: AppNavigator by inject()
+
   private val sessionTitle by lazy { intent.getStringExtra(EXTRA_SESSION_TITLE) }
   private val cardWidth by lazy {
     resources.getDimensionPixelSize(R.dimen.card_width) + (resources.getDimensionPixelSize(R.dimen.M) * 2)
@@ -40,19 +40,7 @@ class CardsActivity : AppCompatActivity(), CardsView {
     GridLayoutManagerBuilder(this@CardsActivity, cardWidth)
   }
   private val cardsAdapter: CardsAdapter by lazy {
-    CardsAdapter { card, view ->
-      val activityOptions =
-        ActivityOptionsCompat.makeSceneTransitionAnimation(
-          this@CardsActivity,
-          view,
-          ViewCompat.getTransitionName(view).orEmpty()
-        )
-      startActivityForResult(
-        CardActivity.newIntent(this, card),
-        REQUEST_CODE_CARD,
-        activityOptions.toBundle()
-      )
-    }
+    CardsAdapter { card, view -> appNavigator.openCard(this, card, view, REQUEST_CODE_CARD) }
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,15 +80,7 @@ class CardsActivity : AppCompatActivity(), CardsView {
   }
 
   private fun goBack() {
-    val intent = Intent(this, JoinSessionActivity::class.java).apply {
-      flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-    }
-    startActivity(intent)
-    finish()
-    overridePendingTransition(
-      R.anim.transition_slide_from_left,
-      R.anim.transition_slide_to_right
-    )
+    appNavigator.goBackToJoinSession(this)
   }
 
   private fun handleError(state: CardsState.Error) {
@@ -115,12 +95,7 @@ class CardsActivity : AppCompatActivity(), CardsView {
       REQUEST_CODE_CARD -> {
         if (resultCode == CardActivity.RESULT_CODE_SENT) {
           Handler().postDelayed({
-            val intent = Intent(this, VotingResultActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(
-              R.anim.transition_slide_from_right,
-              R.anim.transition_slide_to_left
-            )
+            appNavigator.goToVotingResult(this)
           }, 1000)
         }
       }

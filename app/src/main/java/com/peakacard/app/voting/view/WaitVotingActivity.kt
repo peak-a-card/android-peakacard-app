@@ -1,6 +1,5 @@
 package com.peakacard.app.voting.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -12,9 +11,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
-import com.peakacard.app.cards.view.CardsActivity
+import com.peakacard.app.common.navigator.AppNavigator
 import com.peakacard.app.voting.view.state.WaitVotingState
 import com.peakacard.core.ui.extensions.bindView
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WaitVotingActivity : AppCompatActivity(), WaitVotingView {
@@ -25,6 +25,8 @@ class WaitVotingActivity : AppCompatActivity(), WaitVotingView {
   private val progress: View by bindView(R.id.wait_voting_progress)
   private val error: View by bindView(R.id.wait_voting_error)
   private val participantList: RecyclerView by bindView(R.id.participant_list)
+
+  private val appNavigator: AppNavigator by inject()
 
   private val participantsAdapter: ParticipantsAdapter by lazy { ParticipantsAdapter() }
 
@@ -55,15 +57,7 @@ class WaitVotingActivity : AppCompatActivity(), WaitVotingView {
         message.text = getString(R.string.wait_voting_message, state.title)
 
         Handler().postDelayed({
-          val intent = Intent(this, CardsActivity::class.java).apply {
-            putExtra(CardsActivity.EXTRA_SESSION_TITLE, state.title)
-          }
-          startActivity(intent)
-          finish()
-          overridePendingTransition(
-            R.anim.transition_slide_from_right,
-            R.anim.transition_slide_to_left
-          )
+          appNavigator.goToCards(this, state.title)
         }, 1000)
       }
       WaitVotingState.Error -> {

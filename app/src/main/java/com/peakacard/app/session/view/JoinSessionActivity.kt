@@ -22,8 +22,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.peakacard.app.R
+import com.peakacard.app.common.navigator.AppNavigator
 import com.peakacard.app.session.view.state.JoinSessionState
-import com.peakacard.app.voting.view.WaitVotingActivity
 import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.core.ui.extensions.hideKeyboard
 import com.peakacard.user.view.model.mapper.FirebaseUserMapper
@@ -38,6 +38,7 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
   private val joinSessionViewModel: JoinSessionViewModel by viewModel()
 
   private val firebaseUserMapper: FirebaseUserMapper by inject()
+  private val appNavigator: AppNavigator by inject()
 
   private val joinSessionGreetings: TextView by bindView(R.id.join_session_greetings)
   private val joinSessionCode: TextInputEditText by bindView(R.id.join_session_code)
@@ -163,11 +164,7 @@ class JoinSessionActivity : AppCompatActivity(), JoinSessionView {
       JoinSessionState.Joined -> {
         joinSessionButton.hideProgress(R.string.join_session_joined)
         joinSessionButton.hideKeyboard()
-        startActivity(Intent(this, WaitVotingActivity::class.java))
-        overridePendingTransition(
-          R.anim.transition_slide_from_right,
-          R.anim.transition_slide_to_left
-        )
+        appNavigator.goToWaitVote(this)
       }
       is JoinSessionState.Error -> {
         when (state) {

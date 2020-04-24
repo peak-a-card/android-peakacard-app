@@ -2,6 +2,7 @@ package com.peakacard.app.infrastructure
 
 import com.peakacard.app.card.infrastructure.di.cardModule
 import com.peakacard.app.cards.infrastructure.di.cardsModule
+import com.peakacard.app.infrastructure.di.appModule
 import com.peakacard.app.participant.infrastructure.di.participantModule
 import com.peakacard.app.recap.infrastructure.di.recapModule
 import com.peakacard.app.result.infrastructure.di.resultModule
@@ -13,6 +14,7 @@ import org.koin.core.module.Module
 
 class ClientApplication : PeakACardApplication() {
   override val modules: List<Module> = listOf(
+    appModule,
     cardsModule,
     cardModule,
     sessionModule,

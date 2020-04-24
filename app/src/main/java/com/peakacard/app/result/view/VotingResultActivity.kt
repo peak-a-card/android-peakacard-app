@@ -1,6 +1,5 @@
 package com.peakacard.app.result.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -12,9 +11,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
-import com.peakacard.app.recap.view.RecapActivity
+import com.peakacard.app.common.navigator.AppNavigator
 import com.peakacard.app.result.view.state.VotingResultState
 import com.peakacard.core.ui.extensions.bindView
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class VotingResultActivity : AppCompatActivity(), VotingResultView {
@@ -24,6 +24,8 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
   private val message: TextView by bindView(R.id.voting_result_title)
   private val error: View by bindView(R.id.voting_result_error)
   private val votingParticipantList: RecyclerView by bindView(R.id.voting_result_participant_list)
+
+  private val appNavigator: AppNavigator by inject()
 
   private val votingParticipantsAdapter: VotingParticipantsAdapter by lazy {
     VotingParticipantsAdapter()
@@ -64,16 +66,7 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
         message.text = getString(R.string.voting_result_ended_title, state.title)
 
         Handler().postDelayed({
-          val intent = Intent(this, RecapActivity::class.java).apply {
-            putExtra(RecapActivity.EXTRA_VOTING_TITLE, state.title)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-          }
-          startActivity(intent)
-          finish()
-          overridePendingTransition(
-            R.anim.transition_slide_from_right,
-            R.anim.transition_slide_to_left
-          )
+          appNavigator.goToRecap(this, state.title)
         }, 1000)
       }
       VotingResultState.EndedVotingState.Error -> error.isVisible = true

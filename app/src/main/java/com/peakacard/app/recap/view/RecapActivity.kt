@@ -1,6 +1,5 @@
 package com.peakacard.app.recap.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -12,9 +11,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.peakacard.app.R
-import com.peakacard.app.cards.view.CardsActivity
+import com.peakacard.app.common.navigator.AppNavigator
 import com.peakacard.app.recap.view.state.RecapState
-import com.peakacard.app.session.view.JoinSessionActivity
 import com.peakacard.core.ui.extensions.bindView
 import org.koin.android.ext.android.inject
 
@@ -29,6 +27,8 @@ class RecapActivity : AppCompatActivity(), RecapView {
   private val title: TextView by bindView(R.id.recap_title)
   private val error: View by bindView(R.id.recap_error)
   private val participantsList: RecyclerView by bindView(R.id.recap_participant_list)
+
+  private val appNavigator: AppNavigator by inject()
 
   private val votingTitle by lazy { intent.getStringExtra(EXTRA_VOTING_TITLE) }
 
@@ -60,15 +60,7 @@ class RecapActivity : AppCompatActivity(), RecapView {
       is RecapState.VotingStarted -> {
         error.isGone = true
         Handler().postDelayed({
-          val intent = Intent(this, CardsActivity::class.java).apply {
-            putExtra(CardsActivity.EXTRA_SESSION_TITLE, state.title)
-          }
-          startActivity(intent)
-          finish()
-          overridePendingTransition(
-            R.anim.transition_slide_from_right,
-            R.anim.transition_slide_to_left
-          )
+          appNavigator.goToCards(this, state.title)
         }, 1000)
       }
       RecapState.Error -> error.isVisible = true
@@ -76,14 +68,6 @@ class RecapActivity : AppCompatActivity(), RecapView {
   }
 
   override fun onBackPressed() {
-    val intent = Intent(this, JoinSessionActivity::class.java).apply {
-      flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-    }
-    startActivity(intent)
-    finish()
-    overridePendingTransition(
-      R.anim.transition_slide_from_left,
-      R.anim.transition_slide_to_right
-    )
+    appNavigator.goBackToJoinSession(this)
   }
 }
