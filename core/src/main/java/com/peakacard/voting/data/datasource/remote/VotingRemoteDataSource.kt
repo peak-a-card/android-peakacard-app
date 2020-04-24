@@ -27,19 +27,15 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
     return callbackFlow {
       val session = database.collection(PeakDataModel.ROOT_COLLECTION_ID)
       val votations = session.document(sessionId).collection(SessionDataModel.VOTATIONS)
-        .orderBy(VotingDataModel.CREATION_DATE)
+        .orderBy(VotingDataModel.CREATION_DATE, Query.Direction.DESCENDING)
 
       val subscription = votations.addSnapshotListener { snapshot, exception ->
         if (exception != null) {
           offer(Either.Left(VotingStatusResponse.Error.RemoteException))
         } else {
-          snapshot?.documentChanges?.forEach { documentChange ->
-            when (documentChange.type) {
-              DocumentChange.Type.ADDED -> offer(buildVoteStatus(snapshot.documents, VotingDataModel.Status.STARTED))
-              else -> {
-                // DO NOTHING
-              }
-            }
+          val documentChange = snapshot?.documentChanges?.firstOrNull()
+          if (documentChange?.type == DocumentChange.Type.ADDED) {
+            offer(buildVoteStatus(snapshot.documents, VotingDataModel.Status.STARTED))
           }
         }
       }
@@ -61,13 +57,9 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
         if (exception != null) {
           offer(Either.Left(VotingStatusResponse.Error.RemoteException))
         } else {
-          snapshot?.documentChanges?.forEach { documentChange ->
-            when (documentChange.type) {
-              DocumentChange.Type.MODIFIED -> offer(buildVoteStatus(snapshot.documents, VotingDataModel.Status.ENDED))
-              else -> {
-                // DO NOTHING
-              }
-            }
+          val documentChange = snapshot?.documentChanges?.firstOrNull()
+          if (documentChange?.type == DocumentChange.Type.MODIFIED) {
+            offer(buildVoteStatus(snapshot.documents, VotingDataModel.Status.ENDED))
           }
         }
       }
@@ -78,34 +70,6 @@ class VotingRemoteDataSource(private val database: FirebaseFirestore) {
         { return@fold true },
         { votingSuccess -> return@fold votingSuccess.votingTitle == votationTitle }
       )
-    }
-  }
-
-  private suspend fun listenVotingStatus(
-    sessionId: String,
-    status: VotingDataModel.Status
-  ): Flow<Either<VotingStatusResponse.Error, VotingStatusResponse.Success>> {
-    return callbackFlow {
-      val session = database.collection(PeakDataModel.ROOT_COLLECTION_ID)
-      val votations = session.document(sessionId).collection(SessionDataModel.VOTATIONS)
-        .orderBy(VotingDataModel.CREATION_DATE)
-
-      val subscription = votations.addSnapshotListener { snapshot, exception ->
-        if (exception != null) {
-          offer(Either.Left(VotingStatusResponse.Error.RemoteException))
-        } else {
-          snapshot?.documentChanges?.forEach { documentChange ->
-            when (documentChange.type) {
-              DocumentChange.Type.ADDED -> offer(buildVoteStatus(snapshot.documents, status))
-              else -> {
-                // DO NOTHING
-              }
-            }
-          }
-        }
-      }
-
-      awaitClose { subscription.remove() }
     }
   }
 
