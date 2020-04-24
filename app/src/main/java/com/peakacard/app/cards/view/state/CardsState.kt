@@ -6,6 +6,9 @@ sealed class CardsState {
   object Loading : CardsState()
   class Loaded(val cardUiModels: List<CardUiModel>) : CardsState()
   object Empty : CardsState()
-  object Error : CardsState()
+  sealed class Error : CardsState() {
+    object Unspecified : Error()
+    object CouldNotLeaveVoting : Error()
+  }
   object VotingLeft : CardsState()
 }

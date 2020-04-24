@@ -85,14 +85,23 @@ class CardsActivity : AppCompatActivity(), CardsView {
         cardsAdapter.setItems(state.cardUiModels)
       }
       CardsState.Empty -> Timber.d("Empty")
-      CardsState.Error -> Timber.d("Error")
-      CardsState.VotingLeft -> {
-        super.onBackPressed()
-        overridePendingTransition(
-          R.anim.transition_slide_from_left,
-          R.anim.transition_slide_to_right
-        )
-      }
+      is CardsState.Error -> handleError(state)
+      CardsState.VotingLeft -> goBack()
+    }
+  }
+
+  private fun goBack() {
+    finish()
+    overridePendingTransition(
+      R.anim.transition_slide_from_left,
+      R.anim.transition_slide_to_right
+    )
+  }
+
+  private fun handleError(state: CardsState.Error) {
+    when (state) {
+      CardsState.Error.Unspecified -> Timber.d("Error")
+      CardsState.Error.CouldNotLeaveVoting -> goBack()
     }
   }
 
@@ -103,7 +112,6 @@ class CardsActivity : AppCompatActivity(), CardsView {
           Handler().postDelayed({
             val intent = Intent(this, VotingResultActivity::class.java)
             startActivity(intent)
-            finish()
             overridePendingTransition(
               R.anim.transition_slide_from_right,
               R.anim.transition_slide_to_left

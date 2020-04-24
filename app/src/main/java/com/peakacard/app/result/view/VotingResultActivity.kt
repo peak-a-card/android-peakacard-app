@@ -78,4 +78,12 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
       VotingResultState.EndedVotingState.Error -> error.isVisible = true
     }
   }
+
+  override fun onBackPressed() {
+    super.onBackPressed()
+    overridePendingTransition(
+      R.anim.transition_slide_from_left,
+      R.anim.transition_slide_to_right
+    )
+  }
 }

@@ -28,6 +28,7 @@ class CardsViewModel(
       leaveSessionUseCase.leaveSession().fold(
         {
           Timber.e("Error leaving session")
+          state.offer(CardsState.Error.CouldNotLeaveVoting)
         },
         {
           Timber.d("Session left successfully!")
