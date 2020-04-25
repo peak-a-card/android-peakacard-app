@@ -30,8 +30,9 @@ class GetFinalVotingResultUseCase(
           it.fold(
             { error -> Either.Left(error) },
             { votingResultsSuccess ->
-              val votedResults =
-                votingResultsSuccess.filterIsInstance<GetVotingResultResponse.Success.Voted>()
+              val votedResults = votingResultsSuccess
+                .filterIsInstance<GetVotingResultResponse.Success.Voted>()
+                .sortedBy { participantVote -> participantVote.card.score }
               Either.Right(votedResults)
             }
           )
