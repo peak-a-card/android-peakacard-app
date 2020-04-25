@@ -10,7 +10,7 @@ class ItemParticipant(private val participantName: String) : Item() {
   override fun getLayout() = RCoreUi.layout.participant_item
 
   override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-    val name: TextView = viewHolder.itemView.findViewById(RCoreUi.id.participant_item_name)
+    val name: TextView = viewHolder.itemView as TextView
     name.text = participantName
   }
 }

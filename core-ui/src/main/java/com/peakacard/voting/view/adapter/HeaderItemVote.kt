@@ -12,7 +12,7 @@ class HeaderItemVote(private val cardUiModel: CardUiModel) : Item() {
   override fun getLayout() = RCoreUi.layout.vote_item_header
 
   override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-    val title: EmojiTextView = viewHolder.itemView.findViewById(RCoreUi.id.vote_item_title)
+    val title: EmojiTextView = viewHolder.itemView as EmojiTextView
     title.applyCardText(cardUiModel)
   }
 

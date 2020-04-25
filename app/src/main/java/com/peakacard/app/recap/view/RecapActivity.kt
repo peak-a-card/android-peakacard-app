@@ -14,6 +14,11 @@ import com.peakacard.app.R
 import com.peakacard.app.common.navigator.AppNavigator
 import com.peakacard.app.recap.view.state.RecapState
 import com.peakacard.core.ui.extensions.bindView
+import com.peakacard.voting.view.adapter.HeaderItemVote
+import com.peakacard.voting.view.adapter.ItemParticipant
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.Section
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import org.koin.android.ext.android.inject
 
 class RecapActivity : AppCompatActivity(), RecapView {
@@ -32,7 +37,7 @@ class RecapActivity : AppCompatActivity(), RecapView {
 
   private val votingTitle by lazy { intent.getStringExtra(EXTRA_VOTING_TITLE) }
 
-  private val participantsVoteAdapter by lazy { RecapAdapter() }
+  private val participantsVoteAdapter by lazy { GroupAdapter<GroupieViewHolder>() }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -54,7 +59,13 @@ class RecapActivity : AppCompatActivity(), RecapView {
     when (state) {
       is RecapState.VotationsLoaded -> {
         error.isGone = true
-        participantsVoteAdapter.setParticipants(state.uiModels)
+        state.uiModels.forEach { voteParticipant ->
+          participantsVoteAdapter.add(Section(HeaderItemVote(voteParticipant.card)).apply {
+            voteParticipant.participants.forEach { participantName ->
+              add(ItemParticipant(participantName))
+            }
+          })
+        }
         recapViewModel.listenForVotingToStart()
       }
       is RecapState.VotingStarted -> {

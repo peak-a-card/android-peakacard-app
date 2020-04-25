@@ -1,4 +1,4 @@
-package com.peakacard.host.voting.view.model
+package com.peakacard.voting.view.model
 
 import com.peakacard.card.view.model.CardUiModel
 
