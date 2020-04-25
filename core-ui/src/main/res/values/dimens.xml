@@ -5,7 +5,7 @@
     <dimen name="H4">34sp</dimen>
     <dimen name="H5">24sp</dimen>
     <dimen name="H6">20sp</dimen>
-    <dimen name="Body">14sp</dimen>
+    <dimen name="Body">16sp</dimen>
 
     <dimen name="S">4dp</dimen>
     <dimen name="M">8dp</dimen>

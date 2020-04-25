@@ -4,7 +4,7 @@ import com.peakacard.card.domain.model.Card
 
 sealed class GetFinalVotingResultResponse {
 
-  class GroupedParticipantVote(val result: Map<Float, List<ParticipantVote>>) : GetFinalVotingResultResponse()
+  class GroupedParticipantVote(val result: Map<Vote, List<ParticipantVote>>) : GetFinalVotingResultResponse()
 
   sealed class Error {
     object NoParticipants : Error()
@@ -13,3 +13,7 @@ sealed class GetFinalVotingResultResponse {
 }
 
 class ParticipantVote(val participantName: String, val card: Card)
+sealed class Vote(open val score: Float) {
+  class Mode(override val score: Float): Vote(score)
+  class Regular(override val score: Float): Vote(score)
+}

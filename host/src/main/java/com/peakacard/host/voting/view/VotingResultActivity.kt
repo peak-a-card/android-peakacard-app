@@ -65,7 +65,7 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
       is VotingResultState.VotationsLoaded -> {
         error.isGone = true
         state.uiModels.forEach { voteParticipant ->
-          participantsVoteAdapter.add(Section(HeaderItemVote(voteParticipant.card)).apply {
+          participantsVoteAdapter.add(Section(HeaderItemVote(voteParticipant.voteResultCard)).apply {
             voteParticipant.participants.forEach { participantName ->
               add(ItemParticipant(participantName))
             }

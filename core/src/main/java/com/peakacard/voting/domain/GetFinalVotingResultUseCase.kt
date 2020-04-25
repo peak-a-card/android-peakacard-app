@@ -1,10 +1,12 @@
 package com.peakacard.voting.domain
 
 import com.peakacard.core.Either
+import com.peakacard.core.extensions.statistics.mode
 import com.peakacard.participant.domain.ParticipantsVotingService
 import com.peakacard.result.domain.model.GetFinalVotingResultResponse
 import com.peakacard.result.domain.model.GetVotingResultResponse
 import com.peakacard.result.domain.model.ParticipantVote
+import com.peakacard.result.domain.model.Vote
 import com.peakacard.session.data.repository.SessionRepository
 import com.peakacard.voting.data.repository.VotingRepository
 import kotlinx.coroutines.flow.first
@@ -37,13 +39,23 @@ class GetFinalVotingResultUseCase(
               }
             },
             { votingResultsSuccess ->
-              val votedResults = votingResultsSuccess
+              val votedResults: Map<Float, List<ParticipantVote>> = votingResultsSuccess
                 .filterIsInstance<GetVotingResultResponse.Success.Voted>()
                 .map { votingResultVoted -> ParticipantVote(votingResultVoted.participantName, votingResultVoted.card) }
                 .sortedBy { participantVote -> participantVote.card.score }
                 .groupBy { participantVote -> participantVote.card.score }
 
-              Either.Right(GetFinalVotingResultResponse.GroupedParticipantVote(votedResults))
+              val mode = votedResults.map { entry -> entry.value.size }.mode()
+
+              val result = votedResults.map { entry: Map.Entry<Float, List<ParticipantVote>> ->
+                if (mode.contains(entry.value.size)) {
+                  Vote.Mode(entry.key) to entry.value
+                } else {
+                  Vote.Regular(entry.key) to entry.value
+                }
+              }.toMap()
+
+              Either.Right(GetFinalVotingResultResponse.GroupedParticipantVote(result))
             }
           )
         }.first()

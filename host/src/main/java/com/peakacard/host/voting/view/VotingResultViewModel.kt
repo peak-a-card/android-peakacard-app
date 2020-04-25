@@ -6,7 +6,9 @@ import com.peakacard.core.view.PeakViewModel
 import com.peakacard.voting.view.model.GroupedVoteParticipantUiModel
 import com.peakacard.host.voting.view.state.VotingResultState
 import com.peakacard.result.domain.model.GetFinalVotingResultResponse
+import com.peakacard.result.domain.model.Vote
 import com.peakacard.voting.domain.GetFinalVotingResultUseCase
+import com.peakacard.voting.view.model.VoteResultCard
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -31,10 +33,11 @@ class VotingResultViewModel(
           val groupedVoteParticipantUiModels = participants.result.keys.map { score ->
             val participantsVote = participants.result.getOrElse(score, { emptyList() })
             val participantNames = participantsVote.map { participantVote -> participantVote.participantName }
-            GroupedVoteParticipantUiModel(
-              cardUiModelMapper.map(participantsVote.first().card),
-              participantNames
-            )
+            val voteResultCard = when (score) {
+              is Vote.Mode -> VoteResultCard.Mode(cardUiModelMapper.map(participantsVote.first().card))
+              is Vote.Regular -> VoteResultCard.Regular(cardUiModelMapper.map(participantsVote.first().card))
+            }
+            GroupedVoteParticipantUiModel(voteResultCard, participantNames)
           }
 
           state.offer(VotingResultState.VotationsLoaded(groupedVoteParticipantUiModels))

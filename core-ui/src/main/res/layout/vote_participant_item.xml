@@ -5,6 +5,6 @@
     style="@style/Body"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="@dimen/M"
+    android:paddingHorizontal="@dimen/L"
     android:paddingVertical="@dimen/M"
     tools:text="Sergi" />

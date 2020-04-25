@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.emoji.widget.EmojiTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/vote_item_title"
-    style="@style/H4.OnPrimarySurface"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/S"
     android:layout_marginBottom="@dimen/M"
     android:background="@drawable/vote_item_header_background"
     android:gravity="center_vertical"
-    android:paddingHorizontal="@dimen/M"
-    android:paddingVertical="@dimen/L"
-    tools:text="☕" />
+    android:orientation="horizontal"
+    android:weightSum="1">
+
+    <androidx.emoji.widget.EmojiTextView
+        android:id="@+id/vote_item_title"
+        style="@style/H4.OnPrimarySurface"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:paddingHorizontal="@dimen/M"
+        android:layout_marginVertical="@dimen/M"
+        tools:text="☕" />
+
+    <ImageView
+        android:id="@+id/vote_item_mode_indicator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2"
+        android:layout_marginVertical="@dimen/M"
+        android:src="@drawable/ic_mode_on_primary_surface_h4"
+        tools:ignore="ContentDescription" />
+</LinearLayout>
