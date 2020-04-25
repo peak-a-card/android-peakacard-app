@@ -8,6 +8,7 @@
         <item name="colorSecondary">@color/secondary</item>
         <item name="colorError">@color/error</item>
         <item name="colorSurface">@color/primary</item>
+        <item name="colorOnPrimarySurface">@color/colorOnPrimarySurface</item>
         <item name="android:colorBackground">@color/background</item>
     </style>
 
@@ -27,6 +28,10 @@
         <item name="fontFamily">sans-serif</item>
         <item name="android:textSize">@dimen/H4</item>
         <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="H4.OnPrimarySurface">
+        <item name="android:textColor">?attr/colorOnPrimarySurface</item>
     </style>
 
     <style name="H5">

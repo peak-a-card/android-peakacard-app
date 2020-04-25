@@ -5,4 +5,5 @@
     <color name="error">#B00020</color>
     <color name="background">#0E2A36</color>
     <color name="primary_10">#1A708284</color>
+    <color name="colorOnPrimarySurface">#0E2A36</color>
 </resources>
