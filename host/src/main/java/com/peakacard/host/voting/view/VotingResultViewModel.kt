@@ -3,9 +3,9 @@ package com.peakacard.host.voting.view
 import androidx.lifecycle.viewModelScope
 import com.peakacard.card.view.model.mapper.CardUiModelMapper
 import com.peakacard.core.view.PeakViewModel
-import com.peakacard.host.voting.view.model.VotingResultParticipantUiModel
+import com.peakacard.host.voting.view.model.GroupedVoteParticipantUiModel
 import com.peakacard.host.voting.view.state.VotingResultState
-import com.peakacard.result.domain.model.GetVotingResultResponse
+import com.peakacard.result.domain.model.GetFinalVotingResultResponse
 import com.peakacard.voting.domain.GetFinalVotingResultUseCase
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -22,25 +22,19 @@ class VotingResultViewModel(
         { error ->
           Timber.e("Error getting final participants votes. Error $error")
           when (error) {
-            GetVotingResultResponse.Error.NoParticipants -> {
-              state.offer(VotingResultState.VotationsLoaded(emptyList()))
-            }
-            GetVotingResultResponse.Error.Unspecified -> {
-              state.offer(VotingResultState.Error)
-            }
+            GetFinalVotingResultResponse.Error.NoParticipants -> state.offer(VotingResultState.VotationsLoaded(emptyList()))
+            GetFinalVotingResultResponse.Error.Unspecified -> state.offer(VotingResultState.Error)
           }
         },
         { participants ->
           Timber.d("Got final participants votes successfully")
-          val participantUiModels: List<VotingResultParticipantUiModel> =
-            participants.map { participant ->
-              Timber.d("Participant ${participant.participantName} voted ${participant.card.score}")
-              VotingResultParticipantUiModel(
-                participant.participantName,
-                cardUiModelMapper.map(participant.card)
-              )
-            }
-          state.offer(VotingResultState.VotationsLoaded(participantUiModels))
+          val groupedVoteParticipantUiModels = participants.result.keys.map { score ->
+            val participantsVote = participants.result.getOrElse(score, { emptyList() })
+            val participantNames = participantsVote.map { participantVote -> participantVote.participantName }
+            GroupedVoteParticipantUiModel(cardUiModelMapper.map(participantsVote.first().card), participantNames)
+          }
+
+          state.offer(VotingResultState.VotationsLoaded(groupedVoteParticipantUiModels))
         }
       )
     }

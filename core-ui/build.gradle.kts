@@ -52,4 +52,6 @@ dependencies {
 
   api("androidx.emoji:emoji-bundled")
   api("com.github.razir.progressbutton:progressbutton")
+  api("com.xwray:groupie")
+  api("com.xwray:groupie-kotlin-android-extensions")
 }

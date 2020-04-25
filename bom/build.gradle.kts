@@ -7,6 +7,7 @@ dependencies {
     val version = object {
       val koin = "2.1.5"
       val coroutines = "1.3.5"
+      val groupie = "2.8.0"
     }
 
     api("androidx.appcompat:appcompat:1.1.0")
@@ -24,6 +25,8 @@ dependencies {
     api("com.google.code.gson:gson:2.8.6")
 
     api("com.github.razir.progressbutton:progressbutton:2.0.1")
+    api("com.xwray:groupie:${version.groupie}")
+    api("com.xwray:groupie-kotlin-android-extensions:${version.groupie}")
 
     api("org.koin:koin-core:${version.koin}")
     api("org.koin:koin-android:${version.koin}")

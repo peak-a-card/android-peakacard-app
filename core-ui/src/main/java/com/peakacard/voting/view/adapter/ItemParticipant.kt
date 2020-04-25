@@ -1,0 +1,16 @@
+package com.peakacard.voting.view.adapter
+
+import android.widget.TextView
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
+import com.xwray.groupie.kotlinandroidextensions.Item
+import com.peakacard.core.ui.R as RCoreUi
+
+class ItemParticipant(private val participantName: String) : Item() {
+
+  override fun getLayout() = RCoreUi.layout.participant_item
+
+  override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+    val name: TextView = viewHolder.itemView.findViewById(RCoreUi.id.participant_item_name)
+    name.text = participantName
+  }
+}

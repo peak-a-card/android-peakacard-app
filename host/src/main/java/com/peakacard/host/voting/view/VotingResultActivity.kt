@@ -14,6 +14,11 @@ import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.host.R
 import com.peakacard.host.common.navigator.HostNavigator
 import com.peakacard.host.voting.view.state.VotingResultState
+import com.peakacard.voting.view.adapter.HeaderItemVote
+import com.peakacard.voting.view.adapter.ItemParticipant
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.Section
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,7 +38,7 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
 
   private val votingTitle by lazy { intent.getStringExtra(EXTRA_VOTING_TITLE) }
 
-  private val participantsVoteAdapter by lazy { VotingResultAdapter() }
+  private val participantsVoteAdapter by lazy { GroupAdapter<GroupieViewHolder>() }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -59,7 +64,13 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
     when (state) {
       is VotingResultState.VotationsLoaded -> {
         error.isGone = true
-        participantsVoteAdapter.setParticipants(state.uiModels)
+        state.uiModels.forEach { voteParticipant ->
+          participantsVoteAdapter.add(Section(HeaderItemVote(voteParticipant.card)).apply {
+            voteParticipant.participants.forEach { participantName ->
+              add(ItemParticipant(participantName))
+            }
+          })
+        }
       }
       VotingResultState.Error -> error.isVisible = true
     }
