@@ -40,31 +40,6 @@ class RecapViewModel(
 
             state.offer(RecapState.VotationsLoaded(groupedVoteParticipantUiModels))
           }
-
-
-//        { error ->
-//          Timber.e("Error getting final participants votes. Error $error")
-//          when (error) {
-//            GetVotingResultResponse.Error.NoParticipants -> {
-//              state.offer(RecapState.VotationsLoaded(emptyList()))
-//            }
-//            GetVotingResultResponse.Error.Unspecified -> {
-//              state.offer(RecapState.Error)
-//            }
-//          }
-//        },
-//        { participants ->
-//          Timber.d("Got final participants votes successfully")
-//          val participantUiModels: List<VotingResultParticipantUiModel.Voted> =
-//            participants.map { participant ->
-//              Timber.d("Participant ${participant.participantName} voted ${participant.card.score}")
-//              VotingResultParticipantUiModel.Voted(
-//                participant.participantName,
-//                cardUiModelMapper.map(participant.card)
-//              )
-//            }
-//          state.offer(RecapState.VotationsLoaded(participantUiModels))
-//        }
         )
     }
   }

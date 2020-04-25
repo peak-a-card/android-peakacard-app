@@ -2,7 +2,7 @@ package com.peakacard.app.result.view
 
 import androidx.lifecycle.viewModelScope
 import com.peakacard.app.result.domain.GetVotingResultUseCase
-import com.peakacard.app.result.view.model.VotingResultParticipantUiModel
+import com.peakacard.voting.view.model.VoteParticipantStatusUiModel
 import com.peakacard.app.result.view.state.VotingResultState
 import com.peakacard.app.voting.domain.GetEndedVotingUseCase
 import com.peakacard.card.view.model.mapper.CardUiModelMapper
@@ -32,20 +32,20 @@ class VotingResultViewModel(
           },
           { participants ->
             Timber.d("Got participants votes successfully")
-            val participantUiModels: List<VotingResultParticipantUiModel> =
+            val participantStatusUiModels: List<VoteParticipantStatusUiModel> =
               participants.map { participant ->
                 when (participant) {
                   is GetVotingResultResponse.Success.Voted -> {
                     Timber.d("Participant ${participant.participantName} voted ${participant.card.score}")
-                    VotingResultParticipantUiModel.Voted(participant.participantName, cardUiModelMapper.map(participant.card))
+                    VoteParticipantStatusUiModel.Voted(participant.participantName, cardUiModelMapper.map(participant.card))
                   }
                   is GetVotingResultResponse.Success.Unvoted -> {
                     Timber.d("Participant ${participant.participantName} has not yet voted")
-                    VotingResultParticipantUiModel.Waiting(participant.participantName)
+                    VoteParticipantStatusUiModel.Waiting(participant.participantName)
                   }
                 }
               }
-            state.offer(VotingResultState.ParticipantsLoaded(participantUiModels))
+            state.offer(VotingResultState.ParticipantsLoaded(participantStatusUiModels))
           }
         )
       }

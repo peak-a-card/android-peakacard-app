@@ -14,6 +14,7 @@ import com.peakacard.app.R
 import com.peakacard.app.common.navigator.AppNavigator
 import com.peakacard.app.result.view.state.VotingResultState
 import com.peakacard.core.ui.extensions.bindView
+import com.peakacard.voting.view.adapter.VoteParticipantStatusAdapter
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,8 +28,8 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
 
   private val appNavigator: AppNavigator by inject()
 
-  private val votingParticipantsAdapter: VotingParticipantsAdapter by lazy {
-    VotingParticipantsAdapter()
+  private val voteParticipantStatusAdapter: VoteParticipantStatusAdapter by lazy {
+    VoteParticipantStatusAdapter()
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +40,7 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
     votingParticipantList.apply {
       layoutManager = LinearLayoutManager(this@VotingResultActivity)
       itemAnimator = DefaultItemAnimator()
-      adapter = votingParticipantsAdapter
+      adapter = voteParticipantStatusAdapter
     }
     votingResultViewModel.listenParticipantsVote()
     votingResultViewModel.listenForVotingToEnd()
@@ -49,7 +50,7 @@ class VotingResultActivity : AppCompatActivity(), VotingResultView {
     when (state) {
       is VotingResultState.ParticipantsLoaded -> {
         error.isGone = true
-        votingParticipantsAdapter.setParticipants(state.uiModels)
+        voteParticipantStatusAdapter.setParticipants(state.uiModels)
       }
       VotingResultState.Error -> error.isVisible = true
       is VotingResultState.EndedVotingState -> updateVotingState(state)

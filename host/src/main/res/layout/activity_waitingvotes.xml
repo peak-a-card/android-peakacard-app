@@ -36,9 +36,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/waiting_votes_participant_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:itemCount="4"
-            tools:listitem="@layout/waiting_votes_participant_item" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout

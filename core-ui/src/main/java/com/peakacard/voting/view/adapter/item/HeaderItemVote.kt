@@ -1,4 +1,4 @@
-package com.peakacard.voting.view.adapter
+package com.peakacard.voting.view.adapter.item
 
 import androidx.emoji.widget.EmojiTextView
 import com.peakacard.card.view.model.CardUiModel

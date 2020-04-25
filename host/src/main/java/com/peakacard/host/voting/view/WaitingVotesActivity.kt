@@ -18,6 +18,7 @@ import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.host.R
 import com.peakacard.host.common.navigator.HostNavigator
 import com.peakacard.host.voting.view.state.WaitingVotesState
+import com.peakacard.voting.view.adapter.VoteParticipantStatusAdapter
 import org.koin.android.ext.android.inject
 
 class WaitingVotesActivity : AppCompatActivity(), WaitingVotesView {
@@ -29,8 +30,8 @@ class WaitingVotesActivity : AppCompatActivity(), WaitingVotesView {
   private val votedParticipantList: RecyclerView by bindView(R.id.waiting_votes_participant_list)
   private val endVoteButton: MaterialButton by bindView(R.id.waiting_votes_end_button)
 
-  private val votedParticipantsAdapter: VotedParticipantsAdapter by lazy {
-    VotedParticipantsAdapter()
+  private val votedParticipantsAdapter: VoteParticipantStatusAdapter by lazy {
+    VoteParticipantStatusAdapter()
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,9 +73,9 @@ class WaitingVotesActivity : AppCompatActivity(), WaitingVotesView {
 
   override fun updateState(state: WaitingVotesState) {
     when (state) {
-      is WaitingVotesState.ParticipantsVoteLoaded -> {
+      is WaitingVotesState.ParticipantsLoaded -> {
         error.isGone = true
-        votedParticipantsAdapter.setParticipants(state.participants)
+        votedParticipantsAdapter.setParticipants(state.uiModels)
       }
       WaitingVotesState.EndingVote -> {
         endVoteButton.showProgress {

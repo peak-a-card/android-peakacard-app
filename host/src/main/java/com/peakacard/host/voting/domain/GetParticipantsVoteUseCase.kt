@@ -7,7 +7,6 @@ import com.peakacard.session.data.repository.SessionRepository
 import com.peakacard.voting.data.repository.VotingRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 
 class GetParticipantsVoteUseCase(
   private val votingRepository: VotingRepository,
@@ -15,7 +14,7 @@ class GetParticipantsVoteUseCase(
   private val participantsVotingService: ParticipantsVotingService
 ) {
 
-  suspend fun getParticipantsVote(): Flow<Either<GetVotingResultResponse.Error, List<GetVotingResultResponse.Success.Voted>>> {
+  suspend fun getParticipantsVote(): Flow<Either<GetVotingResultResponse.Error, List<GetVotingResultResponse.Success>>> {
     val sessionId = sessionRepository.getCurrentSession()
     return if (sessionId == null) {
       flowOf(Either.Left(GetVotingResultResponse.Error.Unspecified))
@@ -27,16 +26,7 @@ class GetParticipantsVoteUseCase(
         participantsVotingService.combineParticipantsWithVotingResults(
           sessionId,
           currentVoting
-        ).map {
-          it.fold(
-            { error -> Either.Left(error) },
-            { votingResultsSuccess ->
-              val votedResults =
-                votingResultsSuccess.filterIsInstance<GetVotingResultResponse.Success.Voted>()
-              Either.Right(votedResults)
-            }
-          )
-        }
+        )
       }
     }
   }

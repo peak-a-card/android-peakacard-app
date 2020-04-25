@@ -1,11 +1,10 @@
 package com.peakacard.host.voting.view.state
 
-import com.peakacard.host.voting.view.model.VotedParticipantUiModel
+import com.peakacard.voting.view.model.VoteParticipantStatusUiModel
 
 sealed class WaitingVotesState {
 
-  data class ParticipantsVoteLoaded(val participants: List<VotedParticipantUiModel>) :
-    WaitingVotesState()
+  data class ParticipantsLoaded(val uiModels: List<VoteParticipantStatusUiModel>) : WaitingVotesState()
 
   object EndingVote : WaitingVotesState()
 

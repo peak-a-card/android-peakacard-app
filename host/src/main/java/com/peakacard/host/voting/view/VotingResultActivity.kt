@@ -14,8 +14,8 @@ import com.peakacard.core.ui.extensions.bindView
 import com.peakacard.host.R
 import com.peakacard.host.common.navigator.HostNavigator
 import com.peakacard.host.voting.view.state.VotingResultState
-import com.peakacard.voting.view.adapter.HeaderItemVote
-import com.peakacard.voting.view.adapter.ItemParticipant
+import com.peakacard.voting.view.adapter.item.HeaderItemVote
+import com.peakacard.voting.view.adapter.item.ItemParticipant
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder

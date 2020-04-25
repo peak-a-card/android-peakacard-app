@@ -1,4 +1,4 @@
-package com.peakacard.voting.view.adapter
+package com.peakacard.voting.view.adapter.item
 
 import android.widget.TextView
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
