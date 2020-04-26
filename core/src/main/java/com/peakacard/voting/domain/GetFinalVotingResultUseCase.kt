@@ -39,16 +39,16 @@ class GetFinalVotingResultUseCase(
               }
             },
             { votingResultsSuccess ->
-              val votedResults: Map<Float, List<ParticipantVote>> = votingResultsSuccess
-                .filterIsInstance<GetVotingResultResponse.Success.Voted>()
+              val votedResults = votingResultsSuccess.filterIsInstance<GetVotingResultResponse.Success.Voted>()
+              val groupedVotedResults = votedResults
                 .map { votingResultVoted -> ParticipantVote(votingResultVoted.participantName, votingResultVoted.card) }
                 .sortedBy { participantVote -> participantVote.card.score }
                 .groupBy { participantVote -> participantVote.card.score }
 
-              val mode = votedResults.map { entry -> entry.value.size }.mode()
+              val mode = votedResults.map { success -> success.card.score }.mode()
 
-              val result = votedResults.map { entry: Map.Entry<Float, List<ParticipantVote>> ->
-                if (mode.contains(entry.value.size)) {
+              val result = groupedVotedResults.map { entry ->
+                if (mode.contains(entry.key)) {
                   Vote.Mode(entry.key) to entry.value
                 } else {
                   Vote.Regular(entry.key) to entry.value
